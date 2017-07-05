@@ -1,0 +1,39 @@
+﻿<Window x:Class="Pizza.Form.Access"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pizza.Form"
+        mc:Ignorable="d"
+        Title="Вход" Height="325" Width="350" ResizeMode="NoResize" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFC3A0"/>
+            <GradientStop Color="#FFFFE16E" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid Margin="25,25,25,25" >
+            <Border BorderBrush="Black" BorderThickness="3">
+                <Grid Margin="5,5,5,5">
+
+                    <StackPanel Name="LoginPanel" Grid.Column="1"  Margin="25,0,25,0" >
+                        <StackPanel Name="PasswordPanel">
+                            <Label Content="Логин" HorizontalAlignment="Left" FontFamily="Times New Roman" />
+                            <ComboBox Name="LoginEnter" IsSynchronizedWithCurrentItem="True" IsEditable="True"  KeyDown="LoginEnter_KeyDown" Height="25"/>
+                            <Label Content="Пароль" HorizontalAlignment="Left" FontFamily="Times New Roman" />
+                            <PasswordBox Name="PasswordEnter" KeyDown="PasswordEnter_KeyDown" Height="25"/>
+
+                            <CheckBox Name="IsLog" Content="Оставаться в сети" Margin="0,5,0,0"/>
+                            <CheckBox Name="IsRemember" Content="Запомнить" Margin="0,0,0,0"/>
+
+                            <Button Template="{DynamicResource ButtonOwal}" Name="Enter"  Click="Enter_Click" Margin="0,6,0,0" Content="Вход" FontFamily="Times New Roman" FontSize="20"/>
+                            <Button Template="{DynamicResource ButtonOwal}" Name="Regist" Click="Regist_Click" Margin="0,6,0,0" Content="Регистрация" FontFamily="Times New Roman" FontSize="20"/>
+                            <Button Template="{DynamicResource ButtonOwal}" Name="Exit" Click="Exit_Click" Margin="0,6,0,0" Content="Выход" FontFamily="Times New Roman" FontSize="20" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
