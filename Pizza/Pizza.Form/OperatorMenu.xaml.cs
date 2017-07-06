@@ -10,19 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Pizza.Logic;
+using System.Collections;
 
-namespace Pizza
+namespace Pizza.Form
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для OperatorMenu.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OperatorMenu : Window
     {
-        public MainWindow()
+        
+
+        public OperatorMenu()
         {
             InitializeComponent();
+
+                       
         }
     }
 }

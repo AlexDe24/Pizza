@@ -49,6 +49,10 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="FileClass.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderContext.cs" />
+    <Compile Include="ProductContext.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientContext.cs" />
   </ItemGroup>

@@ -22,12 +22,11 @@ namespace Pizza.Form
     /// </summary>
     public partial class Access : Window
     {
+        Menu _chooseMenu;
         List<Client> _clients;
         FileClass _fileWork;
         Registration _regist;
-        List<Client> _findClient;
 
-        TimerCallback _timeCB;
         Timer _stepTimer;
 
         Color firstColor;
@@ -39,7 +38,6 @@ namespace Pizza.Form
         {
             InitializeComponent();
 
-            _timeCB = new TimerCallback(TimerTick); //функция таймера
             _stepTimer = new Timer(TimerTick, null, 0, 10); //таймер
 
             _clients = new List<Client>();
@@ -84,13 +82,9 @@ namespace Pizza.Form
 
             Update();
 
-            /*_findPerson = new List<PersonInfo>(); //лист для поиска по параметру
-
-            Update();
-
             try
             {
-                //LoginEnter.Text = _fileWork.IsLogonRead("Remember").login;
+                LoginEnter.Text = _fileWork.IsLogonRead("Remember").login;
                 PasswordEnter.Focus();
             }
             catch (Exception)
@@ -99,10 +93,10 @@ namespace Pizza.Form
 
             try
             {
-                //_mainForm = new Login(_fileWork.IsLogonRead("Online"), this);
+                _chooseMenu = new Menu(_fileWork.IsLogonRead("Online"));
 
                 Visibility = Visibility.Hidden;
-                //_mainForm.ShowDialog();
+                _chooseMenu.ShowDialog();
             }
             catch (Exception)
             {
@@ -115,7 +109,7 @@ namespace Pizza.Form
                 {
                     textBox.Focus();
                 }
-            }, DispatcherPriority.Loaded);*/
+            }, DispatcherPriority.Loaded);
 
         }
 
@@ -199,7 +193,7 @@ namespace Pizza.Form
         void Update()
         {
 
-            _clients = _fileWork.ReadProfiles(); //класс данных о пользователе
+            _clients = _fileWork.ReadClients(); //класс данных о пользователе
 
             LoginEnter.Items.Clear();
 
@@ -211,34 +205,36 @@ namespace Pizza.Form
 
         private void Enter_Click(object sender, RoutedEventArgs e)
         {
-            /*if (LoginEnter.SelectedIndex >= 0)
+            if (LoginEnter.SelectedIndex >= 0)
             {
-                _mainForm = new Login(_persons[LoginEnter.SelectedIndex], this);
+                _chooseMenu = new Menu(_clients[LoginEnter.SelectedIndex]);
+
+                if (IsLog.IsChecked == true)
+                {
+                    _fileWork.IsLogonWrite(_clients[LoginEnter.SelectedIndex], "Online");
+                }
+                else
+                    _fileWork.IsLogonFalse("Online");
+
+                if (IsRemember.IsChecked == true)
+                {
+                    _fileWork.IsLogonWrite(_clients[LoginEnter.SelectedIndex], "Remember");
+                }
+                else
+                    _fileWork.IsLogonFalse("Remember");
 
                 try
                 {
-                    if (IsLog.IsChecked == true)
-                    {
-                        _fileWork.IsLogonWrite(_persons[LoginEnter.SelectedIndex], "Online");
-                    }
-                    else
-                        _fileWork.IsLogonFalse("Online");
-
-                    if (IsRemember.IsChecked == true)
-                    {
-                        _fileWork.IsLogonWrite(_persons[LoginEnter.SelectedIndex], "Remember");
-                    }
-                    else
-                        _fileWork.IsLogonFalse("Remember");
+                    
                 }
                 catch (Exception)
                 {
                 }
 
-                if (_persons[LoginEnter.SelectedIndex].password == PasswordEnter.Password)
+                if (_clients[LoginEnter.SelectedIndex].password == PasswordEnter.Password)
                 {
                     Visibility = Visibility.Hidden;
-                    _mainForm.ShowDialog();
+                    _chooseMenu.ShowDialog();
                     Update();
                 }
                 else
@@ -247,7 +243,7 @@ namespace Pizza.Form
             }
             else
                 MessageBox.Show("Пользователь не найден.", "Предупреждение!");
-            PasswordEnter.Clear();*/
+            PasswordEnter.Clear();
         }
 
 
@@ -255,20 +251,9 @@ namespace Pizza.Form
         {
             _regist = new Registration(_clients); //класс регистрации
 
-            //int personsCount = _clients.Count;
-
             Visibility = Visibility.Hidden;
             _regist.ShowDialog();
             Visibility = Visibility.Visible;
-
-            /*if (personsCount < _fileWork.ReadProfiles().Count)
-            {
-                _mainForm = new Login(_regist.newPerson, this);
-
-                Visibility = Visibility.Hidden;
-                _mainForm.ShowDialog();
-                //Close();
-            }*/
 
             Update();
         }

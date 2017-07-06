@@ -5,23 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Menu" Height="300" Width="300">
+        Title="Меню" Height="300" Width="300">
     <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <ListBox Name="ListBox" Grid.Column="1" Grid.Row="1"/>
-
-        <Button Content="Удалить" Grid.Column="1" Grid.Row="2" Margin="25,10,25,10" Click="Button_Click"/>
-    </Grid>
+     </Grid>
 </Window>

@@ -92,7 +92,7 @@ namespace Pizza.Form
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            fileWork.DelProfile(_client);
+            fileWork.DelClient(_client);
 
             _client.name = NameNew.Text;
             _client.surname = SurnameNew.Text;
@@ -121,14 +121,14 @@ namespace Pizza.Form
                     else
                     {
                         _client.password = PasswordOrig.Password;
-                        fileWork.WriteProfile(_client);
+                        fileWork.WriteClient(_client);
 
                         Close();
                     }
                 }
             else
             {
-                fileWork.WriteProfile(_client);
+                fileWork.WriteClient(_client);
 
                 Close();
             }
@@ -164,7 +164,7 @@ namespace Pizza.Form
         /// <param name="e"></param>
         private void DelPerson_Click(object sender, RoutedEventArgs e)
         {
-            fileWork.DelProfile(_client);
+            fileWork.DelClient(_client);
             Close();
         }
 

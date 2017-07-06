@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pizza.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +12,30 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Data.Entity;
-using Pizza.Logic;
 
 namespace Pizza.Form
 {
     /// <summary>
-    /// Логика взаимодействия для Menu.xaml
+    /// Логика взаимодействия для ClientList.xaml
     /// </summary>
-    public partial class Menu : Window
+    public partial class ClientList : Window
     {
-        Client _client;
-        public Menu(Client client)
+        FileClass _fileWork;
+
+        List<Client> clients;
+
+        public ClientList()
         {
             InitializeComponent();
 
-            _client = client;
+            _fileWork = new FileClass();
+
+            clients = _fileWork.ReadClients();
+
+            for (int i = 0; i < clients.Count; i++)
+            {
+                ClientBox.Items.Add(clients[i]);
+            }
         }
     }
 }
