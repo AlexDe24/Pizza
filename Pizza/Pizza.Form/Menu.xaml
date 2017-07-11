@@ -5,8 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Меню" Height="300" Width="300">
+        Title="Меню" Height="300" Width="550" WindowStyle="ToolWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
 
-     </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TabControl Name="CategoryTabControl">
+
+            </TabControl>
+            
+            <Button Name="Add" Grid.Row="1" HorizontalAlignment="Left" Width="150" Margin="5" Click="Add_Click">Добавить в заказ</Button>
+
+            <Button Name="Del" Grid.Row="1" HorizontalAlignment="Right" Width="150" Margin="5" Click="Del_Click">Удалить из заказа</Button>
+        </Grid>
+        
+        <Grid Grid.Column="1" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ListView Name="OrderList">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
+                            <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=price}"></GridViewColumn>
+                            <GridViewColumn Header="Кол-во" DisplayMemberBinding="{Binding Path=count}"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Label Name="Sum" Grid.Row="2">Сумма заказа:</Label>
+        </Grid>
+    </Grid>
 </Window>

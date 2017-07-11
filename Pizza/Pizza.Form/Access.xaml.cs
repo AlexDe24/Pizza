@@ -93,7 +93,7 @@ namespace Pizza.Form
 
             try
             {
-                _chooseMenu = new Menu(_fileWork.IsLogonRead("Online"));
+                _chooseMenu = new Menu(_fileWork.IsLogonRead("Online"), _fileWork);
 
                 Visibility = Visibility.Hidden;
                 _chooseMenu.ShowDialog();
@@ -192,7 +192,6 @@ namespace Pizza.Form
 
         void Update()
         {
-
             _clients = _fileWork.ReadClients(); //класс данных о пользователе
 
             LoginEnter.Items.Clear();
@@ -207,7 +206,7 @@ namespace Pizza.Form
         {
             if (LoginEnter.SelectedIndex >= 0)
             {
-                _chooseMenu = new Menu(_clients[LoginEnter.SelectedIndex]);
+                _chooseMenu = new Menu(_clients[LoginEnter.SelectedIndex], _fileWork);
 
                 if (IsLog.IsChecked == true)
                 {

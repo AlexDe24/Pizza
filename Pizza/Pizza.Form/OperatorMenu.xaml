@@ -13,7 +13,7 @@
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=id}"></GridViewColumn>
-                        <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=fullprice}"></GridViewColumn>
+                        <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
                         <GridViewColumn Header="Клиент" DisplayMemberBinding="{Binding Path=client}"></GridViewColumn>
                         <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
                         <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=condition}"></GridViewColumn>

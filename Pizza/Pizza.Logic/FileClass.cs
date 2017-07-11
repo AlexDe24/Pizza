@@ -34,7 +34,7 @@ namespace Pizza.Logic
         /// <param name="dir">название рабочего файла</param>
         public void IsLogonFalse(string dir)
         {
-            File.Delete(_cacheDir + @"Online\" + dir + ".txt");
+            File.Delete(_cacheDir + dir + ".txt");
         }
 
         /// <summary>

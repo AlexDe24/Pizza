@@ -16,12 +16,12 @@ namespace Pizza.Logic
         public string condition { get; set; } //состояние
 
         public Client client;
-        public Product products;
+        public List<Product> products;
 
         public Order()
         {
             client = new Client();
-            products = new Product();
+            products = new List<Product>();
         }
     }
 }
