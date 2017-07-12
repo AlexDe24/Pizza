@@ -62,11 +62,26 @@ namespace Pizza.Form
             Category.Text = "";
             Price.Text = "";
 
-            _products.Add(_product);
+            if (_products.Any(x => x.name == _product.name))
+            {
+                for (int i = 0; i < MenuBox.Items.Count; i++)
+                {
+                    if (_products.Any(x => x.name == _product.name))
+                        _products[i] = _product;
+                    if ((MenuBox.Items[i] as Product).name == _product.name)
+                        MenuBox.Items[i] = _product;
+                }
 
-            _fileWork.WriteProduct(_product);
+                _fileWork.RedactProduct(_product);
+            }
+            else
+            {
+                _products.Add(_product);
+                MenuBox.Items.Add(_product);
 
-            MenuBox.Items.Add(_product);
+                _fileWork.AddProduct(_product);
+            }
+
         }
 
         private void DelProduct_Click(object sender, RoutedEventArgs e)

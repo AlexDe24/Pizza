@@ -27,15 +27,19 @@ namespace Pizza.Form
         /// <summary>
         /// Класс управления профилем
         /// </summary>
-        /// <param name="personNow">выбранный пользователь</param>
-        /// <param name="personProfile">пользователь в сети</param>
-        public Profile(Client clientNow, Client clientProfile)
+        /// <param name="clientNow">выбранный пользователь</param>
+        public Profile(Client clientNow)
         {
             InitializeComponent();
 
             fileWork = new FileClass(); //класс работы с файлами
             _client = clientNow; //класс данных о пользователе
 
+            FillingProfile();
+        }
+
+        void FillingProfile()
+        {
             Name.Content += _client.name;
             Surname.Content += _client.surname;
             Middlename.Content += _client.middlename;
@@ -43,11 +47,19 @@ namespace Pizza.Form
             BirthDate.Content += _client.birthDateDay + "." + _client.birthDateMonth + "." + _client.birthDateYear;
 
             Gender.Content += _client.gender;
+        }
+
+        void FillingСhange()
+        {
+            if (_client.gender == "М")
+                GenderM.IsChecked = true;
+            else
+                GenderW.IsChecked = true;
 
             for (int i = 1; i <= 31; i++)
-            {
-                birthDay.Items.Add(i);
-            }
+                {
+                    birthDay.Items.Add(i);
+                }
             for (int i = 1; i <= 12; i++)
             {
                 birthMonth.Items.Add(i);
@@ -71,7 +83,6 @@ namespace Pizza.Form
             {
             }
         }
-
         /// <summary>
         /// Срабатывает при нажатии кнопки "Редактировать"
         /// </summary>
@@ -80,6 +91,9 @@ namespace Pizza.Form
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             Edit.Content = "Сохранить";
+
+            FillingСhange();
+            ProfilePanel.Visibility = Visibility.Visible;
 
             Edit.Click -= Edit_Click;
             Edit.Click += Save_Click;
@@ -92,8 +106,6 @@ namespace Pizza.Form
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            fileWork.DelClient(_client);
-
             _client.name = NameNew.Text;
             _client.surname = SurnameNew.Text;
             _client.middlename = MiddlenameNew.Text;
@@ -121,14 +133,14 @@ namespace Pizza.Form
                     else
                     {
                         _client.password = PasswordOrig.Password;
-                        fileWork.WriteClient(_client);
+                        fileWork.RedactClient(_client);
 
                         Close();
                     }
                 }
             else
             {
-                fileWork.WriteClient(_client);
+                fileWork.RedactClient(_client);
 
                 Close();
             }
@@ -155,31 +167,6 @@ namespace Pizza.Form
                 PasswordPanel.Visibility = Visibility.Hidden;
                 PasswordPanelLabel.Visibility = Visibility.Hidden;
             }
-        }
-
-        /// <summary>
-        /// Происходит при нажатии кнопки "Удалить"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DelPerson_Click(object sender, RoutedEventArgs e)
-        {
-            fileWork.DelClient(_client);
-            Close();
-        }
-
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Escape)
-            {
-                Close();
-            }
-        }
-
-        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-                Close();
         }
     }
 }

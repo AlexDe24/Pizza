@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Вход" Height="325" Width="350" ResizeMode="NoResize" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="Hot Miami - Вход" Height="325" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="#FFFFC3A0"/>
@@ -16,7 +16,6 @@
         <Grid Margin="25,25,25,25" >
             <Border BorderBrush="Black" BorderThickness="3">
                 <Grid Margin="5,5,5,5">
-
                     <StackPanel Name="LoginPanel" Grid.Column="1"  Margin="25,0,25,0" >
                         <StackPanel Name="PasswordPanel">
                             <Label Content="Логин" HorizontalAlignment="Left" FontFamily="Times New Roman" />

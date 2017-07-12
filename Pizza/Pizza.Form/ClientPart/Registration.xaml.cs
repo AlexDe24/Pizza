@@ -117,7 +117,7 @@ namespace Pizza.Form
                     else
                     {
                         newClient.password = PasswordOrig.Password;
-                        _fileWork.WriteClient(newClient);
+                        _fileWork.AddClient(newClient);
 
                         Close();
                     }
