@@ -38,6 +38,9 @@ namespace Pizza.Form
             FillingProfile();
         }
 
+        /// <summary>
+        /// Заполнение полей информации
+        /// </summary>
         void FillingProfile()
         {
             Name.Content += _client.name;
@@ -46,16 +49,15 @@ namespace Pizza.Form
 
             BirthDate.Content += _client.birthDateDay + "." + _client.birthDateMonth + "." + _client.birthDateYear;
 
-            Gender.Content += _client.gender;
+            Address.Content += _client.address;
+            Phone.Content += _client.phone;
         }
 
+        /// <summary>
+        /// Заполнение полей реактирования
+        /// </summary>
         void FillingСhange()
         {
-            if (_client.gender == "М")
-                GenderM.IsChecked = true;
-            else
-                GenderW.IsChecked = true;
-
             for (int i = 1; i <= 31; i++)
                 {
                     birthDay.Items.Add(i);
@@ -72,6 +74,9 @@ namespace Pizza.Form
             NameNew.Text = _client.name;
             SurnameNew.Text = _client.surname;
             MiddlenameNew.Text = _client.middlename;
+
+            AddressNew.Text = _client.address;
+            PhoneNew.Text = _client.phone;
 
             try
             {
@@ -114,10 +119,8 @@ namespace Pizza.Form
             _client.birthDateMonth = birthMonth.Text;
             _client.birthDateYear = birthYear.Text;
 
-            if (GenderM.IsChecked == true)
-                _client.gender = "М";
-            else
-                _client.gender = "Ж";
+            _client.address = AddressNew.Text;
+            _client.phone = PhoneNew.Text;
 
             if (isEditPassword)
                 if (PasswordOld.Password != _client.password)

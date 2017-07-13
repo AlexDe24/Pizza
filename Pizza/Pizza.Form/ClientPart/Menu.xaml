@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Hot Miami - Меню" Height="300" Width="580" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
+        Title="Hot Miami - Меню" Height="350" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
     <Grid>
         <Menu>
             <Menu.Background>
@@ -14,6 +14,10 @@
                     <GradientStop Color="#FFFFE16E" Offset="1"/>
                 </LinearGradientBrush>
             </Menu.Background>
+
+            <MenuItem Header="Общее">
+                <MenuItem Header="Закрыть" Click="MenuItem_Click"/>
+            </MenuItem>
             
             <MenuItem Header="Аккаунт">
                 <MenuItem Header="Профиль" Click="MenuItem_Click"/>
@@ -22,7 +26,7 @@
                 <MenuItem Header="Выйти" Click="MenuItem_Click"/>
             </MenuItem>
 
-            <MenuItem Header="Общее">
+            <MenuItem Header="Обратная связь">
                 <MenuItem Header="О нас" Click="MenuItem_Click"/>
                 <MenuItem Header="Мы в соцсетях">
                     <MenuItem Header="Группа Вконтакте" Click="MenuItem_Click"/>
@@ -30,34 +34,36 @@
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Оставить отзыв" Click="MenuItem_Click"/>
-                <Separator/>
-                <MenuItem Header="Закрыть" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
 
         <Grid Margin="0,17,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.8*"/>
+                <ColumnDefinition Width="1.4*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" >
+            <Grid Grid.Column="0">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="3*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <TabControl Name="CategoryTabControl">
-
-
                 </TabControl>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-                    <Button Name="CreateOrder" Margin="5" Width="110" Click="Del_Click">Сделать заказ</Button>
-                    <Button Name="Add" Margin="5" Width="110" Click="Add_Click">Добавить в заказ</Button>
-                    <Button Name="Del" Margin="5" Width="110" Click="Del_Click">Удалить из заказа</Button>
+                <StackPanel Grid.Row="1">
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                        <Button Template="{DynamicResource ButtonOwal}" Name="CreateOrder" Margin="5" Width="120" Height="25" Click="CreateOrder_Click">Сделать заказ</Button>
+                        <Button Template="{DynamicResource ButtonOwal}" Name="Add" Margin="5" Width="120" Height="25" Click="Add_Click">Добавить в заказ</Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Template="{DynamicResource ButtonOwal}" Name="DelOne" Margin="5" Width="150" Height="25" Click="Del_Click">Удалить из заказа одну</Button>
+                        <Button Template="{DynamicResource ButtonOwal}" Name="DelFew" Margin="5" Width="150" Height="25" Click="Del_Click">Удалить из заказа все</Button>
+                    </StackPanel>
                 </StackPanel>
+                
 
             </Grid>
 
@@ -68,19 +74,11 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <ListView Name="OrderList" MouseDoubleClick="OrderList_MouseDoubleClick">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
-                                <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=price}"></GridViewColumn>
-                                <GridViewColumn Header="Кол-во" DisplayMemberBinding="{Binding Path=count}"></GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <ListBox  Name="OrderList" MouseDoubleClick="OrderList_MouseDoubleClick">
+                    
+                </ListBox>
 
-                <Label Name="Sum" Grid.Row="2">Сумма заказа:</Label>
+                <Label Name="Sum" Grid.Row="2">Сумма заказа: 0</Label>
             </Grid>
         </Grid>
     </Grid>

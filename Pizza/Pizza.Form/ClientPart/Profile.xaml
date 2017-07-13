@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Профиль" Height="350" Width="550" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Профиль" Height="350" Width="500" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFF9F379" Offset="0"/>
@@ -18,42 +18,37 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.85*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1.4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" ShowsPreview="False" Height="3"
          HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
 
-        <GridSplitter Grid.Column="2" Grid.RowSpan="2" ShowsPreview="False" Width="3"
-        HorizontalAlignment="Left" VerticalAlignment="Stretch" IsEnabled="False"/>
-
-        <StackPanel  Grid.Column="12" Grid.Row="0" Name="ControlPanel" Margin="25,0,25,0">
-            <Button Template="{DynamicResource ButtonOwal}" Name ="Edit" Content="Редактировать" Margin="0,15,0,0" VerticalAlignment="Top" Click="Edit_Click" Background="White" Height="25" FontFamily="Times New Roman" FontSize="16"/>
-            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="0,15,0,0" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" FontSize="16"/>
+        <StackPanel  Grid.Column="1" Grid.Row="1" Name="ControlPanel" Margin="25,0,25,0" VerticalAlignment="Bottom">
+            <Button Template="{DynamicResource ButtonOwal}" Name ="Edit" Content="Редактировать" Margin="0,0,0,0" VerticalAlignment="Top" Click="Edit_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
+            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="0,5,0,10" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
         </StackPanel>
 
         <StackPanel  Grid.Column="0" Grid.Row="0" Name="ProfilePanelLabel" >
             <Label Content ="Фамилия: " Name="Surname" Height="25"/>
             <Label Content ="Имя: " Name="Name" Height="25"/>
             <Label Content ="Отчество: " Name="Middlename" Height="25"/>
+            <Label Content ="Адрес: " Name="Address" Height="25"/>
+            <Label Content ="Номер телефона: " Name="Phone" Height="25"/>
             <Label Content ="Дата рождения: " Name="BirthDate" Height="25"/>
-            <Label Content ="Пол: " Name="Gender" Height="25"/>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="0" Name="ProfilePanel" Visibility="Hidden">
+        <StackPanel Grid.Column="2" Grid.Row="0" Name="ProfilePanel" Visibility="Hidden">
             <TextBox Height="25" Name="SurnameNew"/>
             <TextBox Height="25" Name="NameNew"/>
             <TextBox Height="25" Name="MiddlenameNew"/>
+            <TextBox Height="25" Name="AddressNew"/>
+            <TextBox Height="25" Name="PhoneNew"/>
             <DockPanel Height="25">
                 <ComboBox Name="birthDay" DockPanel.Dock="Left"/>
                 <ComboBox Name="birthMonth" DockPanel.Dock="Left"/>
                 <ComboBox Name="birthYear" DockPanel.Dock="Right"/>
-            </DockPanel>
-            <DockPanel Height="25">
-                <RadioButton Name ="GenderM" Content="М            "/>
-                <RadioButton Name ="GenderW" Content="Ж"/>
             </DockPanel>
         </StackPanel>
         

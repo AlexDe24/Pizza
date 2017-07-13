@@ -61,7 +61,7 @@ namespace Pizza.Form.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Hot Miami - Лучший ресторан общественного питания на всём континете. Наши повора получают максимально свежие продукты и готовят только лучшее для вас! .
+        ///   Ищет локализованную строку, похожую на Hot Miami - Лучший ресторан общественного питания на всём континете. Наши повара получают максимально свежие продукты и готовят только лучшее для вас! .
         /// </summary>
         public static string AboutUs {
             get {
@@ -122,6 +122,24 @@ namespace Pizza.Form.Properties {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Поступил, Готовится, В пути, Доставлен.
+        /// </summary>
+        public static string OrderCondition {
+            get {
+                return ResourceManager.GetString("OrderCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пицца,Напитки,Суши,Бургеры,Закуски.
+        /// </summary>
+        public static string Сategory {
+            get {
+                return ResourceManager.GetString("Сategory", resourceCulture);
             }
         }
     }

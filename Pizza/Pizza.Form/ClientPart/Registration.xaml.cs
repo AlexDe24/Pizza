@@ -56,29 +56,6 @@ namespace Pizza.Form
                 birthdayYear.Items.Add(i + 1900);
             }
         }
-
-        /// <summary>
-        /// Загрузка изображения
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ImageLoad_Click(object sender, RoutedEventArgs e)
-        {
-            /*string _addres = null;
-
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-            openFileDialog.InitialDirectory = _fileWork.homeDirImage;
-            if (openFileDialog.ShowDialog() == true)
-                _addres = openFileDialog.FileName;
-
-            if (_addres != null)
-            {
-                ProfileImage.Source = new BitmapImage(new Uri(_addres));
-                newPerson.avatarAddres = _addres;
-            }*/
-        }
-
         /// <summary>
         /// При нажатии кнопки "Сохранить"
         /// </summary>
@@ -86,8 +63,6 @@ namespace Pizza.Form
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
-
             newClient.name = Name.Text;
             newClient.surname = Surname.Text;
             newClient.middlename = Middlename.Text;
@@ -96,10 +71,8 @@ namespace Pizza.Form
             newClient.birthDateMonth = birthdayMonth.Text;
             newClient.birthDateYear = birthdayYear.Text;
 
-            if (GenderM.IsChecked == true)
-                newClient.gender = "М";
-            else
-                newClient.gender = "Ж";
+            newClient.address = Address.Text;
+            newClient.phone = Phone.Text;
 
             if (Login.Text == "")
                 MessageBox.Show("Введите логин!", "Предупреждение!");
@@ -125,9 +98,9 @@ namespace Pizza.Form
             }
         }
 
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Escape)
+            if (e.Key == Key.Escape)
             {
                 Close();
             }

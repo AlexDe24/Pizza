@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
-    <value>Hot Miami - Лучший ресторан общественного питания на всём континете. Наши повора получают максимально свежие продукты и готовят только лучшее для вас! </value>
+    <value>Hot Miami - Лучший ресторан общественного питания на всём континете. Наши повара получают максимально свежие продукты и готовят только лучшее для вас! </value>
   </data>
   <data name="BrowserInstagram" xml:space="preserve">
     <value>https://www.instagram.com/</value>
@@ -138,5 +138,11 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Hot Miami</value>
+  </data>
+  <data name="OrderCondition" xml:space="preserve">
+    <value>Поступил, Готовится, В пути, Доставлен</value>
+  </data>
+  <data name="Сategory" xml:space="preserve">
+    <value>Пицца,Напитки,Суши,Бургеры,Закуски</value>
   </data>
 </root>

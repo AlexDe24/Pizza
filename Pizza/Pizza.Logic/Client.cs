@@ -17,6 +17,9 @@ namespace Pizza.Logic
         public string birthDateDay { get; set; } //день рождения
         public string birthDateMonth { get; set; } //месяц рождения
         public string birthDateYear { get; set; } //год рождения
-        public string gender { get; set; } //пол
+        public string address { get; set; } //номер телефона
+        public string phone { get; set; } //номер телефона
+
+        //public List<Order> order { get; set; }
     }
 }

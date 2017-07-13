@@ -90,6 +90,9 @@
     <Compile Include="ClientPart\Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientPart\Сomment.xaml.cs">
+      <DependentUpon>Сomment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ClientPart\Сomment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pizza.Logic\Pizza.Logic.csproj">
@@ -172,10 +179,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Fon.jpg" />
+    <Resource Include="Resources\Fon.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon.ico" />
+    <Resource Include="Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

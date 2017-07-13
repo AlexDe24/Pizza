@@ -11,27 +11,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Pizza.Logic;
-using System.Collections;
 
-namespace Pizza.Form
+namespace Pizza.Form.ClientPart
 {
     /// <summary>
-    /// Логика взаимодействия для OperatorMenu.xaml
+    /// Логика взаимодействия для Сomment.xaml
     /// </summary>
-    public partial class OperatorMenu : Window
+    public partial class Сomment : Window
     {
-        FileClass _fileWork;
-
-        List<Order> _orders;
-
-        public OperatorMenu()
+        public Сomment()
         {
             InitializeComponent();
+        }
 
-            _fileWork = new FileClass();
-            _orders = _fileWork.ReadOrders();
-            OrdersList.Items.Add(_orders);
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            MessageBox.Show("Спасибо за ваш отзыв!\nВместе мы сделаем мир лучше!");
         }
     }
 }

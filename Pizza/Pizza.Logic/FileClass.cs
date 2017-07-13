@@ -59,7 +59,8 @@ namespace Pizza.Logic
                 client.birthDateDay = read.ReadLine();
                 client.birthDateMonth = read.ReadLine();
                 client.birthDateYear = read.ReadLine();
-                client.gender = read.ReadLine();
+                client.address = read.ReadLine();
+                client.phone = read.ReadLine();
             }
 
             read.Close();
@@ -84,7 +85,8 @@ namespace Pizza.Logic
             write.WriteLine(client.birthDateDay);
             write.WriteLine(client.birthDateMonth);
             write.WriteLine(client.birthDateYear);
-            write.WriteLine(client.gender);
+            write.WriteLine(client.address);
+            write.WriteLine(client.phone);
 
             write.Close();
         }
@@ -240,16 +242,16 @@ namespace Pizza.Logic
         /// <returns>список заказов</returns>
         public List<Order> ReadOrders()
         {
-            List<Order> order = new List<Order>();
+            List<Order> orders = new List<Order>();
 
             _orderCt.Orders.Load();
 
             for (int i = 0; i < _orderCt.Orders.Local.Count; i++)
             {
-                order.Add(_orderCt.Orders.Local[i]);
+                orders.Add(_orderCt.Orders.Local[i]);
             }
 
-            return order;
+            return orders;
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace Pizza.Form
     /// </summary>
     public partial class Menu : Window
     {
+        Сomment _comment;
         Info _info;
         Browser _browser;
         Profile _profile;
@@ -35,12 +36,14 @@ namespace Pizza.Form
             InitializeComponent();
 
             _accessForm = accessForm;
+            _fileWork = fileWork;
+
             _order = new Order();
 
-            _order.client = client;
-
+            //_order.client = client;
             _products = new List<Product>();
-            _fileWork = fileWork;
+
+            OrderListParam();
 
             LoadProducts();
         }
@@ -50,8 +53,10 @@ namespace Pizza.Form
         /// </summary>
         void LoadProducts()
         {
+            //Чтение списка продуктов
             _products = _fileWork.ReadProducts();
 
+            //Заполнение категорий
             List<string> category = new List<string>();
 
             for (int i = 0; i < _products.Count; i++)
@@ -131,15 +136,149 @@ namespace Pizza.Form
             }           
         }
 
+        /// <summary>
+        /// Добавление разметки в лист каказа
+        /// </summary>
+        void OrderListParam()
+        {
+            StackPanel panel = new StackPanel();
+            panel.Orientation = Orientation.Horizontal;
+
+            Label name = new Label()
+            {
+                Content = "Название",
+                Width = 110
+            };
+            Label prise = new Label()
+            {
+                Content = "Цена",
+                Width = 50
+            };
+            Label count = new Label()
+            {
+                Content = "Кол-во",
+                Width = 30
+            };
+            Label fullPrise = new Label()
+            {
+                Content = "Сумма",
+                Width = 50
+            };
+
+            panel.Children.Add(name);
+            panel.Children.Add(prise);
+            panel.Children.Add(count);
+            panel.Children.Add(fullPrise);
+
+            OrderList.Items.Add(panel);
+        }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             if ((CategoryTabControl.SelectedContent as ListBox).SelectedIndex > 0)
             {
                 string ChooseName = (((CategoryTabControl.SelectedContent as ListBox).SelectedItem as StackPanel).Children[0] as TextBlock).Text;
-                _order.products.Add(_products.Where(x => x.name == ChooseName).First());
-                OrderList.Items.Add(_products.Where(x => x.name == ChooseName));
+
+                Product chooseProduct;
+                chooseProduct = _products.Where(x => x.name == ChooseName).First();
+
+                if (_order.products.Any(x => x.name == chooseProduct.name))
+                    AddProduct(chooseProduct);
+                else
+                    CreateProduct(chooseProduct);
+
+                _order.products.Add(chooseProduct);
             }
+
+            SumUpdate();
+        }
+
+        /// <summary>
+        /// Добавление продукта в заказ к уже имеющимся
+        /// </summary>
+        /// <param name="chooseProduct"></param>
+        void AddProduct(Product chooseProduct)
+        {
+            for (int i = 0; i < OrderList.Items.Count; i++)
+            {
+                Label nameLabel = ((OrderList.Items[i] as StackPanel).Children[0] as Label);
+                Label priseLabel = ((OrderList.Items[i] as StackPanel).Children[1] as Label);
+                Label countLabel = ((OrderList.Items[i] as StackPanel).Children[2] as Label);
+                Label fullPriseLabel = ((OrderList.Items[i] as StackPanel).Children[3] as Label);
+
+                if (nameLabel.Content == chooseProduct.name)
+                {
+                    countLabel.Content = Convert.ToInt32(countLabel.Content) + 1;
+                    fullPriseLabel.Content = Convert.ToInt32(priseLabel.Content) * Convert.ToInt32(countLabel.Content);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Добавление продукта в заказ 
+        /// </summary>
+        /// <param name="chooseProduct"></param>
+        void CreateProduct(Product chooseProduct)
+        {
+            StackPanel panel = new StackPanel();
+            panel.Orientation = Orientation.Horizontal;
+
+            Label name = new Label()
+            {
+                Content = chooseProduct.name,
+                Width = 110
+            };
+            Label prise = new Label()
+            {
+                Content = chooseProduct.price,
+                Width = 50
+            };
+            Label count = new Label()
+            {
+                Content = "1",
+                Width = 30
+            };
+            Label fullPrise = new Label()
+            {
+                Content = chooseProduct.price,
+                Width = 50
+            };
+
+            panel.Children.Add(name);
+            panel.Children.Add(prise);
+            panel.Children.Add(count);
+            panel.Children.Add(fullPrise);
+
+            OrderList.Items.Add(panel);
+        }
+
+        /// <summary>
+        /// Удаление одной единицы продукта из заказа
+        /// </summary>
+        void DelItemOne()
+        {
+            if (OrderList.SelectedIndex > 0)
+                for (int i = 0; i < _order.products.Count; i++)
+                {
+                    Label nameLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label);
+                    Label priseLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[1] as Label);
+                    Label countLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[2] as Label);
+                    Label fullPriseLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[3] as Label);
+
+                    if (_order.products[i].name == nameLabel.Content)
+                    {
+                        _order.products.RemoveAt(i);
+
+                        if (Convert.ToInt32(countLabel.Content) == 1)
+                            OrderList.Items.RemoveAt(OrderList.SelectedIndex);
+                        else
+                        {
+                            countLabel.Content = Convert.ToInt32(countLabel.Content) - 1;
+                            fullPriseLabel.Content = Convert.ToInt32(priseLabel.Content) * Convert.ToInt32(countLabel.Content);
+                        }
+                        break;
+                    }
+                }
 
             SumUpdate();
         }
@@ -147,11 +286,11 @@ namespace Pizza.Form
         /// <summary>
         /// Удаление продукта из заказа
         /// </summary>
-        void DelItem()
+        void DelItemFew()
         {
-            if (OrderList.SelectedIndex != -1)
+            if (OrderList.SelectedIndex > 0)
             {
-                _order.products.RemoveAt(OrderList.SelectedIndex);
+                _order.products.RemoveAll(x => x.name == ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label).Content);
                 OrderList.Items.RemoveAt(OrderList.SelectedIndex);
             }
 
@@ -160,12 +299,18 @@ namespace Pizza.Form
 
         private void Del_Click(object sender, RoutedEventArgs e)
         {
-            DelItem();
+            if ((sender as Button).Name == "DelOne")
+                DelItemOne();
+            else
+                DelItemFew();
         }
 
         private void OrderList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DelItem();
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DelItemOne();
+            else
+                DelItemFew();
         }
 
         /// <summary>
@@ -180,12 +325,18 @@ namespace Pizza.Form
                 sum += _order.products[i].price;
             }
             Sum.Content = "Сумма заказа: " + Convert.ToString(sum);
+
+            _order.fullPrice = sum;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             switch ((sender as MenuItem).Header)
             {
+                case "Оставить отзыв":
+                    _comment = new Сomment();
+                    _comment.Show();
+                    break;
                 case "Инстаграм":
                     _browser = new Browser(Properties.Resources.BrowserInstagram);
                     _browser.Show();
@@ -195,7 +346,7 @@ namespace Pizza.Form
                     _browser.Show();
                     break;
                 case "Профиль":
-                    _profile = new Profile(_order.client);
+                    //_profile = new Profile(_order.client);
                     _profile.Visibility = Visibility.Visible;
                     break;
                 case "О нас":
@@ -215,6 +366,15 @@ namespace Pizza.Form
                     break;
             }
             
+        }
+
+        private void CreateOrder_Click(object sender, RoutedEventArgs e)
+        {
+            _order.date = DateTime.Now;
+            _order.condition = "Поступил";
+            _fileWork.AddOrder(_order);
+
+            MessageBox.Show("Ваш заказ принят. Ожидайте, пожалуйста.");
         }
     }
 }

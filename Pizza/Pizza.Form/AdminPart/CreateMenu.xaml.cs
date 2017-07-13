@@ -37,7 +37,15 @@ namespace Pizza.Form
 
             _products = _fileWork.ReadProducts();
 
-            _assassortment = new List<string>() { "Напитки", "Пицца", "Бургеры", "Закуски"};
+            _assassortment = new List<string>();
+
+            string[] category = Properties.Resources.Сategory.Split(',');
+
+            for (int i = 0; i < category.Length; i++)
+            {
+                _assassortment.Add(category[i]);
+            }
+            
 
             for (int i = 0; i < _assassortment.Count; i++)
             {
