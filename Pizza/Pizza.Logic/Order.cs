@@ -8,7 +8,7 @@ namespace Pizza.Logic
 {
     public class Order
     {
-        //public Client client { get; set; }
+        public Client client { get; set; }
         public List<Product> products { get; set; }
 
         public int id { get; set; }
@@ -20,7 +20,7 @@ namespace Pizza.Logic
 
         public Order()
         {
-            //client = new Client();
+            client = new Client();
             products = new List<Product>();
         }
     }

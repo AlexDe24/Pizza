@@ -34,8 +34,8 @@
             <Label Content="Фамилия:" Height="25"/>
             <Label Content="Имя:" Height="25"/>
             <Label Content="Отчество:" Height="25"/>
-            <Label Content="Адрес:" Height="25"/>
-            <Label Content="Номер телефона:" Height="25"/>
+            <Label Content="Адрес*:" Height="25"/>
+            <Label Content="Номер телефона*:" Height="25"/>
             <Label Content="Дата рождения:" Height="25"/>
         </StackPanel>
         

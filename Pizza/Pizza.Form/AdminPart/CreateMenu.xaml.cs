@@ -20,37 +20,33 @@ namespace Pizza.Form
     /// </summary>
     public partial class CreateMenu : Window
     {
-        Product _product;
-        List<Product> _products;
+        FileClass _fileWork; //класс работы с файлами
 
-        FileClass _fileWork;
+        Product _product; //список продуктов в нынешнем заказе
+        List<Product> _products; //список всех продуктов
 
-        List<string> _assassortment;
         public CreateMenu()
         {
             InitializeComponent();
 
             _fileWork = new FileClass();
-
             _product = new Product();
-            _products = new List<Product>();
 
-            _products = _fileWork.ReadProducts();
-
-            _assassortment = new List<string>();
-
-            string[] category = Properties.Resources.Сategory.Split(',');
-
+            string[] category = Properties.Resources.Сategory.Split(','); //Загрузка списка категорий из ресурсов
+            
             for (int i = 0; i < category.Length; i++)
             {
-                _assassortment.Add(category[i]);
+                Category.Items.Add(category[i]);
             }
-            
 
-            for (int i = 0; i < _assassortment.Count; i++)
-            {
-                Category.Items.Add(_assassortment[i]);
-            }
+            MenuBoxUpdate();
+        }
+
+        void MenuBoxUpdate()
+        {
+            MenuBox.Items.Clear();
+
+            _products = _fileWork.ReadProducts();
 
             _products.Sort((a, b) => a.category.CompareTo(b.category));
 
@@ -62,34 +58,31 @@ namespace Pizza.Form
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            _product.name = Name.Text;
-            _product.category = Category.Text;
-            _product.price = Convert.ToDouble(Price.Text);
-
-            Name.Text = "";
-            Category.Text = "";
-            Price.Text = "";
-
-            if (_products.Any(x => x.name == _product.name))
+            try
             {
-                for (int i = 0; i < MenuBox.Items.Count; i++)
+                _product.name = Name.Text;
+                _product.category = Category.Text;
+                _product.price = Convert.ToDouble(Price.Text);
+
+                Name.Text = "";
+                Category.Text = "";
+                Price.Text = "";
+
+                try
                 {
-                    if (_products.Any(x => x.name == _product.name))
-                        _products[i] = _product;
-                    if ((MenuBox.Items[i] as Product).name == _product.name)
-                        MenuBox.Items[i] = _product;
+                    _fileWork.RedactProduct(_product);
+                }
+                catch (Exception)
+                {
+                    _fileWork.AddProduct(_product);
                 }
 
-                _fileWork.RedactProduct(_product);
+                MenuBoxUpdate();
             }
-            else
+            catch (Exception)
             {
-                _products.Add(_product);
-                MenuBox.Items.Add(_product);
-
-                _fileWork.AddProduct(_product);
-            }
-
+                MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
+            } 
         }
 
         private void DelProduct_Click(object sender, RoutedEventArgs e)
@@ -111,14 +104,15 @@ namespace Pizza.Form
         {
             if (MenuBox.SelectedIndex != -1)
             {
-                Name.Text = (MenuBox.SelectedItem as Product).name;
-                Category.Text = (MenuBox.SelectedItem as Product).category;
-                Price.Text = Convert.ToString((MenuBox.SelectedItem as Product).price);
+                Name.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).name;
+                Category.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).category;
+                Price.Text = Convert.ToString((MenuBox.Items[MenuBox.SelectedIndex] as Product).price);
 
                 _product.name = Name.Text;
                 _product.category = Category.Text;
                 _product.price = Convert.ToDouble(Price.Text);
             }
         }
+
     }
 }

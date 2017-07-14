@@ -25,9 +25,10 @@
         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" ShowsPreview="False" Height="3"
          HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
 
-        <StackPanel  Grid.Column="1" Grid.Row="1" Name="ControlPanel" Margin="25,0,25,0" VerticalAlignment="Bottom">
-            <Button Template="{DynamicResource ButtonOwal}" Name ="Edit" Content="Редактировать" Margin="0,0,0,0" VerticalAlignment="Top" Click="Edit_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
-            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="0,5,0,10" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" Name="ControlPanel" Margin="25,0,25,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Template="{DynamicResource ButtonOwal}" Name ="Edit" Content="Редактировать" Margin="10" VerticalAlignment="Top" Click="Edit_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
+            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="10" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
+            <Button Template="{DynamicResource ButtonOwal}" Name ="Del" Content="Удалить профиль" Margin="50,10,10,0" VerticalAlignment="Top" Background="White" Height="25" FontFamily="Times New Roman" Width="100" Click="Del_Click"/>
         </StackPanel>
 
         <StackPanel  Grid.Column="0" Grid.Row="0" Name="ProfilePanelLabel" >

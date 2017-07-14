@@ -96,7 +96,7 @@ namespace Pizza.Form
                 _chooseMenu = new Menu(_fileWork.ReadClients().Where(x => x.login == _fileWork.IsLogonRead("Online").login).First(), _fileWork, this);
 
                 Visibility = Visibility.Hidden;
-                _chooseMenu.ShowDialog();
+                _chooseMenu.Show();
             }
             catch (Exception)
             {
@@ -233,12 +233,11 @@ namespace Pizza.Form
                 if (_clients[LoginEnter.SelectedIndex].password == PasswordEnter.Password)
                 {
                     Visibility = Visibility.Hidden;
-                    _chooseMenu.ShowDialog();
+                    _chooseMenu.Show();
                     Update();
                 }
                 else
                     MessageBox.Show("Неверный пароль.", "Предупреждение!");
-
             }
             else
                 MessageBox.Show("Пользователь не найден.", "Предупреждение!");

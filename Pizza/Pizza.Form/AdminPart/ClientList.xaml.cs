@@ -20,6 +20,8 @@ namespace Pizza.Form
     /// </summary>
     public partial class ClientList : Window
     {
+        Registration _registration;
+        Profile _profile;
         FileClass _fileWork;
 
         List<Client> clients;
@@ -30,12 +32,39 @@ namespace Pizza.Form
 
             _fileWork = new FileClass();
 
+            ClientBoxUpdate();
+        }
+
+        void ClientBoxUpdate()
+        {
             clients = _fileWork.ReadClients();
+
+            ClientBox.Items.Clear();
 
             for (int i = 0; i < clients.Count; i++)
             {
                 ClientBox.Items.Add(clients[i]);
             }
+        }
+
+        private void RedactClient_Click(object sender, RoutedEventArgs e)
+        {
+            if (ClientBox.SelectedIndex != -1)
+            {
+                _profile = new Profile(clients[ClientBox.SelectedIndex]);
+                _profile.Show();
+            }
+        }
+
+        private void RegistClient_Click(object sender, RoutedEventArgs e)
+        {
+            _registration = new Registration(clients);
+            _registration.Show();
+        }
+
+        private void UpdateClients_Click(object sender, RoutedEventArgs e)
+        {
+            ClientBoxUpdate();
         }
     }
 }

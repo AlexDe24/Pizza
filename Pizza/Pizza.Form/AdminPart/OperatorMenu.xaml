@@ -6,20 +6,39 @@
         xmlns:local="clr-namespace:Pizza.Form"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Окно Оператора" Height="300" Width="600">
+        Title="Список заказов" Height="400" Width="800" WindowStartupLocation="CenterScreen" MinWidth="492">
     <Grid>
-        <ListView Name="OrdersList">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <ListView Name="OrdersList" SelectionChanged="OrdersList_SelectionChanged" MouseDoubleClick="OrdersList_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=id}"></GridViewColumn>
-                        <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
-                        <GridViewColumn Header="Клиент" DisplayMemberBinding="{Binding Path=client}"></GridViewColumn>
+                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=client.address}"></GridViewColumn>
+                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=client.phone}"></GridViewColumn>
+                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
                         <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
                         <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=condition}"></GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <StackPanel Grid.Column="1" Margin="5">
+            <ComboBox Name="OrderCondition" Margin="5" Height="25"></ComboBox>
+            <Button Name="SeeOrder" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Просмотреть заказ" Click="SeeOrder_Click"/>
+            <Button Name="LoadCondition" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Подтвердить состояние заказа" Click="LoadCondition_Click"/>
+            <Button Name="Update" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Обновить заказы" Click="Update_Click"/>
+            <StackPanel Margin="0,50,0,0">
+                <Button Name="MenuCreate" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Составить меню" Click="MenuCreate_Click"/>
+                <Button Name="Clients" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Список клиентов" Click="Clients_Click"/>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form.ClientPart"
         mc:Ignorable="d"
-        Title="О нас" Height="250" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+ Title="О нас" Height="250" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Border BorderBrush="OrangeRed" BorderThickness="3">
             <Border.Background>

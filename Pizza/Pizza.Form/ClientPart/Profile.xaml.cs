@@ -20,9 +20,10 @@ namespace Pizza.Form
     /// </summary>
     public partial class Profile : Window
     {
-        Client _client;
-        FileClass fileWork;
-        bool isEditPassword;
+        Confirmation _confirmation; //форма для подтвержения удаления 
+        Client _client; //клиент
+        FileClass _fileWork; //класс работы с файлами
+        bool isEditPassword; //меняется ли пароль
 
         /// <summary>
         /// Класс управления профилем
@@ -32,7 +33,7 @@ namespace Pizza.Form
         {
             InitializeComponent();
 
-            fileWork = new FileClass(); //класс работы с файлами
+            _fileWork = new FileClass(); //класс работы с файлами
             _client = clientNow; //класс данных о пользователе
 
             FillingProfile();
@@ -136,14 +137,14 @@ namespace Pizza.Form
                     else
                     {
                         _client.password = PasswordOrig.Password;
-                        fileWork.RedactClient(_client);
+                        _fileWork.RedactClient(_client);
 
                         Close();
                     }
                 }
             else
             {
-                fileWork.RedactClient(_client);
+                _fileWork.RedactClient(_client);
 
                 Close();
             }
@@ -169,6 +170,17 @@ namespace Pizza.Form
 
                 PasswordPanel.Visibility = Visibility.Hidden;
                 PasswordPanelLabel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void Del_Click(object sender, RoutedEventArgs e)
+        {
+            _confirmation = new Confirmation();
+
+            if (_confirmation.ShowDialog() == true)
+            {
+                _fileWork.DelClient(_client);
+                Close();
             }
         }
     }

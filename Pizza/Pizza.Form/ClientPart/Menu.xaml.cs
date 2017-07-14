@@ -31,6 +31,7 @@ namespace Pizza.Form
         Order _order;
         List<Product> _products;
 
+
         public Menu(Client client, FileClass fileWork, Access accessForm)
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace Pizza.Form
 
             _order = new Order();
 
-            //_order.client = client;
+            _order.client = client;
             _products = new List<Product>();
 
             OrderListParam();
@@ -137,7 +138,7 @@ namespace Pizza.Form
         }
 
         /// <summary>
-        /// Добавление разметки в лист каказа
+        /// Добавление разметки в лист заказа
         /// </summary>
         void OrderListParam()
         {
@@ -346,7 +347,7 @@ namespace Pizza.Form
                     _browser.Show();
                     break;
                 case "Профиль":
-                    //_profile = new Profile(_order.client);
+                    _profile = new Profile(_order.client);
                     _profile.Visibility = Visibility.Visible;
                     break;
                 case "О нас":
@@ -373,6 +374,10 @@ namespace Pizza.Form
             _order.date = DateTime.Now;
             _order.condition = "Поступил";
             _fileWork.AddOrder(_order);
+
+            OrderList.Items.Clear();
+            _order.products.Clear();
+            SumUpdate();
 
             MessageBox.Show("Ваш заказ принят. Ожидайте, пожалуйста.");
         }

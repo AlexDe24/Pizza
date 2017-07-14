@@ -74,9 +74,7 @@ namespace Pizza.Form
             newClient.address = Address.Text;
             newClient.phone = Phone.Text;
 
-            if (Login.Text == "")
-                MessageBox.Show("Введите логин!", "Предупреждение!");
-            else
+            try
             {
                 if (_allClients.Any(x => x.login == Login.Text))
                     MessageBox.Show("Логин уже занят!", "Предупреждение!");
@@ -96,6 +94,11 @@ namespace Pizza.Form
                     }
                 }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Обязательные поля не заполнены!", "Предупреждение!");
+            }
+
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

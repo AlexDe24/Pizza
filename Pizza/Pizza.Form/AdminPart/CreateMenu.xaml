@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Создание меню" Height="400" Width="500">
+        Title="Создание меню" Height="400" Width="500" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -37,11 +37,10 @@
             </StackPanel>
         </GroupBox>
 
-
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Margin="15" VerticalAlignment="Center">
-            <Button Name="AddProduct" Content="Добавить в ассортимент" Click="AddProduct_Click"/>
-            <Button Name="DelProduct" Content="Удалить из ассортимента" Margin="0,5,0,0" Click="DelProduct_Click"/>
-            <Button Name="Exit" Content="Выход" Margin="35,50,35,0" Click="Exit_Click"/>
+            <Button Template="{StaticResource ButtonOwal}" Height="25" Name="AddProduct" Content="Добавить в ассортимент" Click="AddProduct_Click"/>
+            <Button Template="{StaticResource ButtonOwal}" Height="25" Name="DelProduct" Content="Удалить из ассортимента" Margin="0,10,0,0" Click="DelProduct_Click"/>
+            <Button Template="{StaticResource ButtonOwal}" Height="25" Name="Exit" Content="Выход" Margin="35,50,35,0" Click="Exit_Click"/>
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1" Grid.Row ="1" Grid.RowSpan="2" Grid.ColumnSpan="2" >
@@ -57,5 +56,6 @@
                 </ListView.View>
             </ListView>
         </Border>
+        
     </Grid>
 </Window>

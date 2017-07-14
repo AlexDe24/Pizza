@@ -10,17 +10,13 @@ namespace Pizza.Logic
 {
     public class FileClass
     {
-        ClientContext _clientCt;
-        ProductContext _productCt;
-        OrderContext _orderCt;
+        BaseContext _BaseCt;
 
         string _cacheDir;
 
         public FileClass()
         {
-            _clientCt = new ClientContext();
-            _productCt = new ProductContext();
-            _orderCt = new OrderContext();
+            _BaseCt = new BaseContext();
 
             _cacheDir = @"Cache\";
         }
@@ -90,6 +86,7 @@ namespace Pizza.Logic
 
             write.Close();
         }
+
         //
         //Работа с клиентами
         //
@@ -99,15 +96,23 @@ namespace Pizza.Logic
         /// <param name="client">клиент</param>
         public void RedactClient(Client client)
         {
-            _clientCt.Clients.Load();
+            Client clientRedact = _BaseCt.Clients.Where(c => c.login == client.login)
+        .FirstOrDefault();
 
-            for (int i = 0; i < _clientCt.Clients.Local.Count; i++)
-            {
-                if (_clientCt.Clients.Local[i].login == client.login)
-                _clientCt.Clients.Local[i] = client;
-            }
-            
-            _clientCt.SaveChanges();
+            //Обновление профиля
+            clientRedact.name = client.name;
+            clientRedact.surname = client.surname;
+            clientRedact.middlename = client.middlename;
+            clientRedact.password = client.password;
+
+            clientRedact.birthDateDay = client.birthDateDay;
+            clientRedact.birthDateMonth = client.birthDateMonth;
+            clientRedact.birthDateYear = client.birthDateYear;
+
+            clientRedact.address = client.address;
+            clientRedact.phone = client.phone;
+
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
@@ -116,8 +121,8 @@ namespace Pizza.Logic
         /// <param name="client">клиент</param>
         public void AddClient(Client client)
         {
-             _clientCt.Clients.Add(client);
-             _clientCt.SaveChanges();
+            _BaseCt.Clients.Add(client);
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
@@ -128,11 +133,11 @@ namespace Pizza.Logic
         {
             List<Client> clients = new List<Client>();
 
-            _clientCt.Clients.Load();
+            _BaseCt.Clients.Load();
 
-            for (int i = 0; i < _clientCt.Clients.Local.Count; i++)
+            for (int i = 0; i < _BaseCt.Clients.Local.Count; i++)
             {
-                clients.Add(_clientCt.Clients.Local[i]);
+                clients.Add(_BaseCt.Clients.Local[i]);
             }
 
             return clients;
@@ -144,8 +149,10 @@ namespace Pizza.Logic
         /// <param name="client">клиент</param>
         public void DelClient(Client client)
         {
-            _clientCt.Clients.Remove(client);
-            _clientCt.SaveChanges();
+            Client clientDel = _BaseCt.Clients.Where(c => c.login == client.login).FirstOrDefault();
+
+            _BaseCt.Clients.Remove(clientDel);
+            _BaseCt.SaveChanges();
         }
 
         //
@@ -157,15 +164,13 @@ namespace Pizza.Logic
         /// <param name="product">продукт</param>
         public void RedactProduct(Product product)
         {
-            _productCt.Products.Load();
+            Product ProductRedact = _BaseCt.Products.Where(c => c.name == product.name).FirstOrDefault();
 
-            for (int i = 0; i < _productCt.Products.Local.Count; i++)
-            {
-                if (_productCt.Products.Local[i].name == product.name)
-                    _productCt.Products.Local[i] = product;
-            }
+            ProductRedact.name = product.name;
+            ProductRedact.price = product.price;
+            ProductRedact.category = product.category;
 
-            _productCt.SaveChanges();
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
@@ -174,8 +179,8 @@ namespace Pizza.Logic
         /// <param name="product">продукт</param>
         public void AddProduct(Product product)
         {
-            _productCt.Products.Add(product);
-            _productCt.SaveChanges();
+            _BaseCt.Products.Add(product);
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
@@ -186,11 +191,11 @@ namespace Pizza.Logic
         {
             List<Product> products = new List<Product>();
 
-            _productCt.Products.Load();
+            _BaseCt.Products.Load();
 
-            for (int i = 0; i < _productCt.Products.Local.Count; i++)
+            for (int i = 0; i < _BaseCt.Products.Local.Count; i++)
             {
-                products.Add(_productCt.Products.Local[i]);
+                products.Add(_BaseCt.Products.Local[i]);
             }
 
             return products;
@@ -202,8 +207,8 @@ namespace Pizza.Logic
         /// <param name="product">продукт</param>
         public void DelProduct(Product product)
         {
-            _productCt.Products.Remove(product);
-            _productCt.SaveChanges();
+            _BaseCt.Products.Remove(product);
+            _BaseCt.SaveChanges();
         }
 
         //
@@ -215,25 +220,22 @@ namespace Pizza.Logic
         /// <param name="product">заказ</param>
         public void RedactOrder(Order order)
         {
-            _orderCt.Orders.Load();
+            Order OrderRedact = _BaseCt.Orders.Where(c => c.id == order.id)
+.FirstOrDefault();
 
-            for (int i = 0; i < _productCt.Products.Local.Count; i++)
-            {
-                if (_orderCt.Orders.Local[i].id == order.id)
-                    _orderCt.Orders.Local[i] = order;
-            }
+            OrderRedact.condition = order.condition;
 
-            _orderCt.SaveChanges();
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
         /// Создание заказа
         /// </summary>
-        /// <param name="product">заказ</param>
+        /// <param name="order">заказ</param>
         public void AddOrder(Order order)
         {
-            _orderCt.Orders.Add(order);
-            _orderCt.SaveChanges();
+            _BaseCt.Orders.Add(order);
+            _BaseCt.SaveChanges();
         }
 
         /// <summary>
@@ -244,12 +246,9 @@ namespace Pizza.Logic
         {
             List<Order> orders = new List<Order>();
 
-            _orderCt.Orders.Load();
-
-            for (int i = 0; i < _orderCt.Orders.Local.Count; i++)
-            {
-                orders.Add(_orderCt.Orders.Local[i]);
-            }
+            orders = _BaseCt.Orders
+    .Include(p => p.products)
+    .Include(p => p.client).ToList();
 
             return orders;
         }
@@ -260,8 +259,8 @@ namespace Pizza.Logic
         /// <param name="order">заказ</param>
         public void DelOrder(Order order)
         {
-            _orderCt.Orders.Remove(order);
-            _orderCt.SaveChanges();
+            _BaseCt.Orders.Remove(order);
+            _BaseCt.SaveChanges();
         }
     }
 }
