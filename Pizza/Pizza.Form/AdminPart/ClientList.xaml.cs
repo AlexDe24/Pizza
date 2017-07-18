@@ -51,7 +51,7 @@ namespace Pizza.Form
         {
             if (ClientBox.SelectedIndex != -1)
             {
-                _profile = new Profile(clients[ClientBox.SelectedIndex]);
+                _profile = new Profile(clients[ClientBox.SelectedIndex], 1);
                 _profile.Show();
             }
         }

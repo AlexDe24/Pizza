@@ -20,9 +20,7 @@
                         <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
                         <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Path=surname}"></GridViewColumn>
                         <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Path=middlename}"></GridViewColumn>
-                        <GridViewColumn Header="День рождения" DisplayMemberBinding="{Binding Path=birthDateDay}"></GridViewColumn>
-                        <GridViewColumn Header="Месяц рождения" DisplayMemberBinding="{Binding Path=birthDateMonth}"></GridViewColumn>
-                        <GridViewColumn Header="Год рождения" DisplayMemberBinding="{Binding Path=birthDateYear}"></GridViewColumn>
+                        <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding Path=birthDate , StringFormat=dd:MM:yyyy}"></GridViewColumn>
                         <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
                         <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
                     </GridView.Columns>

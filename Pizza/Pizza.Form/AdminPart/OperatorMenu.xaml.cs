@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pizza.Logic;
 using System.Collections;
+using System.Data.Entity.Validation;
 
 namespace Pizza.Form
 {
@@ -21,6 +22,7 @@ namespace Pizza.Form
     /// </summary>
     public partial class OperatorMenu : Window
     {
+        List<Status> _status;
         OrderInfo _orderInfo;
         CreateMenu _createMenu;
         ClientList _clientList;
@@ -33,12 +35,11 @@ namespace Pizza.Form
             InitializeComponent();
 
             _fileWork = new FileClass();
+            _status = _fileWork.ReadStatus();
 
-            string[] category = Properties.Resources.OrderCondition.Split(',');
-
-            for (int i = 0; i < category.Length; i++)
+            for (int i = 0; i < _status.Count; i++)
             {
-                OrderCondition.Items.Add(category[i]);
+                OrderCondition.Items.Add(_status[i].name);
             }
 
             OrdersListUpdate();
@@ -78,20 +79,26 @@ namespace Pizza.Form
         {
             if (OrdersList.SelectedIndex != -1)
             {
-                OrderCondition.Text = (OrdersList.SelectedItem as Order).condition;
+                OrderCondition.Text = (OrdersList.SelectedItem as Order).status.name;
             }
         }
 
         private void LoadCondition_Click(object sender, RoutedEventArgs e)
         {
-            if (OrdersList.SelectedIndex != -1)
+            try
             {
-                Order order = _orders[OrdersList.SelectedIndex];
-                order.condition = OrderCondition.Text;
-                _fileWork.RedactOrder(order);
+                if (OrdersList.SelectedIndex != -1)
+                {
+                    Order order = _orders[OrdersList.SelectedIndex];
+                    order.status = _status.Where(x => x.name == OrderCondition.Text).FirstOrDefault();
 
-                OrdersListUpdate();
+                    _fileWork.RedactOrder();
+                }
             }
+            catch (Exception)
+            {
+            }
+            OrdersListUpdate();
         }
 
         private void SeeOrder_Click(object sender, RoutedEventArgs e)

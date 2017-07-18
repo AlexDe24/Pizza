@@ -19,11 +19,12 @@
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=id}"></GridViewColumn>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=client.address}"></GridViewColumn>
-                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=client.phone}"></GridViewColumn>
-                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
+                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
+                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
                         <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
-                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=condition}"></GridViewColumn>
+                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
+                        <GridViewColumn Header="Оплата баллами" DisplayMemberBinding="{Binding Path=discount}"></GridViewColumn>
+                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=status.name}"></GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

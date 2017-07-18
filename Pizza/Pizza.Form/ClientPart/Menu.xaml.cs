@@ -22,6 +22,7 @@ namespace Pizza.Form
     /// </summary>
     public partial class Menu : Window
     {
+        CreateOrder _createOrder;
         Сomment _comment;
         Info _info;
         Browser _browser;
@@ -62,8 +63,8 @@ namespace Pizza.Form
 
             for (int i = 0; i < _products.Count; i++)
             {
-                if (!category.Any(x => x == _products[i].category))
-                    category.Add(_products[i].category);
+                if (!category.Any(x => x == _products[i].category.name))
+                    category.Add(_products[i].category.name);
             }
 
             for (int i = 0; i < category.Count; i++)
@@ -105,7 +106,7 @@ namespace Pizza.Form
 
                 for (int j = 0; j < _products.Count; j++)
                 {
-                    if (category[i] == _products[j].category)
+                    if (category[i] == _products[j].category.name)
                     {
                         TextBlock productName = new TextBlock()
                         {
@@ -317,7 +318,7 @@ namespace Pizza.Form
         /// <summary>
         /// Обновление значения общей суммы
         /// </summary>
-        void SumUpdate()
+        double SumUpdate()
         {
             double sum = 0;
 
@@ -327,7 +328,7 @@ namespace Pizza.Form
             }
             Sum.Content = "Сумма заказа: " + Convert.ToString(sum);
 
-            _order.fullPrice = sum;
+            return sum;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -347,7 +348,7 @@ namespace Pizza.Form
                     _browser.Show();
                     break;
                 case "Профиль":
-                    _profile = new Profile(_order.client);
+                    _profile = new Profile(_order.client, 0);
                     _profile.Visibility = Visibility.Visible;
                     break;
                 case "О нас":
@@ -371,15 +372,24 @@ namespace Pizza.Form
 
         private void CreateOrder_Click(object sender, RoutedEventArgs e)
         {
-            _order.date = DateTime.Now;
-            _order.condition = "Поступил";
-            _fileWork.AddOrder(_order);
+            _createOrder = new CreateOrder(_order, SumUpdate());
 
-            OrderList.Items.Clear();
-            _order.products.Clear();
-            SumUpdate();
+            if (_createOrder.ShowDialog() == true)
+            {
+                List<Status> status = _fileWork.ReadStatus();
+                _order.status = status[0];
 
-            MessageBox.Show("Ваш заказ принят. Ожидайте, пожалуйста.");
+                _order.date = DateTime.Now;
+                _order.client.discount += SumUpdate() * 0.03;
+
+                _fileWork.AddOrder(_order);
+
+                OrderList.Items.Clear();
+                _order.products.Clear();
+                SumUpdate();
+
+                MessageBox.Show("Ваш заказ принят. Ожидайте, пожалуйста.");
+            }
         }
     }
 }

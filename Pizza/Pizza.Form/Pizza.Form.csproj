@@ -96,11 +96,14 @@
     <Compile Include="ClientPart\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Confirmation.xaml.cs">
+    <Compile Include="ClientPart\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrderInfo.xaml.cs">
+    <Compile Include="AdminPart\OrderInfo.xaml.cs">
       <DependentUpon>OrderInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClientPart\CreateOrder.xaml.cs">
+      <DependentUpon>CreateOrder.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestChoose.xaml.cs">
       <DependentUpon>TestChoose.xaml</DependentUpon>
@@ -180,11 +183,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Confirmation.xaml">
+    <Page Include="ClientPart\Confirmation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OrderInfo.xaml">
+    <Page Include="AdminPart\OrderInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ClientPart\CreateOrder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

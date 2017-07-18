@@ -24,6 +24,7 @@ namespace Pizza.Form
 
         Product _product; //список продуктов в нынешнем заказе
         List<Product> _products; //список всех продуктов
+        List<Category> _category;
 
         public CreateMenu()
         {
@@ -31,12 +32,11 @@ namespace Pizza.Form
 
             _fileWork = new FileClass();
             _product = new Product();
+            _category = _fileWork.ReadCategory();
 
-            string[] category = Properties.Resources.Сategory.Split(','); //Загрузка списка категорий из ресурсов
-            
-            for (int i = 0; i < category.Length; i++)
+            for (int i = 0; i < _category.Count; i++)
             {
-                Category.Items.Add(category[i]);
+                Category.Items.Add(_category[i].name);
             }
 
             MenuBoxUpdate();
@@ -48,7 +48,7 @@ namespace Pizza.Form
 
             _products = _fileWork.ReadProducts();
 
-            _products.Sort((a, b) => a.category.CompareTo(b.category));
+            _products.Sort((a, b) => a.category.name.CompareTo(b.category.name));
 
             for (int i = 0; i < _products.Count; i++)
             {
@@ -58,12 +58,15 @@ namespace Pizza.Form
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                _product.name = Name.Text;
-                _product.category = Category.Text;
-                _product.price = Convert.ToDouble(Price.Text);
 
+            _product.name = Name.Text;
+            _product.category = _category.Where(x => x.name == Category.Text).FirstOrDefault();
+            _product.price = Convert.ToDouble(Price.Text);
+
+            if (_product.name == "" || _product.category == null)
+                MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
+            else
+            {
                 Name.Text = "";
                 Category.Text = "";
                 Price.Text = "";
@@ -78,18 +81,15 @@ namespace Pizza.Form
                 }
 
                 MenuBoxUpdate();
+
             }
-            catch (Exception)
-            {
-                MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
-            } 
         }
 
         private void DelProduct_Click(object sender, RoutedEventArgs e)
         {
             if (MenuBox.SelectedIndex != -1)
             {
-                _fileWork.DelProduct(_products[MenuBox.SelectedIndex]);
+                _fileWork.DelProduct(MenuBox.SelectedItem as Product);
 
                 MenuBox.Items.RemoveAt(MenuBox.SelectedIndex);
             }
@@ -105,11 +105,11 @@ namespace Pizza.Form
             if (MenuBox.SelectedIndex != -1)
             {
                 Name.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).name;
-                Category.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).category;
+                Category.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).category.name;
                 Price.Text = Convert.ToString((MenuBox.Items[MenuBox.SelectedIndex] as Product).price);
 
                 _product.name = Name.Text;
-                _product.category = Category.Text;
+                _product.category.name = Category.Text;
                 _product.price = Convert.ToDouble(Price.Text);
             }
         }

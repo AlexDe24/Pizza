@@ -49,7 +49,7 @@
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
-                            <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=category}"></GridViewColumn>
+                            <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=category.name}"></GridViewColumn>
                             <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=price}"></GridViewColumn>
                         </GridView.Columns>
                     </GridView>

@@ -46,17 +46,8 @@ namespace Pizza.Logic
 
             while (!read.EndOfStream)
             {
-                client.id = Convert.ToInt32(read.ReadLine());
                 client.login = read.ReadLine();
-                client.name = read.ReadLine();
-                client.surname = read.ReadLine();
-                client.middlename = read.ReadLine();
                 client.password = read.ReadLine();
-                client.birthDateDay = read.ReadLine();
-                client.birthDateMonth = read.ReadLine();
-                client.birthDateYear = read.ReadLine();
-                client.address = read.ReadLine();
-                client.phone = read.ReadLine();
             }
 
             read.Close();
@@ -72,17 +63,8 @@ namespace Pizza.Logic
         {
             StreamWriter write = new StreamWriter(_cacheDir + dir + ".txt");
 
-            write.WriteLine(client.id);
             write.WriteLine(client.login);
-            write.WriteLine(client.name);
-            write.WriteLine(client.surname);
-            write.WriteLine(client.middlename);
             write.WriteLine(client.password);
-            write.WriteLine(client.birthDateDay);
-            write.WriteLine(client.birthDateMonth);
-            write.WriteLine(client.birthDateYear);
-            write.WriteLine(client.address);
-            write.WriteLine(client.phone);
 
             write.Close();
         }
@@ -105,9 +87,7 @@ namespace Pizza.Logic
             clientRedact.middlename = client.middlename;
             clientRedact.password = client.password;
 
-            clientRedact.birthDateDay = client.birthDateDay;
-            clientRedact.birthDateMonth = client.birthDateMonth;
-            clientRedact.birthDateYear = client.birthDateYear;
+            clientRedact.birthDate = client.birthDate;
 
             clientRedact.address = client.address;
             clientRedact.phone = client.phone;
@@ -131,27 +111,23 @@ namespace Pizza.Logic
         /// <returns>список клиентов</returns>
         public List<Client> ReadClients()
         {
-            List<Client> clients = new List<Client>();
-
-            _BaseCt.Clients.Load();
-
-            for (int i = 0; i < _BaseCt.Clients.Local.Count; i++)
-            {
-                clients.Add(_BaseCt.Clients.Local[i]);
-            }
+            List<Client> clients = _BaseCt.Clients.ToList();
 
             return clients;
         }
 
         /// <summary>
-        /// Удаление клиента из базы
+        /// Удаление клиента и связанных заказов из базы
         /// </summary>
         /// <param name="client">клиент</param>
         public void DelClient(Client client)
         {
             Client clientDel = _BaseCt.Clients.Where(c => c.login == client.login).FirstOrDefault();
 
+            _BaseCt.Orders.RemoveRange(ReadOrders().Where(x => x.client == clientDel));
+
             _BaseCt.Clients.Remove(clientDel);
+
             _BaseCt.SaveChanges();
         }
 
@@ -189,14 +165,7 @@ namespace Pizza.Logic
         /// <returns>список продуктов</returns>
         public List<Product> ReadProducts()
         {
-            List<Product> products = new List<Product>();
-
-            _BaseCt.Products.Load();
-
-            for (int i = 0; i < _BaseCt.Products.Local.Count; i++)
-            {
-                products.Add(_BaseCt.Products.Local[i]);
-            }
+            List<Product> products = _BaseCt.Products.Include(p => p.category).ToList();
 
             return products;
         }
@@ -217,14 +186,9 @@ namespace Pizza.Logic
         /// <summary>
         /// Редактирование заказа
         /// </summary>
-        /// <param name="product">заказ</param>
-        public void RedactOrder(Order order)
+        /// <param name="order">заказ</param>
+        public void RedactOrder()
         {
-            Order OrderRedact = _BaseCt.Orders.Where(c => c.id == order.id)
-.FirstOrDefault();
-
-            OrderRedact.condition = order.condition;
-
             _BaseCt.SaveChanges();
         }
 
@@ -247,9 +211,12 @@ namespace Pizza.Logic
             List<Order> orders = new List<Order>();
 
             orders = _BaseCt.Orders
-    .Include(p => p.products)
-    .Include(p => p.client).ToList();
+                .Include(p => p.status)
+                .Include(p => p.client)
+                .Include(p => p.products)
+                .ToList();
 
+            ReadCategory();
             return orders;
         }
 
@@ -257,9 +224,67 @@ namespace Pizza.Logic
         /// Удаление заказа из базы
         /// </summary>
         /// <param name="order">заказ</param>
-        public void DelOrder(Order order)
+        public void DelOrder(List<Order> orders)
         {
-            _BaseCt.Orders.Remove(order);
+            _BaseCt.Orders.RemoveRange(orders);
+            //_BaseCt.SaveChanges();
+        }
+
+        //
+        //Работа с категориями
+        //
+        /// <summary>
+        /// Чтение списка категорий
+        /// </summary>
+        public List<Category> ReadCategory()
+        {
+            List<Category> category = _BaseCt.Category.ToList();
+
+            return category;
+        }
+
+        /// <summary>
+        /// Создание списка категорий
+        /// </summary>
+        public void AddCategory(string[] categ)
+        {
+            List<Category> category = new List<Category>();
+
+            for (int i = 0; i < categ.Length; i++)
+            {
+                category.Add(new Category { name = categ[i] });
+                _BaseCt.Category.Add(category[i]);
+            }
+            
+            _BaseCt.SaveChanges();
+        }
+
+        //
+        //Работа с состояниями
+        //
+        /// <summary>
+        /// Чтение списка состояний
+        /// </summary>
+        public List<Status> ReadStatus()
+        {
+            List<Status> status = _BaseCt.Statuses.ToList();
+
+            return status;
+        }
+
+        /// <summary>
+        /// Создание списка состояний
+        /// </summary>
+        public void AddStatus(string[] stat)
+        {
+            List<Status> status = new List<Status>();
+
+            for (int i = 0; i < stat.Length; i++)
+            {
+                status.Add(new Status { name = stat[i] });
+                _BaseCt.Statuses.Add(status[i]);
+            }
+            
             _BaseCt.SaveChanges();
         }
     }

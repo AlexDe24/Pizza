@@ -7,21 +7,12 @@ using System.Threading.Tasks;
 
 namespace Pizza.Logic
 {
-    public class Product
+    public class Status
     {
         public int id { get; set; }
+
         [Required]
         public string name { get; set; }
-        [Required]
-        public double price { get; set; }
-
-        public Category category { get; set; }
         public List<Order> order { get; set; }
-
-        public Product()
-        {
-            category = new Category();
-            order = new List<Order>();
-        }
     }
 }

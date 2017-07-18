@@ -88,6 +88,15 @@ namespace Pizza.Form.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Пицца,Закуски,Напитки,Суши.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Номер для связи: 88008552020.
         /// </summary>
         public static string Connection {
@@ -156,15 +165,6 @@ namespace Pizza.Form.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Поступил,Готовится,В пути,Доставлен.
-        /// </summary>
-        public static string OrderCondition {
-            get {
-                return ResourceManager.GetString("OrderCondition", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
         /// </summary>
         public static System.Drawing.Icon PizzIco {
@@ -205,6 +205,15 @@ namespace Pizza.Form.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Получен,В очереди,Готовится,В пути,Доставлен.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap Vk {
@@ -221,15 +230,6 @@ namespace Pizza.Form.Properties {
             get {
                 object obj = ResourceManager.GetObject("Zast", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Пицца,Напитки,Суши,Бургеры,Закуски.
-        /// </summary>
-        public static string Сategory {
-            get {
-                return ResourceManager.GetString("Сategory", resourceCulture);
             }
         }
     }

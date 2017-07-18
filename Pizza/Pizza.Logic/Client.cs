@@ -16,13 +16,12 @@ namespace Pizza.Logic
         public string surname { get; set; }
         public string middlename { get; set; }
         public string password { get; set; } //пароль
-        public string birthDateDay { get; set; } //день рождения
-        public string birthDateMonth { get; set; } //месяц рождения
-        public string birthDateYear { get; set; } //год рождения
+        public DateTime birthDate { get; set; } //день рождения
         [Required]
         public string address { get; set; } //номер телефона
         [Required]
         public string phone { get; set; } //номер телефона
+        public double discount { get; set; } //номер телефона
 
         public List<Order> order { get; set; }
     }

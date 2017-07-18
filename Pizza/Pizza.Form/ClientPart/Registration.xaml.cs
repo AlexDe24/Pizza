@@ -67,9 +67,15 @@ namespace Pizza.Form
             newClient.surname = Surname.Text;
             newClient.middlename = Middlename.Text;
 
-            newClient.birthDateDay = birthdayDay.Text;
-            newClient.birthDateMonth = birthdayMonth.Text;
-            newClient.birthDateYear = birthdayYear.Text;
+            try
+            {
+                DateTime date = new DateTime(Convert.ToInt32(birthdayYear.Text), Convert.ToInt32(birthdayMonth.Text), Convert.ToInt32(birthdayDay.Text));
+                newClient.birthDate = date;
+            }
+            catch (Exception)
+            {
+
+            }
 
             newClient.address = Address.Text;
             newClient.phone = Phone.Text;
