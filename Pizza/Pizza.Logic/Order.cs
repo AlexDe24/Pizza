@@ -14,11 +14,12 @@ namespace Pizza.Logic
 
         public string address { get; set; }
         public string phone { get; set; }
-        public double discount { get; set; }
+        public decimal discount { get; set; }
 
         public Status status { get; set; }
         public Client client { get; set; }
         public List<Product> products { get; set; }
+        //public List<OrderProducts> orderProducts { get; set; }
 
         public Order()
         {

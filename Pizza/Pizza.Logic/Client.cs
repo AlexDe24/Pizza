@@ -21,7 +21,7 @@ namespace Pizza.Logic
         public string address { get; set; } //номер телефона
         [Required]
         public string phone { get; set; } //номер телефона
-        public double discount { get; set; } //номер телефона
+        public decimal discount { get; set; } //скидка
 
         public List<Order> order { get; set; }
     }

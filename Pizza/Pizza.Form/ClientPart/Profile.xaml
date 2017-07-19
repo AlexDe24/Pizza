@@ -41,7 +41,7 @@
             <Label Content ="Адрес: " Name="Address" Height="25"/>
             <Label Content ="Номер телефона: " Name="Phone" Height="25"/>
             <Label Content ="Дата рождения: " Name="BirthDate" Height="25"/>
-            <Label Content ="Скидочные баллы: " Name="Discount" Height="25"/>
+            <Label Content ="Скидочные баллы: " Name="Discount" Height="25" ToolTip="Вам будет начисляться 3% с каждого заказа."/>
         </StackPanel>
         
         <StackPanel Grid.Column="2" Grid.Row="0" Name="ProfilePanel" Visibility="Hidden">

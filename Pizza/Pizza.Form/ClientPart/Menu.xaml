@@ -30,11 +30,6 @@
                         <Image Source="/Pizza.Form;component/Resources/Profile.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Акции" Click="MenuItem_Click">
-                    <MenuItem.Icon>
-                        <Image Source="/Pizza.Form;component/Resources/Sale.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
                 <Separator/>
                 <MenuItem Header="Выйти" Click="MenuItem_Click">
                     <MenuItem.Icon>

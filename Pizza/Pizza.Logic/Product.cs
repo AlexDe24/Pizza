@@ -13,10 +13,11 @@ namespace Pizza.Logic
         [Required]
         public string name { get; set; }
         [Required]
-        public double price { get; set; }
+        public decimal price { get; set; }
 
         public Category category { get; set; }
         public List<Order> order { get; set; }
+        //public List<OrderProducts> orderProducts { get; set; }
 
         public Product()
         {

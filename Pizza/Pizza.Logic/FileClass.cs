@@ -82,14 +82,14 @@ namespace Pizza.Logic
         .FirstOrDefault();
 
             //Обновление профиля
-            clientRedact.name = client.name;
+            /*clientRedact.name = client.name;
             clientRedact.surname = client.surname;
             clientRedact.middlename = client.middlename;
             clientRedact.password = client.password;
 
             clientRedact.birthDate = client.birthDate;
 
-            clientRedact.address = client.address;
+            clientRedact.address = client.address;*/
             clientRedact.phone = client.phone;
 
             _BaseCt.SaveChanges();

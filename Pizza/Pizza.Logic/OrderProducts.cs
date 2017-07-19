@@ -17,12 +17,12 @@ namespace Pizza.Logic
         [Key, ForeignKey("Product")]
         public int productID { get; set; }
 
-        public int quantity { get; set; }
+        public int count { get; set; }
 
         // Ссылка на заказ
-        public Order order { get; set; }
+        public List<Order> order { get; set; }
 
         // Ссылка на товар
-        public Product product { get; set; }
+        public List<Product> product { get; set; }
     }
 }

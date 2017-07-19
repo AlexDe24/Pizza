@@ -318,9 +318,9 @@ namespace Pizza.Form
         /// <summary>
         /// Обновление значения общей суммы
         /// </summary>
-        double SumUpdate()
+        decimal SumUpdate()
         {
-            double sum = 0;
+            decimal sum = 0;
 
             for (int i = 0; i < _order.products.Count; i++)
             {
@@ -380,7 +380,7 @@ namespace Pizza.Form
                 _order.status = status[0];
 
                 _order.date = DateTime.Now;
-                _order.client.discount += SumUpdate() * 0.03;
+                _order.client.discount += SumUpdate() * 0.03m;
 
                 _fileWork.AddOrder(_order);
 

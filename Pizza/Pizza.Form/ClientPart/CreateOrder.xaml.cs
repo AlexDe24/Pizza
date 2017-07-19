@@ -21,9 +21,9 @@ namespace Pizza.Form
     public partial class CreateOrder : Window
     {
         public Order _order;
-        double _sum;
+        decimal _sum;
 
-        public CreateOrder(Order order, double sum)
+        public CreateOrder(Order order, decimal sum)
         {
             InitializeComponent();
 
@@ -38,7 +38,7 @@ namespace Pizza.Form
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
             if (Discount.Text != "")
-                _order.discount = Convert.ToDouble(Discount.Text);
+                _order.discount = Convert.ToDecimal(Discount.Text);
             else
                 _order.discount = 0;
 
@@ -57,10 +57,10 @@ namespace Pizza.Form
         {
             if (Discount.Text != "")
             {
-                if (Convert.ToDouble(Discount.Text) > _order.client.discount)
+                if (Convert.ToDecimal(Discount.Text) > _order.client.discount)
                     Discount.Text = Convert.ToString(_order.client.discount);
 
-                if (Convert.ToDouble(Discount.Text) > _sum)
+                if (Convert.ToDecimal(Discount.Text) > _sum)
                     Discount.Text = Convert.ToString(_sum);
             }
         }

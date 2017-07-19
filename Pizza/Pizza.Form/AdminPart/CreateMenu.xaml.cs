@@ -47,7 +47,6 @@ namespace Pizza.Form
             MenuBox.Items.Clear();
 
             _products = _fileWork.ReadProducts();
-
             _products.Sort((a, b) => a.category.name.CompareTo(b.category.name));
 
             for (int i = 0; i < _products.Count; i++)
@@ -58,31 +57,37 @@ namespace Pizza.Form
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-
-            _product.name = Name.Text;
-            _product.category = _category.Where(x => x.name == Category.Text).FirstOrDefault();
-            _product.price = Convert.ToDouble(Price.Text);
-
-            if (_product.name == "" || _product.category == null)
-                MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
-            else
+            try
             {
-                Name.Text = "";
-                Category.Text = "";
-                Price.Text = "";
+                _product.name = Name.Text;
+                _product.category = _category.Where(x => x.name == Category.Text).FirstOrDefault();
+                _product.price = Convert.ToDecimal(Price.Text);
 
-                try
+                if (_product.name == "" || _product.category == null)
+                    MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
+                else
                 {
-                    _fileWork.RedactProduct(_product);
-                }
-                catch (Exception)
-                {
-                    _fileWork.AddProduct(_product);
-                }
+                    Name.Text = "";
+                    Category.Text = "";
+                    Price.Text = "";
 
-                MenuBoxUpdate();
+                    try
+                    {
+                        _fileWork.RedactProduct(_product);
+                    }
+                    catch (Exception)
+                    {
+                        _fileWork.AddProduct(_product);
+                    }
 
+                    MenuBoxUpdate();
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Неверный формат строки!", "Внимание!");
+            }
+            
         }
 
         private void DelProduct_Click(object sender, RoutedEventArgs e)
@@ -110,7 +115,7 @@ namespace Pizza.Form
 
                 _product.name = Name.Text;
                 _product.category.name = Category.Text;
-                _product.price = Convert.ToDouble(Price.Text);
+                _product.price = Convert.ToDecimal(Price.Text);
             }
         }
 
