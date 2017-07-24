@@ -90,6 +90,9 @@
     <Compile Include="ClientPart\Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientPart\ShortOrderInfo.xaml.cs">
+      <DependentUpon>ShortOrderInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClientPart\Сomment.xaml.cs">
       <DependentUpon>Сomment.xaml</DependentUpon>
     </Compile>
@@ -99,7 +102,7 @@
     <Compile Include="ClientPart\Confirmation.xaml.cs">
       <DependentUpon>Confirmation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminPart\OrderInfo.xaml.cs">
+    <Compile Include="OrderInfo.xaml.cs">
       <DependentUpon>OrderInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientPart\CreateOrder.xaml.cs">
@@ -179,6 +182,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ClientPart\ShortOrderInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ClientPart\Сomment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,7 +194,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminPart\OrderInfo.xaml">
+    <Page Include="OrderInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

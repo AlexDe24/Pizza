@@ -21,15 +21,37 @@ namespace Pizza.Form
     public partial class OrderInfo : Window
     {
         Order _order;
+        List<Product> _products;
 
-        public OrderInfo(Order order)
+        public OrderInfo(Order order, FileClass _fileWork)
         {
             InitializeComponent();
 
             _order = order;
+            _products = _fileWork.ReadProducts();
 
-            OrderListParam();
             LoadOrder();
+        }
+
+        void LoadOrder()
+        {
+            OrderListParam();
+
+            for (int i = 0; i < _order.orderProducts.Count; i++)
+            {
+                CreateProducts(_order.orderProducts[i]);
+            }
+
+            decimal sum = 0;
+
+            for (int i = 0; i < _order.orderProducts.Count; i++)
+            {
+                sum += _order.orderProducts[i].countProducts * _products.Where(x => x.id == _order.orderProducts[i].productID).FirstOrDefault().price;
+            }
+
+            Price.Text += sum;
+            Discount.Text += _order.discount;
+            FullPrice.Text += sum - _order.discount;
         }
 
         /// <summary>
@@ -43,7 +65,7 @@ namespace Pizza.Form
             Label name = new Label()
             {
                 Content = "Название",
-                Width = 110
+                Width = 130
             };
             Label prise = new Label()
             {
@@ -53,7 +75,7 @@ namespace Pizza.Form
             Label count = new Label()
             {
                 Content = "Кол-во",
-                Width = 30
+                Width = 50
             };
             Label fullPrise = new Label()
             {
@@ -69,65 +91,33 @@ namespace Pizza.Form
             OrderList.Items.Add(panel);
         }
 
-        void LoadOrder()
-        {
-            for (int i = 0; i < _order.products.Count; i++)
-            {
-                if (_order.products.Any(x => x.name == OrderList.Items[i]))
-                    AddProduct(_order.products[i]);
-                else
-                    CreateProduct(_order.products[i]);
-            }
-        }
-
-        /// <summary>
-        /// Добавление продукта в заказ к уже имеющимся
-        /// </summary>
-        /// <param name="chooseProduct"></param>
-        void AddProduct(Product chooseProduct)
-        {
-            for (int i = 0; i < OrderList.Items.Count; i++)
-            {
-                Label nameLabel = ((OrderList.Items[i] as StackPanel).Children[0] as Label);
-                Label priseLabel = ((OrderList.Items[i] as StackPanel).Children[1] as Label);
-                Label countLabel = ((OrderList.Items[i] as StackPanel).Children[2] as Label);
-                Label fullPriseLabel = ((OrderList.Items[i] as StackPanel).Children[3] as Label);
-
-                if (nameLabel.Content == chooseProduct.name)
-                {
-                    countLabel.Content = Convert.ToInt32(countLabel.Content) + 1;
-                    fullPriseLabel.Content = Convert.ToInt32(priseLabel.Content) * Convert.ToInt32(countLabel.Content);
-                }
-            }
-        }
-
         /// <summary>
         /// Добавление продукта в заказ 
         /// </summary>
         /// <param name="chooseProduct"></param>
-        void CreateProduct(Product chooseProduct)
+        void CreateProducts(OrderProducts orderProd)
         {
             StackPanel panel = new StackPanel();
             panel.Orientation = Orientation.Horizontal;
 
             Label name = new Label()
             {
-                Content = chooseProduct.name,
-                Width = 110
+                Content = _products.Where(x => x.id == orderProd.productID).FirstOrDefault().name,
+                Width = 130
             };
             Label prise = new Label()
             {
-                Content = chooseProduct.price,
+                Content = _products.Where(x => x.id == orderProd.productID).FirstOrDefault().price,
                 Width = 50
             };
             Label count = new Label()
             {
-                Content = "1",
-                Width = 30
+                Content = orderProd.countProducts,
+                Width = 50
             };
             Label fullPrise = new Label()
             {
-                Content = chooseProduct.price,
+                Content = _products.Where(x => x.id == orderProd.productID).FirstOrDefault().price * orderProd.countProducts,
                 Width = 50
             };
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Профиль" Height="350" Width="500" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Профиль" Height="350" Width="550" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFF9F379" Offset="0"/>
@@ -21,19 +21,18 @@
             <ColumnDefinition Width="1.4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        
 
         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" ShowsPreview="False" Height="3"
          HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Name="ControlPanel1" Margin="25,0,25,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" Name="ControlPanel1" Margin="25,0,25,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Template="{DynamicResource ButtonOwal}" Name ="MyOrders" Content="Мои заказы" Margin="10" VerticalAlignment="Top" Background="White" Height="25" FontFamily="Times New Roman" Width="100" Click="MyOrders_Click"/>
             <Button Template="{DynamicResource ButtonOwal}" Name ="Edit" Content="Редактировать" Margin="10" VerticalAlignment="Top" Click="Edit_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
-            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="10" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100"/>
-        </StackPanel>
-
-        <StackPanel Grid.Column="2" Grid.Row="1" Name="ControlPanel2" Margin="25,0,25,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Template="{DynamicResource ButtonOwal}" Name ="EditPassword" Content="Сменить пароль" Margin="10" VerticalAlignment="Top" Click="EditPassword_Click" Background="White" Height="25" FontFamily="Times New Roman" Width="100" Visibility="Hidden"/>
             <Button Template="{DynamicResource ButtonOwal}" Name ="Del" Content="Удалить профиль" Margin="10" VerticalAlignment="Top" Background="White" Height="25" FontFamily="Times New Roman" Width="100" Click="Del_Click"/>
         </StackPanel>
-        
+
         <StackPanel  Grid.Column="0" Grid.Row="0" Name="ProfilePanelLabel" >
             <Label Content ="Фамилия: " Name="Surname" Height="25"/>
             <Label Content ="Имя: " Name="Name" Height="25"/>
@@ -57,13 +56,13 @@
             </DockPanel>
         </StackPanel>
         
-        <StackPanel  Grid.Column="0" Grid.Row="1" Name="PasswordPanelLabel" Visibility="Visible">
+        <StackPanel  Grid.Column="0" Grid.Row="1" Name="PasswordPanelLabel" Visibility="Hidden">
             <Label Content="Введите старый пароль:" Height="25"/>
             <Label Content="Введите новый пароль:" Height="25"/>
             <Label Content="Введите пароль повторно:" Height="25"/>
         </StackPanel>
         
-        <StackPanel  Grid.Column="1" Grid.Row="1" Name="PasswordPanel" Visibility="Visible">
+        <StackPanel  Grid.Column="1" Grid.Row="1" Name="PasswordPanel" Visibility="Hidden">
             <PasswordBox Height="25" Name="PasswordOld"/>
             <PasswordBox Height="25" Name="PasswordOrig"/>
             <PasswordBox Height="25" Name="PasswordControl"/>

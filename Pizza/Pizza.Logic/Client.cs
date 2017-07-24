@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pizza.Logic
 {
@@ -16,6 +13,7 @@ namespace Pizza.Logic
         public string surname { get; set; }
         public string middlename { get; set; }
         public string password { get; set; } //пароль
+        [Required]
         public DateTime birthDate { get; set; } //день рождения
         [Required]
         public string address { get; set; } //номер телефона

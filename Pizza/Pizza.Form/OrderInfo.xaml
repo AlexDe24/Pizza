@@ -5,14 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="OrderInfo" Height="400" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Информация о заказе" Height="400" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <ListBox x:Name="OrderList" Margin="10"/>
-        
+
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Name="Price">Цена заказа:</TextBlock>
+            <TextBlock Name="Discount">Оплата баллами:</TextBlock>
+            <TextBlock Name="FullPrice">Конечная цена:</TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

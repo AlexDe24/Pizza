@@ -20,19 +20,23 @@ namespace Pizza.Form
     /// </summary>
     public partial class CreateOrder : Window
     {
-        public Order _order;
+        Client _client;
+        Order _order;
         decimal _sum;
 
-        public CreateOrder(Order order, decimal sum)
+        public CreateOrder(Order order, decimal sum, Client client)
         {
             InitializeComponent();
 
+            Confirm.Focus();
+
             _order = order;
             _sum = sum;
+            _client = client;
 
-            ClientDiscount.Text += Convert.ToString(_order.client.discount);
-            Address.Text = _order.client.address;
-            Phone.Text = _order.client.phone;
+            ClientDiscount.Text += Convert.ToString(_client.discount);
+            Address.Text = _client.address;
+            Phone.Text = _client.phone;
         }
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
@@ -44,7 +48,7 @@ namespace Pizza.Form
 
             _order.phone = Phone.Text;
             _order.address = Address.Text;
-            _order.client.discount -= _order.discount;
+            _client.discount -= _order.discount;
             DialogResult = true;
         }
 
@@ -57,8 +61,8 @@ namespace Pizza.Form
         {
             if (Discount.Text != "")
             {
-                if (Convert.ToDecimal(Discount.Text) > _order.client.discount)
-                    Discount.Text = Convert.ToString(_order.client.discount);
+                if (Convert.ToDecimal(Discount.Text) > _client.discount)
+                    Discount.Text = Convert.ToString(_client.discount);
 
                 if (Convert.ToDecimal(Discount.Text) > _sum)
                     Discount.Text = Convert.ToString(_sum);

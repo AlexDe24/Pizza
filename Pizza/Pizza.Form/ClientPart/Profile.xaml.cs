@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pizza.Logic;
 using System.Data.Entity.Validation;
+using Pizza.Form.ClientPart;
 
 namespace Pizza.Form
 {
@@ -21,6 +22,7 @@ namespace Pizza.Form
     /// </summary>
     public partial class Profile : Window
     {
+        ShortOrderInfo shortOrderInfo;
         Confirmation _confirmation; //форма для подтвержения удаления 
         Client _client; //клиент
         FileClass _fileWork; //класс работы с файлами
@@ -105,6 +107,7 @@ namespace Pizza.Form
 
             FillingСhange();
             ProfilePanel.Visibility = Visibility.Visible;
+            EditPassword.Visibility = Visibility.Visible;
 
             Edit.Click -= Edit_Click;
             Edit.Click += Save_Click;
@@ -205,6 +208,12 @@ namespace Pizza.Form
                 Application.Current.Shutdown();
             else
                 Close();
+        }
+
+        private void MyOrders_Click(object sender, RoutedEventArgs e)
+        {
+            shortOrderInfo = new ShortOrderInfo(_fileWork, _client);
+            shortOrderInfo.Show();
         }
     }
 }

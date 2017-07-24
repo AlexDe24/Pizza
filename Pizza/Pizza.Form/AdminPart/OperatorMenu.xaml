@@ -6,24 +6,22 @@
         xmlns:local="clr-namespace:Pizza.Form"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Список заказов" Height="400" Width="800" WindowStartupLocation="CenterScreen" MinWidth="492">
+        Title="Список заказов" Height="400" Width="650" WindowStartupLocation="CenterScreen" MinWidth="492">
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="2.2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <ListView Name="OrdersList" SelectionChanged="OrdersList_SelectionChanged" MouseDoubleClick="OrdersList_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=id}"></GridViewColumn>
+                        <GridViewColumn Width="50" Header="Номер" DisplayMemberBinding="{Binding Path=nom}"></GridViewColumn>
                         <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
                         <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
                         <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
-                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=fullPrice}"></GridViewColumn>
-                        <GridViewColumn Header="Оплата баллами" DisplayMemberBinding="{Binding Path=discount}"></GridViewColumn>
                         <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=status.name}"></GridViewColumn>
                     </GridView.Columns>
                 </GridView>

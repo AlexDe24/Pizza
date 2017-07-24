@@ -82,14 +82,14 @@ namespace Pizza.Logic
         .FirstOrDefault();
 
             //Обновление профиля
-            /*clientRedact.name = client.name;
+            clientRedact.name = client.name;
             clientRedact.surname = client.surname;
             clientRedact.middlename = client.middlename;
             clientRedact.password = client.password;
 
             clientRedact.birthDate = client.birthDate;
 
-            clientRedact.address = client.address;*/
+            clientRedact.address = client.address;
             clientRedact.phone = client.phone;
 
             _BaseCt.SaveChanges();
@@ -124,8 +124,7 @@ namespace Pizza.Logic
         {
             Client clientDel = _BaseCt.Clients.Where(c => c.login == client.login).FirstOrDefault();
 
-            _BaseCt.Orders.RemoveRange(ReadOrders().Where(x => x.client == clientDel));
-
+            _BaseCt.Orders.RemoveRange(ReadOrders().Where(x => x.clientId == clientDel.id));
             _BaseCt.Clients.Remove(clientDel);
 
             _BaseCt.SaveChanges();
@@ -212,8 +211,7 @@ namespace Pizza.Logic
 
             orders = _BaseCt.Orders
                 .Include(p => p.status)
-                .Include(p => p.client)
-                .Include(p => p.products)
+                .Include(p => p.orderProducts)
                 .ToList();
 
             ReadCategory();
@@ -243,22 +241,6 @@ namespace Pizza.Logic
             return category;
         }
 
-        /// <summary>
-        /// Создание списка категорий
-        /// </summary>
-        public void AddCategory(string[] categ)
-        {
-            List<Category> category = new List<Category>();
-
-            for (int i = 0; i < categ.Length; i++)
-            {
-                category.Add(new Category { name = categ[i] });
-                _BaseCt.Category.Add(category[i]);
-            }
-            
-            _BaseCt.SaveChanges();
-        }
-
         //
         //Работа с состояниями
         //
@@ -270,22 +252,6 @@ namespace Pizza.Logic
             List<Status> status = _BaseCt.Statuses.ToList();
 
             return status;
-        }
-
-        /// <summary>
-        /// Создание списка состояний
-        /// </summary>
-        public void AddStatus(string[] stat)
-        {
-            List<Status> status = new List<Status>();
-
-            for (int i = 0; i < stat.Length; i++)
-            {
-                status.Add(new Status { name = stat[i] });
-                _BaseCt.Statuses.Add(status[i]);
-            }
-            
-            _BaseCt.SaveChanges();
         }
     }
 }

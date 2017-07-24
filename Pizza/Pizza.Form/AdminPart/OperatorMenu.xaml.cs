@@ -115,7 +115,7 @@ namespace Pizza.Form
         {
             if (OrdersList.SelectedIndex > -1)
             {
-                _orderInfo = new OrderInfo(_orders[OrdersList.SelectedIndex]);
+                _orderInfo = new OrderInfo(_orders[OrdersList.SelectedIndex], _fileWork);
                 _orderInfo.Show();
             }
         }

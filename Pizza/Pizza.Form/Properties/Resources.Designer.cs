@@ -88,15 +88,6 @@ namespace Pizza.Form.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Пицца,Закуски,Напитки,Суши.
-        /// </summary>
-        public static string Category {
-            get {
-                return ResourceManager.GetString("Category", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Номер для связи: 88008552020.
         /// </summary>
         public static string Connection {
@@ -201,15 +192,6 @@ namespace Pizza.Form.Properties {
             get {
                 object obj = ResourceManager.GetObject("Screen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Получен,В очереди,Готовится,В пути,Доставлен.
-        /// </summary>
-        public static string Status {
-            get {
-                return ResourceManager.GetString("Status", resourceCulture);
             }
         }
         

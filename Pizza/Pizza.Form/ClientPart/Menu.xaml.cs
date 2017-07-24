@@ -22,15 +22,16 @@ namespace Pizza.Form
     /// </summary>
     public partial class Menu : Window
     {
-        CreateOrder _createOrder;
-        Сomment _comment;
-        Info _info;
-        Browser _browser;
-        Profile _profile;
-        Access _accessForm;
-        FileClass _fileWork;
-        Order _order;
-        List<Product> _products;
+        CreateOrder _createOrder;//форма завершения оформления заказа
+        Сomment _comment;//форма отзыва
+        Info _info;//форма информации
+        Browser _browser;//форма браузера
+        Profile _profile;//форма профиля
+        Access _accessForm;//форма входа
+        FileClass _fileWork;//класс работы с файлами
+        Client _client;//класс клиента
+        Order _order;//класс заказа
+        List<Product> _products;//класс продуктов
 
 
         public Menu(Client client, FileClass fileWork, Access accessForm)
@@ -40,9 +41,12 @@ namespace Pizza.Form
             _accessForm = accessForm;
             _fileWork = fileWork;
 
-            _order = new Order();
+            _client = client;
 
-            _order.client = client;
+            _order = new Order();
+            _order.orderProducts = new List<OrderProducts>();
+            _order.clientId = _client.id;
+
             _products = new List<Product>();
 
             OrderListParam();
@@ -58,7 +62,11 @@ namespace Pizza.Form
             //Чтение списка продуктов
             _products = _fileWork.ReadProducts();
 
-            //Заполнение категорий
+            List<Category> _category = _fileWork.ReadCategory();
+
+            CategoryTreeView.ItemsSource = _category;
+
+           /* //Заполнение категорий
             List<string> category = new List<string>();
 
             for (int i = 0; i < _products.Count; i++)
@@ -67,42 +75,14 @@ namespace Pizza.Form
                     category.Add(_products[i].category.name);
             }
 
+            
+
             for (int i = 0; i < category.Count; i++)
             {
-                TabItem categoryTab = new TabItem();
+                TreeViewItem categoryTab = new TreeViewItem();
                 categoryTab.Header = category[i];
-
-                CategoryTabControl.Items.Add(categoryTab);
-
-                ListBox productsList = new ListBox();
-
-                productsList.MouseDoubleClick += Add_Click;
-
-                TextBlock Name = new TextBlock()
-                {
-                    Foreground = new SolidColorBrush(Colors.DarkSalmon),
-                    Text = "Наименование",
-                    Height = 20,
-                    Width = 200,
-                };
-
-                TextBlock Prise = new TextBlock()
-                {
-                    Foreground = new SolidColorBrush(Colors.DarkSalmon),
-                    Text = "Цена",
-                    Height = 20,
-                };
-
-                StackPanel panel = new StackPanel()
-                {
-                    Orientation = Orientation.Horizontal,
-                    Width = 300,
-                };
-
-                panel.Children.Add(Name);
-                panel.Children.Add(Prise);
-
-                productsList.Items.Add(panel);
+                
+                CategoryTreeView.Items.Add(categoryTab);
 
                 for (int j = 0; j < _products.Count; j++)
                 {
@@ -124,18 +104,16 @@ namespace Pizza.Form
                         StackPanel product = new StackPanel()
                         {
                             Orientation = Orientation.Horizontal,
-                            Width = 300,
+                            Width = 260,
                         };
 
                         product.Children.Add(productName);
                         product.Children.Add(productPrise);
 
-                        productsList.Items.Add(product);
+                        categoryTab.Items.Add(product);
                     }
                 }
-
-                categoryTab.Content = productsList;
-            }           
+            }    */
         }
 
         /// <summary>
@@ -177,19 +155,14 @@ namespace Pizza.Form
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if ((CategoryTabControl.SelectedContent as ListBox).SelectedIndex > 0)
+            if (CategoryTreeView.SelectedItem != null)
             {
-                string ChooseName = (((CategoryTabControl.SelectedContent as ListBox).SelectedItem as StackPanel).Children[0] as TextBlock).Text;
+                Product chooseProduct = CategoryTreeView.SelectedItem as Product;
 
-                Product chooseProduct;
-                chooseProduct = _products.Where(x => x.name == ChooseName).First();
-
-                if (_order.products.Any(x => x.name == chooseProduct.name))
+                if (_order.orderProducts.Any(x => x.productID == chooseProduct.id))
                     AddProduct(chooseProduct);
                 else
                     CreateProduct(chooseProduct);
-
-                _order.products.Add(chooseProduct);
             }
 
             SumUpdate();
@@ -212,6 +185,19 @@ namespace Pizza.Form
                 {
                     countLabel.Content = Convert.ToInt32(countLabel.Content) + 1;
                     fullPriseLabel.Content = Convert.ToInt32(priseLabel.Content) * Convert.ToInt32(countLabel.Content);
+
+                    OrderProducts orderProd = new OrderProducts
+                    {
+                        orderID = _order.id,
+                        productID = chooseProduct.id,
+                        countProducts = Convert.ToInt32(countLabel.Content)
+                    };
+
+                    for (int j = 0; j < _order.orderProducts.Count; j++)
+                    {
+                        if (_order.orderProducts[j].productID == chooseProduct.id)
+                            _order.orderProducts[j] = orderProd;
+                    }
                 }
             }
         }
@@ -252,6 +238,15 @@ namespace Pizza.Form
             panel.Children.Add(fullPrise);
 
             OrderList.Items.Add(panel);
+
+            OrderProducts orderProd = new OrderProducts
+            {
+                orderID = _order.id,
+                productID = chooseProduct.id,
+                countProducts = 1
+            };
+
+            _order.orderProducts.Add(orderProd);
         }
 
         /// <summary>
@@ -260,21 +255,26 @@ namespace Pizza.Form
         void DelItemOne()
         {
             if (OrderList.SelectedIndex > 0)
-                for (int i = 0; i < _order.products.Count; i++)
+                for (int i = 0; i < _order.orderProducts.Count; i++)
                 {
                     Label nameLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label);
                     Label priseLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[1] as Label);
                     Label countLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[2] as Label);
                     Label fullPriseLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[3] as Label);
 
-                    if (_order.products[i].name == nameLabel.Content)
+                    Product chooseProduct = _products.Where(x => x.name == nameLabel.Content).First();
+
+                    if (_order.orderProducts[i].productID == chooseProduct.id)
                     {
-                        _order.products.RemoveAt(i);
 
                         if (Convert.ToInt32(countLabel.Content) == 1)
+                        {
+                            _order.orderProducts.RemoveAt(i);
                             OrderList.Items.RemoveAt(OrderList.SelectedIndex);
+                        }
                         else
                         {
+                            _order.orderProducts[i].countProducts--;
                             countLabel.Content = Convert.ToInt32(countLabel.Content) - 1;
                             fullPriseLabel.Content = Convert.ToInt32(priseLabel.Content) * Convert.ToInt32(countLabel.Content);
                         }
@@ -292,7 +292,10 @@ namespace Pizza.Form
         {
             if (OrderList.SelectedIndex > 0)
             {
-                _order.products.RemoveAll(x => x.name == ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label).Content);
+                Product chooseProduct = _products.Where(x => x.name == ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label).Content).First();
+
+                _order.orderProducts.RemoveAll(x => x.productID == chooseProduct.id);
+
                 OrderList.Items.RemoveAt(OrderList.SelectedIndex);
             }
 
@@ -322,9 +325,9 @@ namespace Pizza.Form
         {
             decimal sum = 0;
 
-            for (int i = 0; i < _order.products.Count; i++)
+            for (int i = 0; i < _order.orderProducts.Count; i++)
             {
-                sum += _order.products[i].price;
+                sum += _order.orderProducts[i].countProducts * _products.Where(x => x.id == _order.orderProducts[i].productID).FirstOrDefault().price;
             }
             Sum.Content = "Сумма заказа: " + Convert.ToString(sum);
 
@@ -348,7 +351,7 @@ namespace Pizza.Form
                     _browser.Show();
                     break;
                 case "Профиль":
-                    _profile = new Profile(_order.client, 0);
+                    _profile = new Profile(_client, 0);
                     _profile.Visibility = Visibility.Visible;
                     break;
                 case "О нас":
@@ -372,7 +375,7 @@ namespace Pizza.Form
 
         private void CreateOrder_Click(object sender, RoutedEventArgs e)
         {
-            _createOrder = new CreateOrder(_order, SumUpdate());
+            _createOrder = new CreateOrder(_order, SumUpdate(), _client);
 
             if (_createOrder.ShowDialog() == true)
             {
@@ -380,16 +383,40 @@ namespace Pizza.Form
                 _order.status = status[0];
 
                 _order.date = DateTime.Now;
-                _order.client.discount += SumUpdate() * 0.03m;
+                _client.discount += SumUpdate() * 0.03m;
+
+                int lastNom = _fileWork.ReadOrders().Select(x => x.nom).LastOrDefault();
+
+                if (lastNom == 300)
+                    _order.nom = 0;
+                else
+                    _order.nom = lastNom + 1;
 
                 _fileWork.AddOrder(_order);
 
                 OrderList.Items.Clear();
-                _order.products.Clear();
+                _order.orderProducts.Clear();
                 SumUpdate();
+
+                OrderListParam();
 
                 MessageBox.Show("Ваш заказ принят. Ожидайте, пожалуйста.");
             }
+        }
+
+        private void AddOne_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderList.SelectedIndex > 0)
+                AddProduct(_products.Where(x => x.name == ((OrderList.SelectedItem as StackPanel).Children[0] as Label).Content).FirstOrDefault());
+        }
+
+        private void DelAll_Click(object sender, RoutedEventArgs e)
+        {
+            OrderList.Items.Clear();
+            _order.orderProducts.Clear();
+            SumUpdate();
+
+            OrderListParam();
         }
     }
 }

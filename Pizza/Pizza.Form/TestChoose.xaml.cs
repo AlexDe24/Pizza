@@ -22,18 +22,10 @@ namespace Pizza.Form
     {
         Access _accessClient;
         OperatorMenu _operatorMenu;
-        FileClass _fileWork;
-        
+  
         public TestChoose()
         {
             InitializeComponent();
-
-            _fileWork = new FileClass();
-            if (_fileWork.ReadCategory().Count == 0)
-            {
-                _fileWork.AddCategory(Properties.Resources.Category.Split(','));
-                _fileWork.AddStatus(Properties.Resources.Status.Split(','));
-            }
         }
 
         private void Operator_Click(object sender, RoutedEventArgs e)
@@ -46,6 +38,10 @@ namespace Pizza.Form
         {
             _accessClient = new Access();
             _accessClient.Show();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
         }
     }
 }
