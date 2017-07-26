@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Создание меню" Height="400" Width="500" WindowStartupLocation="CenterScreen">
+        Title="Создание меню" Height="400" Width="550" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -22,15 +22,19 @@
 
         <GroupBox BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" Header="Добавление нового блюда">
             <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Width="150">
+                <StackPanel Width="130">
                     <Label Content="Название"/>
                     <TextBox Name="Name" Height="25"/>
                 </StackPanel>
-                <StackPanel Width="150">
+                <StackPanel Width="130">
+                    <Label Content="Тип"/>
+                    <ComboBox Name="CategoryMain" Height="25" SelectionChanged="CategoryMain_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Width="130">
                     <Label Content="Категория"/>
                     <ComboBox Name="Category" Height="25"/>
                 </StackPanel>
-                <StackPanel Width="60">
+                <StackPanel Width="70">
                     <Label Content="Цена"/>
                     <TextBox Name="Price" Height="25"/>
                 </StackPanel>
@@ -49,6 +53,7 @@
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
+                            <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding Path=category.parentCategory.name}"></GridViewColumn>
                             <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=category.name}"></GridViewColumn>
                             <GridViewColumn Header="Цена" DisplayMemberBinding="{Binding Path=price}"></GridViewColumn>
                         </GridView.Columns>

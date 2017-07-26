@@ -61,11 +61,11 @@ namespace Pizza.Logic.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Пицца,Закуски,Напитки,Суши.
+        ///   Ищет локализованную строку, похожую на Пицца|Мясная,Вегетарианская.Сэндвичи|Чизбургер,Гамбургер,Панини.Напитки|Газированные,Негазированные.Морепродукты|Суши,Роллы.
         /// </summary>
-        internal static string Category {
+        internal static string CategoryMain {
             get {
-                return ResourceManager.GetString("Category", resourceCulture);
+                return ResourceManager.GetString("CategoryMain", resourceCulture);
             }
         }
         

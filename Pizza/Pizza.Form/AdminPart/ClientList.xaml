@@ -5,28 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pizza.Form"
         mc:Ignorable="d"
-        Title="Список клиентов" Height="300" Width="850" WindowStartupLocation="CenterScreen">
+        Title="Список клиентов" Height="300" Width="750" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
-        <ListView Name="ClientBox">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=name}"></GridViewColumn>
-                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Path=surname}"></GridViewColumn>
-                        <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Path=middlename}"></GridViewColumn>
-                        <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding Path=birthDate , StringFormat=dd:MM:yyyy}"></GridViewColumn>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
-                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Background="LightGray">
+                <Image Height="20"  Width="20" Source="/Pizza.Form;component/Resources/Find.png" />
+                <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left" KeyUp="Find_KeyUp" />
+            </StackPanel>
+
+            <ListView Grid.Row="1" Name="ClientListView" Background="{x:Null}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=name}">
+                                <GridViewColumnHeader Name="Name" Click="ClientListSort" Content="Имя"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=surname}">
+                                <GridViewColumnHeader Name="Surname" Click="ClientListSort" Content="Фамилия"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=middlename}">
+                                <GridViewColumnHeader Name="Middlename" Click="ClientListSort" Content="Отчество"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=birthDate , StringFormat=dd.MM.yyyy}">
+                                <GridViewColumnHeader Name="Date" Click="ClientListSort" Content="Дата рождения"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=address}">
+                                <GridViewColumnHeader Name="Address" Click="ClientListSort" Content="Адрес"/>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
 
 
         <StackPanel Grid.Column="1" Margin="5">
@@ -34,6 +57,6 @@
             <Button Name="RedactClient" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Редактировать пользователя" Click="RedactClient_Click"/>
             <Button Name="RegistClient" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Зарегистрировать пользователя" Click="RegistClient_Click"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>

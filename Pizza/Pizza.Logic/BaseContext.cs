@@ -12,15 +12,30 @@ namespace Pizza.Logic
             protected override void Seed(BaseContext context)
             {
                 //Категории
-                string[] categoriesList = Properties.Resources.Category.Split(',');
-                List<Category> categories = new List<Category>();
+                string[] categoriesMain = Properties.Resources.CategoryMain.Split('.');
+                
+                List<Category> categoriesList = new List<Category>();
 
-                for (int i = 0; i < categoriesList.Length; i++)
+                for (int i = 0; i < categoriesMain.Length; i++)
                 {
-                    categories.Add(new Category { name = categoriesList[i] });
+                    categoriesList.Add(new Category { Name = categoriesMain[i].Split('|')[0] });
                 }
-               
-                foreach (Category category in categories)
+
+                for (int i = 0; i < categoriesMain.Length; i++)
+                {
+                    var categories = categoriesMain[i].Split('|');
+
+                    //categoriesList.Add(new Category { name = categories[0] });
+
+                    categories = categories[1].Split(',');
+
+                    for (int j = 0; j < categories.Length; j++)
+                    {
+                        categoriesList.Add(new Category { Name = categories[j], parentCategory = categoriesList[i]});
+                    }
+                }
+
+                foreach (Category category in categoriesList)
                     context.Category.Add(category);
 
                 //Состояния

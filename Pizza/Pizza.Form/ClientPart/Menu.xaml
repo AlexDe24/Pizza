@@ -17,7 +17,7 @@
             </Menu.Background>
 
             <MenuItem Header="Общее">
-                <MenuItem Header="Закрыть" Click="MenuItem_Click">
+                <MenuItem Header="Выход" Click="MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/Pizza.Form;component/Resources/Exit.png"/>
                     </MenuItem.Icon>
@@ -74,29 +74,21 @@
             <Grid Grid.Column="0">
 
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition Height="6*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="20"  Width="20" Source="/Pizza.Form;component/Resources/Find.png" />
+                    <ComboBox Name="Find" Height="20" Width="200" HorizontalAlignment="Left" IsEditable="True" />
+                    <Button Template="{DynamicResource ButtonOwal}" Content="Добавить" Height="20" Width="70" Margin="25,0" Click="Button_Click"></Button>
+                </StackPanel>
                 
-                <TreeView Name="CategoryTreeView">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=product}">
-                            <TextBlock Text="{Binding Path=name}"/>
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Path=name}" Width="120"></TextBlock>
-                                        <TextBlock Text="{Binding Path=price}"></TextBlock>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
+                <TreeView Grid.Row="1" Name="CategoryTreeView" ItemTemplate="{StaticResource categoryTemplate}" ItemsSource="{Binding category}"/>
 
-                <!--<TreeView Name="CategoryTreeVieww"/>-->
-
-                <Button Grid.Row="1"  Template="{DynamicResource ButtonOwal}" x:Name="Add" Margin="5" Width="120" Height="25" Click="Add_Click" Content="Добавить в заказ" HorizontalAlignment="Left"/>
+                <Button Grid.Row="2"  Template="{DynamicResource ButtonOwal}" x:Name="Add" Margin="5" Width="120" Height="25" Click="Add_Click" Content="Добавить в заказ" HorizontalAlignment="Left"/>
 
             </Grid>
 
@@ -108,7 +100,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Template="{DynamicResource ButtonOwal}" x:Name="AddOne" Margin="5" Width="25" Height="25" Content="+" Click="AddOne_Click"/>
                     <Button Template="{DynamicResource ButtonOwal}" x:Name="DelOne" Margin="5" Width="25" Height="25" Click="Del_Click" Content="-"/>
                     <Button Template="{DynamicResource ButtonOwal}" x:Name="DelFew" Margin="5" Width="25" Height="25" Click="Del_Click" Content="X"/>

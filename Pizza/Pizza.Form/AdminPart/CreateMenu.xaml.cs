@@ -34,9 +34,17 @@ namespace Pizza.Form
             _product = new Product();
             _category = _fileWork.ReadCategory();
 
-            for (int i = 0; i < _category.Count; i++)
+            var category = _category.Distinct();
+
+            for (int i = 1; i < _category.Count; i++)
             {
-                Category.Items.Add(_category[i].name);
+                if (_category[i].parentCategory != null)
+                    if (CategoryMain.Items.Count == 0)
+                    {
+                        CategoryMain.Items.Add(_category[i].parentCategory.Name);
+                    }
+                    else if (CategoryMain.Items[CategoryMain.Items.Count - 1] != _category[i].parentCategory.Name)
+                        CategoryMain.Items.Add(_category[i].parentCategory.Name);
             }
 
             MenuBoxUpdate();
@@ -47,7 +55,7 @@ namespace Pizza.Form
             MenuBox.Items.Clear();
 
             _products = _fileWork.ReadProducts();
-            _products.Sort((a, b) => a.category.name.CompareTo(b.category.name));
+            _products.Sort((a, b) => a.category.Name.CompareTo(b.category.Name));
 
             for (int i = 0; i < _products.Count; i++)
             {
@@ -60,7 +68,7 @@ namespace Pizza.Form
             try
             {
                 _product.name = Name.Text;
-                _product.category = _category.Where(x => x.name == Category.Text).FirstOrDefault();
+                _product.category = _category.Where(x => x.Name == Category.Text).FirstOrDefault();
                 _product.price = Convert.ToDecimal(Price.Text);
 
                 if (_product.name == "" || _product.category == null)
@@ -68,6 +76,7 @@ namespace Pizza.Form
                 else
                 {
                     Name.Text = "";
+                    //CategoryMain.Text = "";
                     Category.Text = "";
                     Price.Text = "";
 
@@ -87,7 +96,6 @@ namespace Pizza.Form
             {
                 MessageBox.Show("Неверный формат строки!", "Внимание!");
             }
-            
         }
 
         private void DelProduct_Click(object sender, RoutedEventArgs e)
@@ -107,17 +115,26 @@ namespace Pizza.Form
 
         private void MenuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MenuBox.SelectedIndex != -1)
-            {
-                Name.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).name;
-                Category.Text = (MenuBox.Items[MenuBox.SelectedIndex] as Product).category.name;
-                Price.Text = Convert.ToString((MenuBox.Items[MenuBox.SelectedIndex] as Product).price);
+            Name.Text = (MenuBox.SelectedItem as Product).name;
+            CategoryMain.Text = (MenuBox.SelectedItem as Product).category.parentCategory.Name;
+            Category.Text = (MenuBox.SelectedItem as Product).category.Name;
+            Price.Text = Convert.ToString((MenuBox.SelectedItem as Product).price);
 
-                _product.name = Name.Text;
-                _product.category.name = Category.Text;
-                _product.price = Convert.ToDecimal(Price.Text);
-            }
+            _product.name = Name.Text;
+            _product.category = (MenuBox.SelectedItem as Product).category;
+            _product.price = Convert.ToDecimal(Price.Text);
         }
 
+        private void CategoryMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Category.Items.Clear();
+
+            for (int i = 0; i < _category.Count; i++)
+            {
+                if (_category[i].parentCategory != null)
+                    if (_category[i].parentCategory.Name == CategoryMain.SelectedItem.ToString())
+                        Category.Items.Add(_category[i].Name);
+            }
+        }
     }
 }

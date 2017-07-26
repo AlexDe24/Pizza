@@ -52,6 +52,11 @@ namespace Pizza.Form
             OrderListParam();
 
             LoadProducts();
+
+            for (int i = 0; i < _products.Count; i++)
+            {
+                Find.Items.Add($"{_products[i].name} {_products[i].category.Name} {_products[i].price}");
+            }
         }
 
         /// <summary>
@@ -64,56 +69,11 @@ namespace Pizza.Form
 
             List<Category> _category = _fileWork.ReadCategory();
 
-            CategoryTreeView.ItemsSource = _category;
-
-           /* //Заполнение категорий
-            List<string> category = new List<string>();
-
-            for (int i = 0; i < _products.Count; i++)
+            for (int i = 0; i < _category.Count; i++)
             {
-                if (!category.Any(x => x == _products[i].category.name))
-                    category.Add(_products[i].category.name);
+                if (_category[i].parentCategory == null)
+                    CategoryTreeView.Items.Add(_category[i]);
             }
-
-            
-
-            for (int i = 0; i < category.Count; i++)
-            {
-                TreeViewItem categoryTab = new TreeViewItem();
-                categoryTab.Header = category[i];
-                
-                CategoryTreeView.Items.Add(categoryTab);
-
-                for (int j = 0; j < _products.Count; j++)
-                {
-                    if (category[i] == _products[j].category.name)
-                    {
-                        TextBlock productName = new TextBlock()
-                        {
-                            Text = _products[j].name,
-                             Height = 20,
-                             Width = 200,
-                        };
-
-                        TextBlock productPrise = new TextBlock()
-                        {
-                            Text = Convert.ToString(_products[j].price),
-                            Height = 20,
-                        };
-
-                        StackPanel product = new StackPanel()
-                        {
-                            Orientation = Orientation.Horizontal,
-                            Width = 260,
-                        };
-
-                        product.Children.Add(productName);
-                        product.Children.Add(productPrise);
-
-                        categoryTab.Items.Add(product);
-                    }
-                }
-            }    */
         }
 
         /// <summary>
@@ -159,10 +119,11 @@ namespace Pizza.Form
             {
                 Product chooseProduct = CategoryTreeView.SelectedItem as Product;
 
-                if (_order.orderProducts.Any(x => x.productID == chooseProduct.id))
-                    AddProduct(chooseProduct);
-                else
-                    CreateProduct(chooseProduct);
+                if (chooseProduct != null)
+                    if (_order.orderProducts.Any(x => x.productID == chooseProduct.id))
+                        AddProduct(chooseProduct);
+                    else
+                        CreateProduct(chooseProduct);
             }
 
             SumUpdate();
@@ -358,11 +319,11 @@ namespace Pizza.Form
                     _info = new Info();
                     _info.Show();
                     break;
-                case "Закрыть":
+                case "Выход":
                     _accessForm.Close();
                     Close();
                     break;
-                case "Выйти":
+                case "Сменить пользователя":
                     _fileWork.IsLogonFalse("Online");
                     _accessForm.Visibility = Visibility.Visible;
                     Close();
@@ -417,6 +378,22 @@ namespace Pizza.Form
             SumUpdate();
 
             OrderListParam();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Find.SelectedItem != null)
+            {
+                Product chooseProduct = _products.Where(x => x.name == (Find.SelectedItem as string).Split(' ')[0]).FirstOrDefault();
+
+                if (chooseProduct != null)
+                    if (_order.orderProducts.Any(x => x.productID == chooseProduct.id))
+                        AddProduct(chooseProduct);
+                    else
+                        CreateProduct(chooseProduct);
+            }
+
+            SumUpdate();
         }
     }
 }

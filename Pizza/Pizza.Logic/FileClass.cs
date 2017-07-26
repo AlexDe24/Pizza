@@ -79,7 +79,7 @@ namespace Pizza.Logic
         public void RedactClient(Client client)
         {
             Client clientRedact = _BaseCt.Clients.Where(c => c.login == client.login)
-        .FirstOrDefault();
+                .FirstOrDefault();
 
             //Обновление профиля
             clientRedact.name = client.name;

@@ -20,6 +20,24 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+        <DataTemplate x:Key="productTemplate">
+            <TextBlock Text="{Binding name}" Background="Orange" />
+        </DataTemplate>
+
+        <HierarchicalDataTemplate x:Key="categoryTemplate2"
+                          ItemTemplate="{StaticResource productTemplate}"
+            ItemsSource="{Binding product}">
+            <TextBlock Text="{Binding name}"/>
+        </HierarchicalDataTemplate>
+        
+        <HierarchicalDataTemplate x:Key="categoryTemplate"
+                          ItemTemplate="{StaticResource categoryTemplate2}"
+            ItemsSource="{Binding childCategory}">
+            <TextBlock Text="{Binding name}"/>
+        </HierarchicalDataTemplate>
+
+        
         
     </Application.Resources>
 </Application>

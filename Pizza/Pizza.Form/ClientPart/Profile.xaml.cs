@@ -124,9 +124,8 @@ namespace Pizza.Form
             _client.surname = SurnameNew.Text;
             _client.middlename = MiddlenameNew.Text;
 
-            _client.birthDate.AddDays(Convert.ToDouble(birthDay.Text));
-            _client.birthDate.AddMonths(Convert.ToInt32(birthMonth.Text));
-            _client.birthDate.AddYears(Convert.ToInt32(birthYear.Text));
+            DateTime date = new DateTime(Convert.ToInt32(birthYear.Text), Convert.ToInt32(birthMonth.Text), Convert.ToInt32(birthDay.Text));
+            _client.birthDate = date;
 
             _client.address = AddressNew.Text;
             _client.phone = PhoneNew.Text;

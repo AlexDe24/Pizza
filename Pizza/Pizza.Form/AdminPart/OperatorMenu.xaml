@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Pizza.Form"
-        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"  
+        xmlns:p="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Список заказов" Height="400" Width="650" WindowStartupLocation="CenterScreen" MinWidth="492">
+        Title="Список заказов" Height="400" Width="750" WindowStartupLocation="CenterScreen" MinWidth="492">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -14,19 +14,42 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListView Name="OrdersList" SelectionChanged="OrdersList_SelectionChanged" MouseDoubleClick="OrdersList_MouseDoubleClick">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Width="50" Header="Номер" DisplayMemberBinding="{Binding Path=nom}"></GridViewColumn>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
-                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
-                        <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
-                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=status.name}"></GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Background="LightGray">
+                <Image Height="20"  Width="20" Source="/Pizza.Form;component/Resources/Find.png" />
+                <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left" KeyUp="Find_KeyUp" />
+            </StackPanel>
+
+            <ListView Grid.Row="1" Name="OrdersList" SelectionChanged="OrdersList_SelectionChanged" MouseDoubleClick="OrdersList_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=nom}">
+                                <GridViewColumnHeader Name="Nom" Click="OrdersListSort" Content="Номер"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=address}">
+                                <GridViewColumnHeader Name="Address" Click="OrdersListSort" Content="Адрес"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=phone}">
+                                <GridViewColumnHeader Name="Phone" Click="OrdersListSort" Content="Номер телефона"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=date}">
+                                <GridViewColumnHeader Name="Date" Click="OrdersListSort" Content="Дата заказа"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=status.name}">
+                                <GridViewColumnHeader Name="Status" Click="OrdersListSort" Content="Состояние заказа"/>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+        </Grid>
 
         <StackPanel Grid.Column="1" Margin="5">
             <ComboBox Name="OrderCondition" Margin="5" Height="25"></ComboBox>

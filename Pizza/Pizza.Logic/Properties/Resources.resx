@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Category" xml:space="preserve">
-    <value>Пицца,Закуски,Напитки,Суши</value>
+  <data name="CategoryMain" xml:space="preserve">
+    <value>Пицца|Мясная,Вегетарианская.Сэндвичи|Чизбургер,Гамбургер,Панини.Напитки|Газированные,Негазированные.Морепродукты|Суши,Роллы</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Принят,В очереди,Готовится,В пути,Доставлен</value>
