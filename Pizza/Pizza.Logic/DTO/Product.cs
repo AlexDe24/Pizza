@@ -1,22 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
 
-namespace Pizza.Logic
+namespace Pizza.Logic.DTO
 {
     public class Product
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string name { get; set; }
+        public string Name { get; set; }
         [Required]
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
 
-        public Category category { get; set; }
-        public List<OrderProducts> orderProducts { get; set; }
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+
+        public List<OrderProducts> OrderProducts { get; set; }
 
         public Product()
         {
-            category = new Category();
+            Category = new Category();
+        }
+    }
+
+    internal class ProductETC : EntityTypeConfiguration<Product>
+    {
+        public ProductETC()
+        {
+            HasRequired(x => x.Category)
+                .WithMany(x => x.Product)
+                .HasForeignKey(x => x.CategoryId)
+                .WillCascadeOnDelete(true);
         }
     }
 }

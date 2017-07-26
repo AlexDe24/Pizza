@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="DTO\Category.cs" />
     <Compile Include="DTO\Client.cs" />
-    <Compile Include="FileClass.cs" />
     <Compile Include="DTO\Order.cs" />
     <Compile Include="BaseContext.cs" />
     <Compile Include="DTO\OrderProducts.cs" />
@@ -61,6 +60,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="DTO\Status.cs" />
+    <Compile Include="Repositories\CategorySQLWork.cs" />
+    <Compile Include="Repositories\ClientSQLWork.cs" />
+    <Compile Include="Repositories\OrderSQLWork.cs" />
+    <Compile Include="Repositories\ProductSQLWork.cs" />
+    <Compile Include="Repositories\StatusSQLWork.cs" />
+    <Compile Include="ResourcesParse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -72,8 +77,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

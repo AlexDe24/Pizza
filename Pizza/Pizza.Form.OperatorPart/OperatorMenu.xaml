@@ -1,0 +1,66 @@
+﻿<Window x:Class="Pizza.Form.OperatorPart.OperatorMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"  
+        xmlns:p="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Список заказов" Height="400" Width="750" WindowStartupLocation="CenterScreen" MinWidth="492">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Background="LightGray">
+                <Image Height="20"  Width="20" Source="/Pizza.Form;component/Resources/Find.png" />
+                <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left" KeyUp="Find_KeyUp" />
+            </StackPanel>
+
+            <ListView Grid.Row="1" Name="OrdersList" SelectionChanged="OrdersList_SelectionChanged" MouseDoubleClick="OrdersList_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=nom}">
+                                <GridViewColumnHeader Name="Nom" Click="OrdersListSort" Content="Номер"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=address}">
+                                <GridViewColumnHeader Name="Address" Click="OrdersListSort" Content="Адрес"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=phone}">
+                                <GridViewColumnHeader Name="Phone" Click="OrdersListSort" Content="Номер телефона"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=date}">
+                                <GridViewColumnHeader Name="Date" Click="OrdersListSort" Content="Дата заказа"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=status.name}">
+                                <GridViewColumnHeader Name="Status" Click="OrdersListSort" Content="Состояние заказа"/>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+        </Grid>
+
+        <StackPanel Grid.Column="1" Margin="5">
+            <ComboBox Name="OrderCondition" Margin="5" Height="25"></ComboBox>
+            <Button Name="SeeOrder" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Просмотреть заказ" Click="SeeOrder_Click"/>
+            <Button Name="LoadCondition" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Подтвердить состояние заказа" Click="LoadCondition_Click"/>
+            <Button Name="Update" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Обновить заказы" Click="Update_Click"/>
+            <StackPanel Margin="0,50,0,0">
+                <Button Name="MenuCreate" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Составить меню" Click="MenuCreate_Click"/>
+                <Button Name="Clients" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Список клиентов" Click="Clients_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

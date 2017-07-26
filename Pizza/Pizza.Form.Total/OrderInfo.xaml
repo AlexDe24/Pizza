@@ -1,0 +1,22 @@
+﻿<Window x:Class="Pizza.Form.Total.OrderInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Информация о заказе" Height="400" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="OrderList" Margin="10"/>
+
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Name="Price">Цена заказа:</TextBlock>
+            <TextBlock Name="Discount">Оплата баллами:</TextBlock>
+            <TextBlock Name="FullPrice">Конечная цена:</TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

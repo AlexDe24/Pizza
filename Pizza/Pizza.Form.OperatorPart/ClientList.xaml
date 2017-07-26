@@ -1,0 +1,62 @@
+﻿<Window x:Class="Pizza.Form.OperatorPart.ClientList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pizza.Form"
+        mc:Ignorable="d"
+        Title="Список клиентов" Height="300" Width="750" WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Background="LightGray">
+                <Image Height="20"  Width="20" Source="Resources/Find.png" />
+                <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left" KeyUp="Find_KeyUp" />
+            </StackPanel>
+
+            <ListView Grid.Row="1" Name="ClientListView" Background="{x:Null}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Name}">
+                                <GridViewColumnHeader Name="Name" Click="ClientListSort" Content="Имя"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Surname}">
+                                <GridViewColumnHeader Name="Surname" Click="ClientListSort" Content="Фамилия"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Middlename}">
+                                <GridViewColumnHeader Name="Middlename" Click="ClientListSort" Content="Отчество"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=BirthDate , StringFormat=dd.MM.yyyy}">
+                                <GridViewColumnHeader Name="Date" Click="ClientListSort" Content="Дата рождения"/>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Address}">
+                                <GridViewColumnHeader Name="Address" Click="ClientListSort" Content="Адрес"/>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=Phone}"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+
+        <StackPanel Grid.Column="1" Margin="5">
+            <Button Name="UpdateClients" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Обновить список" Click="UpdateClients_Click"/>
+            <Button Name="RedactClient" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Редактировать пользователя" Click="RedactClient_Click"/>
+            <Button Name="RegistClient" Template="{StaticResource ButtonOwal}" Margin="5" Height="25" Content="Зарегистрировать пользователя" Click="RegistClient_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,26 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
 
-namespace Pizza.Logic
+namespace Pizza.Logic.DTO
 {
     public class Client
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string login { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
-        public string middlename { get; set; }
-        public string password { get; set; } //пароль
+        public string Login { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Middlename { get; set; }
+        public string Password { get; set; } //пароль
         [Required]
-        public DateTime birthDate { get; set; } //день рождения
+        public DateTime BirthDate { get; set; } //день рождения
         [Required]
-        public string address { get; set; } //номер телефона
+        public string Address { get; set; } //номер телефона
         [Required]
-        public string phone { get; set; } //номер телефона
-        public decimal discount { get; set; } //скидка
+        public string Phone { get; set; } //номер телефона
+        public decimal Discount { get; set; } //скидка
 
-        public List<Order> order { get; set; }
+        public List<Order> Orders { get; set; }
+    }
+
+    internal class ClientETC : EntityTypeConfiguration<Client>
+    {
+        public ClientETC()
+        {
+            HasMany(x => x.Orders)
+                .WithRequired(x => x.Client)
+                .HasForeignKey(x => x.ClientId)
+                .WillCascadeOnDelete(true);
+        }
     }
 }

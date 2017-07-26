@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace Pizza.Logic
+namespace Pizza.Logic.DTO
 {
     public class OrderProducts
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public int orderID { get; set; }
-        public int productID { get; set; }
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
 
-        public int countProducts { get; set; }
+        public int CountProducts { get; set; }
 
-        public Product products { get; set; }
-        public Order orders { get; set; }
+        public Product Products { get; set; }
+        public Order Orders { get; set; }
     }
 }
