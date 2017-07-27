@@ -23,11 +23,6 @@ namespace Pizza.Logic.DTO
         public virtual Status Status { get; set; }
 
         public virtual List<OrderProducts> OrderProducts { get; set; }
-
-        public Order()
-        {
-            Status = new Status();
-        }
     }
 
     internal class OrderETC : EntityTypeConfiguration<Order>

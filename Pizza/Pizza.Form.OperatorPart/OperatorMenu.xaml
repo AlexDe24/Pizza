@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Background="LightGray">
-                <Image Height="20"  Width="20" Source="/Pizza.Form;component/Resources/Find.png" />
+                <Image Height="20"  Width="20" Source="Resources/Find.png" />
                 <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left" KeyUp="Find_KeyUp" />
             </StackPanel>
 
@@ -29,19 +29,19 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=nom}">
-                                <GridViewColumnHeader Name="Nom" Click="OrdersListSort" Content="Номер"/>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=Nom}">
+                                <GridViewColumnHeader Name="Nom" Click="OrdersListSort" Content="Номер↑"/>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=address}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Address}">
                                 <GridViewColumnHeader Name="Address" Click="OrdersListSort" Content="Адрес"/>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=phone}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Phone}">
                                 <GridViewColumnHeader Name="Phone" Click="OrdersListSort" Content="Номер телефона"/>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=date}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Date}">
                                 <GridViewColumnHeader Name="Date" Click="OrdersListSort" Content="Дата заказа"/>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=status.name}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Status.Name}">
                                 <GridViewColumnHeader Name="Status" Click="OrdersListSort" Content="Состояние заказа"/>
                             </GridViewColumn>
                         </GridView.Columns>

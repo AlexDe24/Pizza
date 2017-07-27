@@ -89,13 +89,13 @@ namespace Pizza.Form.Total
                 else
                 {
                     newClient.Login = Login.Text;
-                    if (PasswordOrig.Password != PasswordControl.Password)
+                    if (Convert.ToString(PasswordOrig.SecurePassword) != Convert.ToString(PasswordControl.SecurePassword))
                     {
                         MessageBox.Show("Пароли не совпадают!", "Предупреждение!");
                     }
                     else
                     {
-                        newClient.Password = PasswordOrig.Password;
+                        newClient.Password = Convert.ToString(PasswordOrig.SecurePassword);
                         _clientSQLWork.AddClient(newClient);
 
                         Close();

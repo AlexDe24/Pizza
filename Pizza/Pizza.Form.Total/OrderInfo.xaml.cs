@@ -20,6 +20,8 @@ namespace Pizza.Form.Total
         {
             InitializeComponent();
 
+            _productSQLWork = new ProductSQLWork();
+
             _order = order;
             _products = _productSQLWork.ReadProducts();
 
@@ -52,9 +54,10 @@ namespace Pizza.Form.Total
         /// </summary>
         void OrderListParam()
         {
-            StackPanel panel = new StackPanel();
-            panel.Orientation = Orientation.Horizontal;
-
+            StackPanel panel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
             Label name = new Label()
             {
                 Content = "Название",
@@ -90,9 +93,10 @@ namespace Pizza.Form.Total
         /// <param name="chooseProduct"></param>
         void CreateProducts(OrderProducts orderProd)
         {
-            StackPanel panel = new StackPanel();
-            panel.Orientation = Orientation.Horizontal;
-
+            StackPanel panel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
             Label name = new Label()
             {
                 Content = _products.Where(x => x.Id == orderProd.ProductID).FirstOrDefault().Name,

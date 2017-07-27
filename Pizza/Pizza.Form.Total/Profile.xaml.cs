@@ -122,19 +122,19 @@ namespace Pizza.Form.Total
             try
             {
                 if (isEditPassword)
-                    if (PasswordOld.Password != _client.Password)
+                    if (Convert.ToString(PasswordOld.SecurePassword) != _client.Password)
                     {
                         MessageBox.Show("Пароль неверный!", "Предупреждение!");
                     }
                     else
                     {
-                        if (PasswordControl.Password != PasswordOrig.Password)
+                        if (Convert.ToString(PasswordControl.SecurePassword) != Convert.ToString(PasswordOrig.SecurePassword))
                         {
                             MessageBox.Show("Пароли не совпадают!", "Предупреждение!");
                         }
                         else
                         {
-                            _client.Password = PasswordOrig.Password;
+                            _client.Password = Convert.ToString(PasswordOrig.SecurePassword);
                             _clientSQLWork.EditClient(_client);
 
                             Close();

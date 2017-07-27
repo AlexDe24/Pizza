@@ -10,10 +10,10 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=address}"></GridViewColumn>
-                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=phone}"></GridViewColumn>
-                        <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=date}"></GridViewColumn>
-                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=status.name}"></GridViewColumn>
+                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=Address}"></GridViewColumn>
+                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=Phone}"></GridViewColumn>
+                        <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=Date}"></GridViewColumn>
+                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=Status.Name}"></GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

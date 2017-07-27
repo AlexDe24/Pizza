@@ -197,7 +197,7 @@ namespace Pizza.Form.ClientPart
                     Settings.Default.Save();
                 }
 
-                if (_clients[LoginEnter.SelectedIndex].Password == PasswordEnter.Password)
+                if (_clients[LoginEnter.SelectedIndex].Password == Convert.ToString(PasswordEnter.SecurePassword))
                 {
                     Visibility = Visibility.Hidden;
                     _chooseMenu.Show();

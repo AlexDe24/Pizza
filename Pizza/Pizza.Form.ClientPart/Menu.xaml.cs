@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Pizza.Logic.DTO;
 using Pizza.Form.Total;
 using Pizza.Logic.Repositories;
+using System.Data.Entity.Validation;
 
 namespace Pizza.Form.ClientPart
 {
@@ -46,9 +47,11 @@ namespace Pizza.Form.ClientPart
 
             _client = client;
 
-            _order = new Order();
-            _order.OrderProducts = new List<OrderProducts>();
-            _order.ClientId = _client.Id;
+            _order = new Order()
+            {
+                OrderProducts = new List<OrderProducts>(),
+                ClientId = _client.Id
+            };
 
             _products = new List<Product>();
 
@@ -58,7 +61,7 @@ namespace Pizza.Form.ClientPart
 
             for (int i = 0; i < _products.Count; i++)
             {
-                Find.Items.Add($"{_products[i].Name} {_products[i].Category.Name} {_products[i].Price}");
+                Find.Items.Add($"{_products[i].Name}");
             }
         }
 
@@ -84,9 +87,10 @@ namespace Pizza.Form.ClientPart
         /// </summary>
         void OrderListParam()
         {
-            StackPanel panel = new StackPanel();
-            panel.Orientation = Orientation.Horizontal;
-
+            StackPanel panel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
             Label name = new Label()
             {
                 Content = "Название",
@@ -118,10 +122,33 @@ namespace Pizza.Form.ClientPart
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (CategoryTreeView.SelectedItem != null)
+            /*if (CategoryTreeView.IsFocused)
             {
-                Product chooseProduct = CategoryTreeView.SelectedItem as Product;
+                if (CategoryTreeView.SelectedItem != null)
+                {
+                    if (CategoryTreeView.SelectedItem is Product chooseProduct)
+                        if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
+                            AddProduct(chooseProduct);
+                        else
+                            CreateProduct(chooseProduct);
+                }
+            }
+            else if (Find.IsFocused)
+            {
+                if (Find.SelectedItem != null)
+                {
+                    Product chooseProduct = _products.Where(x => x.Name == Convert.ToString(Find.SelectedItem as string)).FirstOrDefault();
+                    if (chooseProduct != null)
+                        if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
+                            AddProduct(chooseProduct);
+                        else
+                            CreateProduct(chooseProduct);
+                }
+            }*/
 
+            if (Find.SelectedItem != null)
+            {
+                Product chooseProduct = _products.Where(x => x.Name == Convert.ToString(Find.SelectedItem as string)).FirstOrDefault();
                 if (chooseProduct != null)
                     if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
                         AddProduct(chooseProduct);
@@ -172,9 +199,10 @@ namespace Pizza.Form.ClientPart
         /// <param name="chooseProduct"></param>
         void CreateProduct(Product chooseProduct)
         {
-            StackPanel panel = new StackPanel();
-            panel.Orientation = Orientation.Horizontal;
-
+            StackPanel panel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
             Label name = new Label()
             {
                 Content = chooseProduct.Name,
@@ -226,7 +254,7 @@ namespace Pizza.Form.ClientPart
                     Label countLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[2] as Label);
                     Label fullPriseLabel = ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[3] as Label);
 
-                    Product chooseProduct = _products.Where(x => x.Name == nameLabel.Content).First();
+                    Product chooseProduct = _products.Where(x => x.Name == Convert.ToString(nameLabel.Content)).FirstOrDefault();
 
                     if (_order.OrderProducts[i].ProductID == chooseProduct.Id)
                     {
@@ -256,7 +284,7 @@ namespace Pizza.Form.ClientPart
         {
             if (OrderList.SelectedIndex > 0)
             {
-                Product chooseProduct = _products.Where(x => x.Name == ((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label).Content).First();
+                Product chooseProduct = _products.Where(x => x.Name == Convert.ToString(((OrderList.Items[OrderList.SelectedIndex] as StackPanel).Children[0] as Label).Content)).FirstOrDefault();
 
                 _order.OrderProducts.RemoveAll(x => x.ProductID == chooseProduct.Id);
 
@@ -343,7 +371,7 @@ namespace Pizza.Form.ClientPart
             if (_createOrder.ShowDialog() == true)
             {
                 List<Status> status = _statusSQLWork.ReadStatus();
-                _order.Status = status[0];
+                _order.StatusId = status[0].Id;
 
                 _order.Date = DateTime.Now;
                 _client.Discount += SumUpdate() * 0.03m;
@@ -355,10 +383,30 @@ namespace Pizza.Form.ClientPart
                 else
                     _order.Nom = lastNom + 1;
 
-                _orderSQLWork.AddOrder(_order);
+                try
+                {
+                    _orderSQLWork.AddOrder(_order);
+                }
+
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                    {
+                        MessageBox.Show("Object: " + validationError.Entry.Entity.ToString());
+
+                        foreach (DbValidationError err in validationError.ValidationErrors)
+                        {
+                            MessageBox.Show(err.ErrorMessage);
+                        }
+                    }
+                }
 
                 OrderList.Items.Clear();
-                _order.OrderProducts.Clear();
+                _order = new Order()
+                {
+                    OrderProducts = new List<OrderProducts>(),
+                    ClientId = _client.Id
+                };
                 SumUpdate();
 
                 OrderListParam();
@@ -382,20 +430,19 @@ namespace Pizza.Form.ClientPart
             OrderListParam();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CategoryTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (Find.SelectedItem != null)
-            {
-                Product chooseProduct = _products.Where(x => x.Name == (Find.SelectedItem as string).Split(' ')[0]).FirstOrDefault();
+            if (e.LeftButton == MouseButtonState.Pressed)
+                if (CategoryTreeView.SelectedItem != null)
+                {
+                    if (CategoryTreeView.SelectedItem is Product chooseProduct)
+                        if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
+                            AddProduct(chooseProduct);
+                        else
+                            CreateProduct(chooseProduct);
 
-                if (chooseProduct != null)
-                    if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
-                        AddProduct(chooseProduct);
-                    else
-                        CreateProduct(chooseProduct);
-            }
-
-            SumUpdate();
+                    SumUpdate();
+                }
         }
     }
 }

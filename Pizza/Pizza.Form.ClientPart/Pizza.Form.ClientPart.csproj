@@ -182,7 +182,7 @@
     <Resource Include="Resources\Vk.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Zast.gif" />
+    <SplashScreen Include="Resources\Zast.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon.ico" />

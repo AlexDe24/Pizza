@@ -2,6 +2,7 @@
 using Pizza.Logic.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,6 @@ namespace Pizza.Form.OperatorPart
             _productSQLWork = new ProductSQLWork();
             _categorySQLWork = new CategorySQLWork();
 
-            _product = new Product();
             _category = _categorySQLWork.ReadCategory();
 
             var category = _category.Distinct();
@@ -63,11 +63,14 @@ namespace Pizza.Form.OperatorPart
         {
             try
             {
-                _product.Name = Name.Text;
-                _product.CategoryId = _category.Where(x => x.Name == Category.Text).FirstOrDefault().Id;
-                _product.Price = Convert.ToDecimal(Price.Text);
+                _product = new Product()
+                {
+                    Name = Name.Text,
+                    CategoryId = _category.Where(x => x.Name == Category.Text).FirstOrDefault().Id,
+                    Price = Convert.ToDecimal(Price.Text)
+                };
 
-                if (_product.Name == "" || _product.Category == null)
+                if (_product.Name == "")
                     MessageBox.Show("Не все ячейки заполнены!", "Внимание!");
                 else
                 {
@@ -87,9 +90,21 @@ namespace Pizza.Form.OperatorPart
                     Price.Text = "";
                 }
             }
-            catch (Exception)
+            catch (DbEntityValidationException ex)
             {
-                MessageBox.Show("Неверный формат строки!", "Внимание!");
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    MessageBox.Show("Object: " + validationError.Entry.Entity.ToString());
+
+                    foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        MessageBox.Show(err.ErrorMessage);
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Не все ячейки заполнены или заполнены неправильно!", "Внимание!");
             }
         }
 
@@ -128,10 +143,6 @@ namespace Pizza.Form.OperatorPart
                 CategoryMain.Text = (MenuBox.SelectedItem as Product).Category.ParentCategory.Name;
                 Category.Text = (MenuBox.SelectedItem as Product).Category.Name;
                 Price.Text = Convert.ToString((MenuBox.SelectedItem as Product).Price);
-
-                _product.Name = Name.Text;
-                _product.CategoryId = (MenuBox.SelectedItem as Product).CategoryId;
-                _product.Price = Convert.ToDecimal(Price.Text);
             }
         }
     }

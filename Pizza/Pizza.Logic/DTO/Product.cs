@@ -16,11 +16,6 @@ namespace Pizza.Logic.DTO
         public virtual Category Category { get; set; }
 
         public List<OrderProducts> OrderProducts { get; set; }
-
-        public Product()
-        {
-            Category = new Category();
-        }
     }
 
     internal class ProductETC : EntityTypeConfiguration<Product>

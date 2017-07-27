@@ -49,7 +49,7 @@ namespace Pizza.Logic.Repositories
         /// <returns>список продуктов</returns>
         public List<Product> ReadProducts()
         {
-            List<Product> products = _BaseCt.Products.Include(x => x.Category).ToList();
+            List<Product> products = _BaseCt.Products.Include(x => x.Category).Include(x => x.Category.ParentCategory).ToList();
 
             return products;
         }

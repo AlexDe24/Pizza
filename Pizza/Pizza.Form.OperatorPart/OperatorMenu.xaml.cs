@@ -57,7 +57,22 @@ namespace Pizza.Form.OperatorPart
                 _orders.Add(_allOrders[i]);
             }
 
-            _orders.Sort((a, b) => b.Date.CompareTo(a.Date));
+            if (Nom.Name == "Номер↑")
+                _orders.Sort((a, b) => a.Nom.CompareTo(b.Nom));
+            else if (Nom.Name == "Номер↓")
+                _orders.Sort((a, b) => b.Nom.CompareTo(a.Nom));
+            else if (Nom.Name == "Адрес↑")
+                _orders.Sort((a, b) => b.Address.CompareTo(a.Address));
+            else if (Nom.Name == "Адрес↓")
+                _orders.Sort((a, b) => a.Address.CompareTo(b.Address));
+            else if (Nom.Name == "Дата заказа↑")
+                _orders.Sort((a, b) => b.Date.CompareTo(a.Date));
+            else if (Nom.Name == "Дата заказа↓")
+                _orders.Sort((a, b) => a.Date.CompareTo(b.Date));
+            else if (Nom.Name == "Состояние заказа↑")
+                _orders.Sort((a, b) => b.Status.Id.CompareTo(a.Status.Id));
+            else if (Nom.Name == "Состояние заказа↓")
+                _orders.Sort((a, b) => a.Status.Id.CompareTo(b.Status.Id));
 
             OrdersList.Items.Clear();
 

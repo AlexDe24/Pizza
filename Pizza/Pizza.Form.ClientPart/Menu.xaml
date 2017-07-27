@@ -81,12 +81,10 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Height="20"  Width="20" Source="Resources/Find.png" />
                     <ComboBox Name="Find" Height="20" Width="200" HorizontalAlignment="Left" IsEditable="True" />
-                    <Button Template="{DynamicResource ButtonOwal}" Content="Добавить" Height="20" Width="70" Margin="25,0" Click="Button_Click"></Button>
+                    <Button Grid.Row="2"  Template="{DynamicResource ButtonOwal}" x:Name="Add" Margin="5" Width="120" Height="25" Click="Add_Click" Content="Добавить в заказ" HorizontalAlignment="Left" Focusable="False"/>
                 </StackPanel>
-                
-                <TreeView Grid.Row="1" Name="CategoryTreeView" ItemTemplate="{StaticResource categoryTemplate}" ItemsSource="{Binding category}"/>
 
-                <Button Grid.Row="2"  Template="{DynamicResource ButtonOwal}" x:Name="Add" Margin="5" Width="120" Height="25" Click="Add_Click" Content="Добавить в заказ" HorizontalAlignment="Left"/>
+                <TreeView Grid.Row="1" Name="CategoryTreeView" ItemTemplate="{StaticResource CategoryTemplate}" ItemsSource="{Binding Category}" MouseDoubleClick="CategoryTreeView_MouseDoubleClick"/>
 
             </Grid>
 
