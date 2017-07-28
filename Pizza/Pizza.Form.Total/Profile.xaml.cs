@@ -15,13 +15,16 @@ namespace Pizza.Form.Total
         Confirmation _confirmation; //форма для подтвержения удаления 
         Client _client; //клиент
         ClientSQLWork _clientSQLWork; //класс работы с файлами данными клиентов
+
+        PasswordClass _passwordClass;
         bool isEditPassword; //меняется ли пароль
-        int _clearance;
+        int _clearance; //уровень доступа
 
         /// <summary>
         /// Класс управления профилем
         /// </summary>
         /// <param name="clientNow">выбранный пользователь</param>
+        /// <param name="clearance">уровень доступа</param>
         public Profile(Client clientNow, int clearance)
         {
             InitializeComponent();
@@ -29,6 +32,7 @@ namespace Pizza.Form.Total
             _clearance = clearance;
             _clientSQLWork = new ClientSQLWork(); //класс работы с файлами
             _client = clientNow; //класс данных о пользователе
+            _passwordClass = new PasswordClass();
 
             FillingProfile();
         }
@@ -122,19 +126,19 @@ namespace Pizza.Form.Total
             try
             {
                 if (isEditPassword)
-                    if (Convert.ToString(PasswordOld.SecurePassword) != _client.Password)
+                    if (_passwordClass.Base64Encode(PasswordOld.Password) != _client.Password)
                     {
                         MessageBox.Show("Пароль неверный!", "Предупреждение!");
                     }
                     else
                     {
-                        if (Convert.ToString(PasswordControl.SecurePassword) != Convert.ToString(PasswordOrig.SecurePassword))
+                        if (_passwordClass.Base64Encode(PasswordControl.Password) != _passwordClass.Base64Encode(PasswordOrig.Password))
                         {
                             MessageBox.Show("Пароли не совпадают!", "Предупреждение!");
                         }
                         else
                         {
-                            _client.Password = Convert.ToString(PasswordOrig.SecurePassword);
+                            _client.Password = _passwordClass.Base64Encode(PasswordOrig.Password);
                             _clientSQLWork.EditClient(_client);
 
                             Close();

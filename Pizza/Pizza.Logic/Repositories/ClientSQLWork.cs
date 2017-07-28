@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Pizza.Logic.Repositories
 {
-    public class ClientSQLWork
+    public class ClientSQLWork : IDisposable
     {
         BaseContext _BaseCt;
 
@@ -15,6 +16,12 @@ namespace Pizza.Logic.Repositories
         {
             _BaseCt = new BaseContext();
         }
+
+        public void Dispose()
+        {
+            _BaseCt.Dispose();
+        }
+
         /// <summary>
         /// Редактирование клиента
         /// </summary>
@@ -52,10 +59,19 @@ namespace Pizza.Logic.Repositories
         /// Чтение списка клиентов из базы данных
         /// </summary>
         /// <returns>список клиентов</returns>
-        public List<Client> ReadClients()
+        public async Task<List<Client>> ReadClientsAsync()
+        { 
+            return await _BaseCt.Clients.ToListAsync().ConfigureAwait(false);
+        }
+
+        public async Task<Client> GetClient(string login, string password)
         {
-            List<Client> clients = _BaseCt.Clients.ToList();
-            return clients;
+            return await _BaseCt.Clients.SingleOrDefaultAsync(x => x.Login == login && x.Password == password).ConfigureAwait(false);
+        }
+
+        public async Task<bool> IsLoginFree(string login)
+        {
+            return await _BaseCt.Clients.AnyAsync(x => x.Login == login).ConfigureAwait(false);
         }
 
         /// <summary>

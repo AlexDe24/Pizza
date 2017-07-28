@@ -26,11 +26,13 @@ namespace Pizza.Form.Total
     /// </summary>
     public partial class Registration : Window
     {
-        List<Client> _allClients;
+        List<Client> _allClients; //список всех клиентов
 
-        ClientSQLWork _clientSQLWork;
+        ClientSQLWork _clientSQLWork; //работа с клиентами в БД
 
-        public Client newClient;
+        Client _newClient; //новый клиент
+
+        PasswordClass _passwordClass; //класс кодировки пароля
 
         /// <summary>
         /// Класс управления регистрацией
@@ -43,7 +45,8 @@ namespace Pizza.Form.Total
             _allClients = allClients; //список всех пользователей для проверки логина*/
             _clientSQLWork = new ClientSQLWork(); //класс работы с файлами
 
-            newClient = new Client(); //класс данных о пользователе
+            _newClient = new Client(); //класс данных о пользователе
+            _passwordClass = new PasswordClass();
 
             for (int i = 1; i <= 31; i++)
             {
@@ -65,22 +68,22 @@ namespace Pizza.Form.Total
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            newClient.Name = Name.Text;
-            newClient.Surname = Surname.Text;
-            newClient.Middlename = Middlename.Text;
+            _newClient.Name = Name.Text;
+            _newClient.Surname = Surname.Text;
+            _newClient.Middlename = Middlename.Text;
 
             try
             {
                 DateTime date = new DateTime(Convert.ToInt32(birthdayYear.Text), Convert.ToInt32(birthdayMonth.Text), Convert.ToInt32(birthdayDay.Text));
-                newClient.BirthDate = date;
+                _newClient.BirthDate = date;
             }
             catch (Exception)
             {
 
             }
 
-            newClient.Address = Address.Text;
-            newClient.Phone = Phone.Text;
+            _newClient.Address = Address.Text;
+            _newClient.Phone = Phone.Text;
 
             try
             {
@@ -88,15 +91,15 @@ namespace Pizza.Form.Total
                     MessageBox.Show("Логин уже занят!", "Предупреждение!");
                 else
                 {
-                    newClient.Login = Login.Text;
-                    if (Convert.ToString(PasswordOrig.SecurePassword) != Convert.ToString(PasswordControl.SecurePassword))
+                    _newClient.Login = Login.Text;
+                    if (_passwordClass.Base64Encode(PasswordOrig.Password) != _passwordClass.Base64Encode(PasswordControl.Password))
                     {
                         MessageBox.Show("Пароли не совпадают!", "Предупреждение!");
                     }
                     else
                     {
-                        newClient.Password = Convert.ToString(PasswordOrig.SecurePassword);
-                        _clientSQLWork.AddClient(newClient);
+                        _newClient.Password = _passwordClass.Base64Encode(PasswordOrig.Password);
+                        _clientSQLWork.AddClient(_newClient);
 
                         Close();
                     }

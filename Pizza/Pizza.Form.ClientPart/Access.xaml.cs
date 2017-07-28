@@ -11,6 +11,7 @@ using Pizza.Logic.DTO;
 using Pizza.Form.Total;
 using Pizza.Logic.Repositories;
 using Pizza.Form.ClientPart.Properties;
+using Pizza.Logic;
 
 namespace Pizza.Form.ClientPart
 {
@@ -19,12 +20,15 @@ namespace Pizza.Form.ClientPart
     /// </summary>
     public partial class Access : Window
     {
-        Menu _chooseMenu;
-        List<Client> _clients;
-        ClientSQLWork _clientSQLWork;
-        Registration _regist;
+        Menu _chooseMenu; //форма меню
+        Registration _regist; //форма регистарции
 
-        Timer _stepTimer;
+        List<Client> _clients; //список клиентов
+        ClientSQLWork _clientSQLWork; //класс работы с данными клиента в БД
+        
+        PasswordClass _passwordClass; //класс кодировки пароля
+
+        Timer _stepTimer; //таймер
 
         Color _firstColor;
         Color _secondColor;
@@ -38,6 +42,8 @@ namespace Pizza.Form.ClientPart
             _stepTimer = new Timer(TimerTick, null, 0, 10); //таймер
 
             _clients = new List<Client>();
+
+            _passwordClass = new PasswordClass();
 
             _clientSQLWork = new ClientSQLWork(); //класс работы с файлами
 
@@ -165,12 +171,11 @@ namespace Pizza.Form.ClientPart
                     EndPoint = new Point(0.5, 1)
                 };
             }));
-
         }
 
         void Update()
         {
-            _clients = _clientSQLWork.ReadClients(); //класс данных о пользователе
+            _clients = _clientSQLWork.ReadClientsAsync().Result; //класс данных о пользователе
 
             LoginEnter.Items.Clear();
 
@@ -197,7 +202,7 @@ namespace Pizza.Form.ClientPart
                     Settings.Default.Save();
                 }
 
-                if (_clients[LoginEnter.SelectedIndex].Password == Convert.ToString(PasswordEnter.SecurePassword))
+                if (_clients[LoginEnter.SelectedIndex].Password == _passwordClass.Base64Encode(PasswordEnter.Password))
                 {
                     Visibility = Visibility.Hidden;
                     _chooseMenu.Show();

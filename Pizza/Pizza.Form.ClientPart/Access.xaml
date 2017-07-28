@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Hot Miami - Вход" Height="325" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="Hot Miami - Вход" Height="325" Width="325
+        " ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="#FFFFC3A0"/>
@@ -24,7 +25,7 @@
 
                             <CheckBox Name="IsRemember" Content="Запомнить" Margin="0,10"/>
 
-                            <Button Template="{DynamicResource ButtonOwal}" Name="Enter"  Click="Enter_Click" Margin="0,6,0,0" Content="Вход" FontFamily="Times New Roman" FontSize="20"/>
+                            <Button Template="{DynamicResource ButtonOwal}" Name="Enter" Click="Enter_Click" Margin="0,6,0,0" Content="Вход" FontFamily="Times New Roman" FontSize="20"/>
                             <Button Template="{DynamicResource ButtonOwal}" Name="Regist" Click="Regist_Click" Margin="0,6,0,0" Content="Регистрация" FontFamily="Times New Roman" FontSize="20"/>
                             <Button Template="{DynamicResource ButtonOwal}" Name="Exit" Click="Exit_Click" Margin="0,6,0,0" Content="Выход" FontFamily="Times New Roman" FontSize="20" />
                         </StackPanel>

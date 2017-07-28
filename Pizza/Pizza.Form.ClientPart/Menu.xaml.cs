@@ -8,6 +8,7 @@ using Pizza.Logic.DTO;
 using Pizza.Form.Total;
 using Pizza.Logic.Repositories;
 using System.Data.Entity.Validation;
+using System.Threading.Tasks;
 
 namespace Pizza.Form.ClientPart
 {
@@ -73,12 +74,18 @@ namespace Pizza.Form.ClientPart
             //Чтение списка продуктов
             _products = _productSQLWork.ReadProducts();
 
-            List<Category> _category = _categorySQLWork.ReadCategory();
-
-            for (int i = 0; i < _category.Count; i++)
+            using (var rep = new CategorySQLWork())
             {
-                if (_category[i].ParentCategory == null)
-                    CategoryTreeView.Items.Add(_category[i]);
+                rep.GetCategoriesAsync().ContinueWith(t =>
+                {
+                    var category = t.Result;
+                    for (int i = 0; i < category.Count; i++)
+                    {
+                        if (category[i].ParentCategory == null)
+                            CategoryTreeView.Items.Add(category[i]);
+                    }
+                });
+               
             }
         }
 

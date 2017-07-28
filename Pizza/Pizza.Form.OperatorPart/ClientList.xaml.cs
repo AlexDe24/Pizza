@@ -32,7 +32,7 @@ namespace Pizza.Form.OperatorPart
 
         void ClientBoxUpdate()
         {
-            _allClients = _clientSQLWork.ReadClients();
+            //_allClients = _clientSQLWork.ReadClients();
             _clients.Clear();
 
             for (int i = 0; i < _allClients.Count; i++)
