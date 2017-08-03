@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Pizza.UI.Client.Views
 {
     /// <summary>
-    /// Логика взаимодействия для OrderView.xaml
+    /// Логика взаимодействия для DialogView.xaml
     /// </summary>
-    public partial class OrderView : UserControl
+    public partial class DialogView : UserControl
     {
-        public OrderView()
+        public DialogView()
         {
             InitializeComponent();
         }

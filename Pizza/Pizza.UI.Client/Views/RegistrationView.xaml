@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pizza.UI.Client.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Width="300" Height="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.6*"/>
@@ -21,7 +22,16 @@
          HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Name="ImagePanel" Margin="55,45,55,0" VerticalAlignment="Center" >
-            <Button Content="Сохранить" Name ="Save" cal:Message.Attach = "HandleRegistrationOk"/>
+            <Button Content="Сохранить">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="HandleRegistrationOk">
+                            <cal:Parameter Value="{Binding ElementName=PasswordOrig}" />
+                            <cal:Parameter Value="{Binding ElementName=PasswordControl}" />
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </StackPanel>
 
         <StackPanel  Grid.Column="0" Grid.Row="0" Name="ProfilePanelLabel">
@@ -41,7 +51,8 @@
             <TextBox Text="{Binding Middlename, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Middlename"/>
             <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Address"/>
             <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Phone"/>
-            <DatePicker SelectedDate="{Binding BirthDate}" />
+            <DatePicker SelectedDate="{Binding BirthDate}">
+            </DatePicker>
         </StackPanel>
         <StackPanel  Grid.Column="0" Grid.Row="1" Name="PasswordPanelLabel">
             <Label Content="Введите пароль:" Height="25"/>

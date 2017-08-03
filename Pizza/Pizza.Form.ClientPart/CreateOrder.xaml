@@ -27,7 +27,6 @@
                 <Button Name="Confirm" Template="{StaticResource ButtonOwal}" Height="20" Click="Confirm_Click">Подтвердить заказ</Button>
                 <Button Name="Cancel" Template="{StaticResource ButtonOwal}" Height="20" Click="Cancel_Click">Отмена</Button>
             </StackPanel>
-            
 
         </StackPanel>
     </Grid>

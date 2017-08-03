@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace Pizza.Logic.Repositories
 {
-    public class StatusSQLWork
+    public class StatusSQLWork : IDisposable
     {
         BaseContext _BaseCt;
 
         public StatusSQLWork()
         {
             _BaseCt = new BaseContext();
+        }
+
+        public void Dispose()
+        {
+            _BaseCt.Dispose();
         }
 
         //

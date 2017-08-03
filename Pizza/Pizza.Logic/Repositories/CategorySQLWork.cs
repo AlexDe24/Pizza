@@ -26,14 +26,13 @@ namespace Pizza.Logic.Repositories
         /// Чтение списка категорий
         /// </summary>
         public List<Category> ReadCategory()
-        {
-                List<Category> category = _BaseCt.Category.Include(x => x.Product).ToList();
-            return category;
+        {    
+            return _BaseCt.Category.Include(x => x.Product).ToList();
         }
 
         public async Task<List<Category>> GetCategoriesAsync()
         {
-            return await _BaseCt.Category.ToListAsync().ConfigureAwait(false);
+            return await _BaseCt.Category.Include(x => x.Product).ToListAsync().ConfigureAwait(false);
         }
     }
 }

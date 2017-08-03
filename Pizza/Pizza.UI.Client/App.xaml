@@ -1,9 +1,10 @@
 ﻿<Application x:Class="Pizza.UI.Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Pizza.UI.Client">
+             xmlns:local="clr-namespace:Pizza.UI.Client" ShutdownMode="OnLastWindowClose">
     <Application.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:ApplicationBootstrapper x:Key="bootstrapper" />
@@ -15,12 +16,13 @@
                 <Setter Property="Padding" Value="8" />
                 <Setter Property="Background" Value="White" />
                 <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="FontSize" Value="14"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid x:Name="controlLayout" HorizontalAlignment="Stretch"  >
                                 <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
-                                <ContentPresenter x:Name="buttonCaption" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <ContentPresenter x:Name="buttonCaption" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"/>
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
@@ -34,7 +36,23 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-                        
+
+            <DataTemplate x:Key="ProductTemplate">
+                <TextBlock Text="{Binding Name}" Background="Orange" />
+            </DataTemplate>
+
+            <HierarchicalDataTemplate x:Key="CategoryTemplate2"
+                          ItemTemplate="{StaticResource ProductTemplate}"
+            ItemsSource="{Binding Product}">
+                <TextBlock Text="{Binding Name}"/>
+            </HierarchicalDataTemplate>
+
+            <HierarchicalDataTemplate x:Key="CategoryTemplate"
+                          ItemTemplate="{StaticResource CategoryTemplate2}"
+            ItemsSource="{Binding ChildCategory}">
+                <TextBlock Text="{Binding Name}"/>
+            </HierarchicalDataTemplate>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

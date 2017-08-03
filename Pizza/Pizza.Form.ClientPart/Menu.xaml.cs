@@ -119,6 +119,7 @@ namespace Pizza.Form.ClientPart
                 Width = 50
             };
 
+            
             panel.Children.Add(name);
             panel.Children.Add(prise);
             panel.Children.Add(count);
@@ -350,8 +351,10 @@ namespace Pizza.Form.ClientPart
                     _browser.Show();
                     break;
                 case "Профиль":
-                    _profile = new Profile(_client, 0);
-                    _profile.Visibility = Visibility.Visible;
+                    _profile = new Profile(_client, 0)
+                    {
+                        Visibility = Visibility.Visible
+                    };
                     break;
                 case "О нас":
                     _info = new Info();

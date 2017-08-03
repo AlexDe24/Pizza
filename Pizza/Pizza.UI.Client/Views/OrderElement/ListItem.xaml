@@ -3,16 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Pizza.UI.Client.Views.OrderElement"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="{Binding Product}" />
-        <Button Content="-" cal:Message.Attach="HandleDecreaseQuantity" />
-        <TextBlock Text="{Binding Quantity}" />
-        <Button Content="+" cal:Message.Attach="HandleIncreaseQuantity" />
-    </StackPanel>
+    <Grid Margin="5" HorizontalAlignment="Left">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Column="0" Text="{Binding ProductName}"/>
+        <Button Grid.Column="1" Content="-" cal:Message.Attach="HandleDecreaseQuantity" />
+        <TextBox Grid.Column="2" Text="{Binding Quantity, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        <Button Grid.Column="3" Content="+" cal:Message.Attach="HandleIncreaseQuantity" />
+        <TextBlock Grid.Column="4" Text="{Binding ProductFullPrice}" />
+        <Button Grid.Column="5" Content="X" cal:Message.Attach="HandleDel" />
+
+    </Grid>
     
 </UserControl>

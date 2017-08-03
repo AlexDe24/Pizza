@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace Pizza.Logic.Repositories
 {
-    public class OrderSQLWork
+    public class OrderSQLWork : IDisposable
     {
         BaseContext _BaseCt;
 
@@ -16,6 +16,12 @@ namespace Pizza.Logic.Repositories
         {
             _BaseCt = new BaseContext();
         }
+
+        public void Dispose()
+        {
+            _BaseCt.Dispose();
+        }
+
         /// <summary>
         /// Редактирование заказа
         /// </summary>
@@ -48,6 +54,46 @@ namespace Pizza.Logic.Repositories
                 .ToList();
 
             return orders;
+        }
+
+        /// <summary>
+        /// Чтение списка заказов из базы осинхронно
+        /// </summary>
+        /// <returns>список заказов</returns>
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            return await _BaseCt.Orders
+                .Include(x => x.Client)
+                .Include(x => x.Status)
+                .Include(x => x.OrderProducts)
+                .ToListAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Чтение списка заказов клиента из базы осинхронно
+        /// </summary>
+        /// <returns>список заказов</returns>
+        public async Task<List<Order>> GetClientOrdersAsync(Client Client)
+        {
+            return await _BaseCt.Orders.Where(x => x.ClientId == Client.Id)
+                .Include(x => x.Client)
+                .Include(x => x.Status)
+                .Include(x => x.OrderProducts)
+                .ToListAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Чтение списка заказов из базы
+        /// </summary>
+        /// <returns>список заказов</returns>
+        public int GetOrdersLastNom()
+        {
+            var order = _BaseCt.Orders.ToList().FirstOrDefault();
+
+            if (order == null)
+                return 0;
+            else
+                return order.Nom;
         }
 
         /// <summary>

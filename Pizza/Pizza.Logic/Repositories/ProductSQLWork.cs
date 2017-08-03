@@ -9,13 +9,18 @@ using System.Data.Entity;
 
 namespace Pizza.Logic.Repositories
 {
-    public class ProductSQLWork
+    public class ProductSQLWork : IDisposable
     {
         BaseContext _BaseCt;
 
         public ProductSQLWork()
         {
             _BaseCt = new BaseContext();
+        }
+
+        public void Dispose()
+        {
+            _BaseCt.Dispose();
         }
 
         /// <summary>
@@ -52,6 +57,11 @@ namespace Pizza.Logic.Repositories
             List<Product> products = _BaseCt.Products.Include(x => x.Category).Include(x => x.Category.ParentCategory).ToList();
 
             return products;
+        }
+
+        public async Task<List<Product>> GetProductsAsync()
+        {
+            return await _BaseCt.Products.ToListAsync().ConfigureAwait(false);
         }
 
         /// <summary>

@@ -1,17 +1,20 @@
-﻿<UserControl x:Class="Pizza.UI.Client.Views.OrderView"
+﻿<UserControl x:Class="Pizza.UI.Client.Views.MessageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Pizza.UI.Client.Views"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ItemsControl ItemsSource="{Binding Elements}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <ContentControl cal:View.Model="{Binding}" cal:View.Context="ListItem" />
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="{Binding ErrorMessage}"/>
+        <Button Grid.Row="2" Content="Закрыть." cal:Message.Attach="HandleCloseClick" HorizontalAlignment="Center"/>
+    </Grid>
 </UserControl>

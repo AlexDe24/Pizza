@@ -103,6 +103,7 @@
                     <Button Template="{DynamicResource ButtonOwal}" x:Name="DelAll" Margin="5" Width="100" Height="25" Content="Отчистить заказ" Click="DelAll_Click"/>
                 </StackPanel>
                 
+                
                 <ListBox Grid.Row="1" x:Name="OrderList" MouseDoubleClick="OrderList_MouseDoubleClick"/>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">

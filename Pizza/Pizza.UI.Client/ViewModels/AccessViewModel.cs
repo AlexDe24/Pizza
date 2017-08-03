@@ -14,11 +14,20 @@ namespace Pizza.UI.Client.ViewModels
 {
     internal class AccessViewModel : Screen
     {
+
+        #region Properties
+
+        public string Login { get; set; }
+        public bool IsSaveCLient { get; set; }
         private readonly PasswordClass _passwordClass; //класс кодировки пароля
+
+        #endregion
 
         #region Constructor
         public AccessViewModel()
         {
+            DisplayName = "Вход";
+
             _passwordClass = new PasswordClass();
         }
         #endregion
@@ -32,10 +41,14 @@ namespace Pizza.UI.Client.ViewModels
             using (var repository = new ClientSQLWork())
             {
                 var client = await repository.GetClient(Login, password).ConfigureAwait(false);
+
                 if (client == null)
                 {
-                    
-                    // Неверный логин/пароль
+                    Execute.OnUIThread(() =>
+                    {
+                        var wm = new WindowManager();
+                        wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongLoginOrPassword });
+                    });
                 }
                 else
                 {
@@ -44,9 +57,9 @@ namespace Pizza.UI.Client.ViewModels
                     Execute.OnUIThread(() =>
                     {
                         var wm = new WindowManager();
-                        wm.ShowDialog(new ClientViewModel() { Name = client.Name }, "View");
+                        wm.ShowWindow(new MenuViewModel());
                     });
-                } 
+                }
             }
         }
 
@@ -59,13 +72,10 @@ namespace Pizza.UI.Client.ViewModels
             });
         }
 
+        public void HandleExitClick()
+        {
+            TryClose();
+        }
         #endregion
-
-        #region Properties
-
-        public string Login { get; set; }
-
-        #endregion
-
     }
 }

@@ -1,0 +1,123 @@
+﻿<UserControl xmlns:OrderElement="clr-namespace:Pizza.UI.Client.Views.OrderElement"  xmlns:Views="clr-namespace:Pizza.UI.Client.Views"  x:Class="Pizza.UI.Client.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             d:DesignHeight="350" d:DesignWidth="630">
+    <Grid>
+        <Menu>
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFC3A0"/>
+                    <GradientStop Color="#FFFFE16E" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+
+            <MenuItem Header="Общее">
+                <MenuItem cal:Message.Attach="HandleExitClick"  Header="Выход">
+                    <MenuItem.Icon>
+                        <Image Source="/Pizza.UI.Client;component/Resources/Exit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Аккаунт">
+                <MenuItem cal:Message.Attach="HandleProfileClick" Header="Профиль">
+                    <MenuItem.Icon>
+                        <Image Source="/Pizza.UI.Client;component/Resources/Profile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem cal:Message.Attach="HandleLogOutClick" Header="Сменить пользователя">
+                    <MenuItem.Icon>
+                        <Image Source="/Pizza.UI.Client;component/Resources/Logout.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Обратная связь">
+                <MenuItem Header="О нас">
+                    <MenuItem.Icon>
+                        <Image Source="/Pizza.UI.Client;component/Resources/Info.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Мы в соцсетях">
+                    <MenuItem Header="Группа Вконтакте" >
+                        <MenuItem.Icon>
+                            <Image Source="/Pizza.UI.Client;component/Resources/Vk.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Инстаграм" >
+                        <MenuItem.Icon>
+                            <Image Source="/Pizza.UI.Client;component/Resources/Instagram.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Оставить отзыв">
+                    <MenuItem.Icon>
+                        <Image Source="/Pizza.UI.Client;component/Resources/Message.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="0,17,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" DataContext ="{Binding Products}">
+                    <Image Height="20"  Width="20" Source="/Pizza.UI.Client;component/Resources/Find.png" />
+                    <ComboBox ItemsSource="{Binding Path = Products.Name}" Height="20" Width="200" HorizontalAlignment="Left" IsEditable="True" />
+                    <Button Margin="5" Content="Добавить в заказ">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="HandleAddProductClick">
+                                    <cal:Parameter Value="{Binding ElementName=CategoryTreeView}" />
+                                </cal:ActionMessage>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+
+                <TreeView Name="CategoryTreeView" Grid.Row="1" ItemTemplate="{StaticResource CategoryTemplate}" ItemsSource="{Binding MainCategory}"/>
+            </Grid>
+
+            <Grid Grid.Column="1" >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button cal:Message.Attach="HandleClearOrderList" Margin="5" Content="Отчистить заказ" HorizontalAlignment="Center"/>
+
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderItems}" Background="White">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl cal:View.Model="{Binding}" cal:View.Context="ListItem" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding OrderItemsSum, StringFormat='Сумма заказа: {0}'}"/>
+                    <Button cal:Message.Attach="HandleCreateOrder" Margin="5" Content="Продолжить заказ"/>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

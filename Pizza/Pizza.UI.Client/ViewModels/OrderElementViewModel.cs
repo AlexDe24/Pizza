@@ -4,15 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Pizza.UI.Client.ViewModels
 {
-    class OrderElementViewModel : Screen
+    public class OrderElementViewModel : Screen
     {
-
         #region Properties
 
-        public string Product { get; set; }
+        public string ProductName { get; set; }
+        public decimal ProductPrice { get; set; }
+
+        private decimal _productFullPrice;
+        public decimal ProductFullPrice
+        {
+            get
+            {
+                return _productFullPrice;
+            }
+            set
+            {
+                _productFullPrice = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private int _quantity;
         public int Quantity
@@ -24,11 +39,22 @@ namespace Pizza.UI.Client.ViewModels
             set
             {
                 _quantity = value;
-                NotifyOfPropertyChange(() => Quantity);
+
+                if (_quantity == 0)
+                    _quantity = 1;
+
+                ProductFullPrice = ProductPrice * Quantity;
+
+                NotifyOfPropertyChange();               
             }
         }
 
         #endregion
+
+        public OrderElementViewModel()
+        {
+            Quantity = 1;
+        }
 
         #region UI Commands
 
@@ -40,6 +66,11 @@ namespace Pizza.UI.Client.ViewModels
         public void HandleDecreaseQuantity()
         {
             Quantity--;
+        }
+
+        public void HandleDel()
+        {
+            Quantity = -1;
         }
 
         #endregion

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Pizza.UI.Client.Views.Client
+namespace Pizza.UI.Client.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Edit.xaml
+    /// Логика взаимодействия для OrderListView.xaml
     /// </summary>
-    public partial class Edit : UserControl
+    public partial class OrderListView : UserControl
     {
-        public Edit()
+        public OrderListView()
         {
             InitializeComponent();
         }

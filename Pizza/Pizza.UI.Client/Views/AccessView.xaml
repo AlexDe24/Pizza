@@ -7,37 +7,45 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Width="325" Height="325">
-    <Grid>
-        <Grid Margin="25,25,25,25" >
-            <Border Name="MainBorder" BorderBrush="Black" BorderThickness="3" RenderTransformOrigin="0.5,0.5">
-                <Grid Margin="5,5,5,5">
-                    <StackPanel Name="LoginPanel" Grid.Column="1"  Margin="25,0,25,0" >
-                        <StackPanel Name="PasswordPanel">
-                            <TextBlock Text="Логин" />
-                            <TextBox Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock Text="Пароль" />
-                            <PasswordBox Name="PasswordBox"/>
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="35">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-                            <CheckBox Name="IsRemember" Content="Запомнить" Margin="0,10"/>
+        <Grid Name="LoginPanel"  Margin="25,0" >
 
-                            <Button Content="Вход">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <cal:ActionMessage MethodName="HandleLoginClick">
-                                            <cal:Parameter Value="{Binding ElementName=PasswordBox}" />
-                                        </cal:ActionMessage>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                            <Button cal:Message.Attach="HandleRegistrationClick" Name="Regist" Margin="0,6,0,0" Content="Регистрация"/>
-                            
-                            <Button Name="Exit" Margin="0,6,0,0" Content="Выход"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <TextBlock Grid.Row="0"  Text="Логин" />
+            <TextBox Grid.Row="1"  Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Grid.Row="2"  Text="Пароль" />
+            <PasswordBox Grid.Row="3"  Name="PasswordBox"/>
+            <CheckBox Grid.Row="4"  IsChecked="{Binding Path=IsSaveCLient}" Name="IsRemember" Content="Запомнить" Margin="0,10"/>
+        
         </Grid>
+
+        <Button Grid.Row="1" Content="Вход">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="HandleLoginClick">
+                        <cal:Parameter Value="{Binding ElementName=PasswordBox}" />
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Button Grid.Row="2" cal:Message.Attach="HandleRegistrationClick" Name="Regist" Content="Регистрация"/>
+
+        <Button Grid.Row="3" cal:Message.Attach="HandleExitClick" Content="Выход"/>
     </Grid>
 </UserControl>
