@@ -11,6 +11,26 @@ namespace Pizza.UI.Client.ViewModels
 {
     public class OrderListViewModel : Screen
     {
+        private int _selectedOrderIndex;
+        public int SelectedOrderIndex
+
+        {
+            get
+            {
+                return _selectedOrderIndex;
+            }
+            set
+            {
+                if (value != _selectedOrderIndex)
+                {
+                    _selectedOrderIndex = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
+
+        public Order SelectedOrder { get; set; }
+
         private List<Order> _orders;
         public List<Order> Orders
         {
@@ -30,14 +50,30 @@ namespace Pizza.UI.Client.ViewModels
 
         public Logic.DTO.Client Client { get; set; }
 
-        public OrderListViewModel()
-        {
-        }
-
         public async Task ReadOrders()
         {
+            SelectedOrderIndex = -1;
+
             using (var orderSQLWork = new OrderSQLWork())
                 Orders = await orderSQLWork.GetClientOrdersAsync(Client).ConfigureAwait(false);
+        }
+
+
+        public void OpenOrderInfo()
+        {
+            Execute.OnUIThread(() =>
+            {
+                OrderInfoViewModel OrderInfoViewModel = new OrderInfoViewModel();
+
+                OrderInfoViewModel.LoadOrderInfo(SelectedOrder);
+
+                var wm = new WindowManager();
+                wm.ShowWindow(OrderInfoViewModel);
+
+            });
+
+            SelectedOrderIndex = -1;
+
         }
     }
 }

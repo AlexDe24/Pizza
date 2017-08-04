@@ -1,6 +1,7 @@
 ﻿using Pizza.Logic.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,14 @@ namespace Pizza.Logic.Repositories
             List<Status> status = _BaseCt.Statuses.ToList();
 
             return status;
+        }
+
+        /// <summary>
+        /// Чтение списка состояний асинхронно
+        /// </summary>
+        public async Task<List<Status>> GetStatusesAsync()
+        {
+            return await _BaseCt.Statuses.ToListAsync().ConfigureAwait(false);
         }
     }
 }

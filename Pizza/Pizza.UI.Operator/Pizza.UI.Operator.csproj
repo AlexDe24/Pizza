@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D85487D-CCDE-483E-A460-D336293B3686}</ProjectGuid>
+    <ProjectGuid>{5307800F-F49E-4695-B745-49D180581185}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Pizza.UI.Client</RootNamespace>
-    <AssemblyName>Pizza.UI.Client</AssemblyName>
+    <RootNamespace>Pizza.UI.Operator</RootNamespace>
+    <AssemblyName>Pizza.UI.Operator</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -83,43 +83,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClientIdentitySingleton.cs" />
-    <Compile Include="ViewModels\AccessViewModel.cs" />
+    <Compile Include="ViewModels\ClientListViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\CreateMenuViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
-    <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
-    <Compile Include="ViewModels\OrderElementViewModel.cs" />
-    <Compile Include="ViewModels\OrderFinishingViewModel.cs" />
+    <Compile Include="ViewModels\OperatorMenuViewModel.cs" />
     <Compile Include="ViewModels\OrderInfoViewModel.cs" />
-    <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
-    <Compile Include="Views\AccessView.xaml.cs">
-      <DependentUpon>AccessView.xaml</DependentUpon>
+    <Compile Include="Views\ClientListView.xaml.cs">
+      <DependentUpon>ClientListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClientView.xaml.cs">
       <DependentUpon>ClientView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreateMenuView.xaml.cs">
+      <DependentUpon>CreateMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MenuView.xaml.cs">
-      <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MessageView.xaml.cs">
       <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OrderElement\ListItem.xaml.cs">
-      <DependentUpon>ListItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OrderFinishingView.xaml.cs">
-      <DependentUpon>OrderFinishingView.xaml</DependentUpon>
+    <Compile Include="Views\OperatorMenuView.xaml.cs">
+      <DependentUpon>OperatorMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OrderInfoView.xaml.cs">
       <DependentUpon>OrderInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OrderListView.xaml.cs">
-      <DependentUpon>OrderListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistrationView.xaml.cs">
       <DependentUpon>RegistrationView.xaml</DependentUpon>
@@ -154,7 +145,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AccessView.xaml">
+    <None Include="Resources\Find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\ClientListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,11 +156,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DialogView.xaml">
+    <Page Include="Views\CreateMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuView.xaml">
+    <Page Include="Views\DialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,19 +168,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OrderElement\ListItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OrderFinishingView.xaml">
+    <Page Include="Views\OperatorMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OrderInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OrderListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,47 +182,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pizza.Form.Total\Pizza.Form.Total.csproj">
-      <Project>{73D35DB8-A466-45CE-910D-9C3E6DB65009}</Project>
-      <Name>Pizza.Form.Total</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pizza.Logic\Pizza.Logic.csproj">
       <Project>{B3B0ABE6-7FE5-447C-9009-EEAC8C256892}</Project>
       <Name>Pizza.Logic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Exit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Find.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Info.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Instagram.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Logout.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Profile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Sale.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Screen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Vk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Zast.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon.ico" />

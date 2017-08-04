@@ -4,20 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pizza.UI.Client.Views"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ItemsSource="{Binding Orders}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=Address}"></GridViewColumn>
-                        <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding Path=Phone}"></GridViewColumn>
-                        <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding Path=Date}"></GridViewColumn>
-                        <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Path=Status.Name}"></GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid SelectedItem="{Binding SelectedOrder}" IsReadOnly="True" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" cal:Message.Attach="OpenOrderInfo">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Address}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Phone}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path=Date}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Состояние заказа" Binding="{Binding Path=Status.Name}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

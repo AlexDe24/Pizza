@@ -61,7 +61,9 @@ namespace Pizza.Logic.Repositories
 
         public async Task<List<Product>> GetProductsAsync()
         {
-            return await _BaseCt.Products.ToListAsync().ConfigureAwait(false);
+            await _BaseCt.Category.LoadAsync().ConfigureAwait(false);
+
+            return await _BaseCt.Products.Include(x => x.Category).ToListAsync().ConfigureAwait(false);
         }
 
         /// <summary>

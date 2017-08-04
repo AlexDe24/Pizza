@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Pizza.UI.Client.Views.OrderInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DataGrid IsReadOnly="True" ItemsSource="{Binding Path=Order.OrderProducts}"  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Products.Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Products.Price}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=CountProducts}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Сумма" Binding="{c:Binding Path=CountProducts * Products.Price}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Text="{Binding OrderSum, StringFormat='Сумма заказа: {0}'}"/>
+            <TextBlock Text="{Binding Path=Order.Discount, StringFormat='Оплата балами: {0}'}"/>
+            <TextBlock Text="{c:Binding Path=OrderSum - Order.Discount, StringFormat='Конечная сумма: {0}'}"/>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

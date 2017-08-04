@@ -130,6 +130,15 @@ namespace Pizza.UI.Client.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Повторный пароль введён неверно!.
+        /// </summary>
+        internal static string NoEqualPassowrs {
+            get {
+                return ResourceManager.GetString("NoEqualPassowrs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Profile {
@@ -179,7 +188,7 @@ namespace Pizza.UI.Client.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Неверный пароль или логин!.
+        ///   Ищет локализованную строку, похожую на Неверный логин или пароль!.
         /// </summary>
         internal static string WrongLoginOrPassword {
             get {

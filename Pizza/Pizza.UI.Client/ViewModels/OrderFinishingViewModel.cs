@@ -95,7 +95,7 @@ namespace Pizza.UI.Client.ViewModels
 
             using (var clientSQLWork = new ClientSQLWork())
             {
-                clientSQLWork.EditClient(Client);
+                clientSQLWork.EditClientDiscount(Client);
             }
 
             using (var orderSQLWork = new OrderSQLWork())

@@ -62,6 +62,8 @@ namespace Pizza.Logic.Repositories
         /// <returns>список заказов</returns>
         public async Task<List<Order>> GetOrdersAsync()
         {
+            await _BaseCt.Products.LoadAsync().ConfigureAwait(false);
+
             return await _BaseCt.Orders
                 .Include(x => x.Client)
                 .Include(x => x.Status)
@@ -75,6 +77,8 @@ namespace Pizza.Logic.Repositories
         /// <returns>список заказов</returns>
         public async Task<List<Order>> GetClientOrdersAsync(Client Client)
         {
+            await _BaseCt.Products.LoadAsync().ConfigureAwait(false);
+
             return await _BaseCt.Orders.Where(x => x.ClientId == Client.Id)
                 .Include(x => x.Client)
                 .Include(x => x.Status)
@@ -88,7 +92,7 @@ namespace Pizza.Logic.Repositories
         /// <returns>список заказов</returns>
         public int GetOrdersLastNom()
         {
-            var order = _BaseCt.Orders.ToList().FirstOrDefault();
+            var order = _BaseCt.Orders.ToList().LastOrDefault();
 
             if (order == null)
                 return 0;

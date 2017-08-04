@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Pizza.UI.Client.ViewModels
+namespace Pizza.UI.Operator.ViewModels
 {
     internal class ClientViewModel : Screen
     {
@@ -84,9 +84,10 @@ namespace Pizza.UI.Client.ViewModels
 
             PasswordGridVisibility = Visibility.Hidden;
             EditGridVisibility = Visibility.Collapsed;
+        }
 
-            Client = ClientIdentitySingleton.Instance.CurrentClient;
-
+        public void Load()
+        {
             Surname = Client.Surname;
             Name = Client.Name;
             Middlename = Client.Middlename;
@@ -100,46 +101,37 @@ namespace Pizza.UI.Client.ViewModels
 
         #region UI Commands
 
-        public async Task HandleEditClick(PasswordBox PasswordOld, PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        public async Task HandleEditClick(PasswordBox PasswordOrig, PasswordBox PasswordControl)
         {
             if (Convert.ToString(EditClientButtonText) == "Редактировать")
             {
                 EditGridVisibility = Visibility.Visible;
 
-                EditClientButtonText = "Сохранить"; 
+                EditClientButtonText = "Сохранить";
             }
             else
             {
                 PasswordClass passwordClass = new PasswordClass();
 
-                if (passwordClass.Base64Encode(PasswordOld.Password) == Password)
+                if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
                 {
-                    if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
-                    {
-                        Client.Surname = Surname;
-                        Client.Name = Name;
-                        Client.Middlename = Middlename;
-                        Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
-                        Client.BirthDate = BirthDate;
-                        Client.Address = Address;
-                        Client.Phone = Phone;
+                    Client.Surname = Surname;
+                    Client.Name = Name;
+                    Client.Middlename = Middlename;
+                    Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
+                    Client.BirthDate = BirthDate;
+                    Client.Address = Address;
+                    Client.Phone = Phone;
 
-                        ClientSQLWork clientSQLWork = new ClientSQLWork();
-                        clientSQLWork.EditClient(Client);
+                    ClientSQLWork clientSQLWork = new ClientSQLWork();
+                    clientSQLWork.EditClient(Client);
 
-                        TryClose();
-                    }
-                    else
-                    {
-                        var wm = new WindowManager();
-                        wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs});
-                    }
+                    TryClose();
                 }
                 else
                 {
                     var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongPassword});
-
+                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs });
                 }
             }
         }
@@ -149,25 +141,19 @@ namespace Pizza.UI.Client.ViewModels
             PasswordGridVisibility = Visibility.Visible;
         }
 
-        public void HandleSeeOrders()
-        {
-            Execute.OnUIThread(() =>
-            {
-                var OrderListViewModel = new OrderListViewModel() { Client = Client };
-
-                OrderListViewModel.ReadOrders().Wait();
-
-                var wm = new WindowManager();
-                wm.ShowWindow(OrderListViewModel);
-            });
-        }
-
         public void HandleDelClient()
         {
             Execute.OnUIThread(() =>
             {
+                var DialogViewModel = new DialogViewModel() { Client = Client };
                 var wm = new WindowManager();
-                wm.ShowDialog(new DialogViewModel());
+                wm.ShowDialog(DialogViewModel);
+
+                if (DialogViewModel.Client == null)
+                {
+                    TryClose();
+                }
+
             });
         }
 

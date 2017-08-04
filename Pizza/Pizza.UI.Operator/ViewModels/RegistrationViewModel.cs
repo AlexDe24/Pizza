@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Pizza.UI.Client.ViewModels
+namespace Pizza.UI.Operator.ViewModels
 {
     internal class RegistrationViewModel : Screen
     {
@@ -41,7 +41,6 @@ namespace Pizza.UI.Client.ViewModels
             {
                 isLoginBusy = await repository.IsLoginFree(Login).ConfigureAwait(false);
             }
-
             PasswordClass passwordClass = new PasswordClass();
 
             if (isLoginBusy != true)
@@ -73,7 +72,6 @@ namespace Pizza.UI.Client.ViewModels
                         });
 
                     }
-
                 }
             }
             else

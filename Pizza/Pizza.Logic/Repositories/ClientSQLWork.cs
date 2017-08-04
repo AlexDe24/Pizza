@@ -45,6 +45,17 @@ namespace Pizza.Logic.Repositories
             _BaseCt.SaveChanges();
         }
 
+        public void EditClientDiscount(Client client)
+        {
+            Client clientRedact = _BaseCt.Clients.Where(c => c.Login == client.Login)
+                .FirstOrDefault();
+
+            //Обновление профиля
+            clientRedact.Discount = client.Discount;
+
+            _BaseCt.SaveChanges();
+        }
+
         /// <summary>
         /// Создание клиента
         /// </summary>

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.Form.OperatorPart", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.UI.Client", "Pizza.UI.Client\Pizza.UI.Client.csproj", "{9D85487D-CCDE-483E-A460-D336293B3686}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.UI.Operator", "Pizza.UI.Operator\Pizza.UI.Operator.csproj", "{5307800F-F49E-4695-B745-49D180581185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5307800F-F49E-4695-B745-49D180581185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5307800F-F49E-4695-B745-49D180581185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5307800F-F49E-4695-B745-49D180581185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5307800F-F49E-4695-B745-49D180581185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
