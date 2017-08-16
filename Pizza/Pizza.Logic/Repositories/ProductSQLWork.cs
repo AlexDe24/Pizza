@@ -54,16 +54,25 @@ namespace Pizza.Logic.Repositories
         /// <returns>список продуктов</returns>
         public List<Product> ReadProducts()
         {
-            List<Product> products = _BaseCt.Products.Include(x => x.Category).Include(x => x.Category.ParentCategory).ToList();
-
-            return products;
+            return _BaseCt.Products.Include(x => x.Category).Include(x => x.Category.ParentCategory).ToList();
         }
 
+        /// <summary>
+        /// Чтение списка подуктов из базы данных асинхронно
+        /// </summary>
+        /// <returns>список продуктов</returns>
         public async Task<List<Product>> GetProductsAsync()
         {
-            await _BaseCt.Category.LoadAsync().ConfigureAwait(false);
+            return await _BaseCt.Products.Include(x => x.Category.ParentCategory).ToListAsync().ConfigureAwait(false);
+        }
 
-            return await _BaseCt.Products.Include(x => x.Category).ToListAsync().ConfigureAwait(false);
+        /// <summary>
+        /// Чтение подукта из базы данных
+        /// </summary>
+        /// <returns>список продуктов</returns>
+        public Product GetOneProducts(int Id)
+        {
+            return _BaseCt.Products.Include(x => x.Category.ParentCategory).Single(x => x.Id == Id);
         }
 
         /// <summary>
@@ -72,7 +81,9 @@ namespace Pizza.Logic.Repositories
         /// <param name="product">продукт</param>
         public void DeleteProduct(Product product)
         {
-            _BaseCt.Products.Remove(product);
+            _BaseCt.Products.Load();
+
+            _BaseCt.Products.Remove(_BaseCt.Products.Where(x => x.Id == product.Id).FirstOrDefault());
             _BaseCt.SaveChanges();
         }
 

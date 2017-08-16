@@ -13,6 +13,108 @@ namespace Pizza.UI.Operator.ViewModels
     {
         #region Properties
 
+        public string _nameFilter;
+        public string NameFilter
+        {
+            get
+            {
+                return _nameFilter;
+            }
+            set
+            {
+                if (value != _nameFilter)
+                {
+                    _nameFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
+        public string _surnameFilter;
+        public string SurnameFilter
+        {
+            get
+            {
+                return _surnameFilter;
+            }
+            set
+            {
+                if (value != _surnameFilter)
+                {
+                    _surnameFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
+        public string _middlenameFilter;
+        public string MiddlenameFilter
+        {
+            get
+            {
+                return _middlenameFilter;
+            }
+            set
+            {
+                if (value != _middlenameFilter)
+                {
+                    _middlenameFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
+        public string _dateFilter;
+        public string DateFilter
+        {
+            get
+            {
+                return _dateFilter;
+            }
+            set
+            {
+                if (value != _dateFilter)
+                {
+                    _dateFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
+        public string _addressFilter;
+        public string AddressFilter
+        {
+            get
+            {
+                return _addressFilter;
+            }
+            set
+            {
+                if (value != _addressFilter)
+                {
+                    _addressFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
+        public string _phoneFilter;
+        public string PhoneFilter
+        {
+            get
+            {
+                return _phoneFilter;
+            }
+            set
+            {
+                if (value != _phoneFilter)
+                {
+                    _phoneFilter = value;
+                    NotifyOfPropertyChange(() => Clients);
+                }
+            }
+        }
+
         public Client SelectedClient { get; set; }
 
         private List<Client> _clients;
@@ -20,7 +122,13 @@ namespace Pizza.UI.Operator.ViewModels
         {
             get
             {
-                return _clients;
+                return _clients.Where(x => x.Name.ToLowerInvariant().Contains(NameFilter.ToLowerInvariant())
+                && x.Surname.ToLowerInvariant().Contains(SurnameFilter.ToLowerInvariant())
+                && x.Middlename.ToLowerInvariant().Contains(MiddlenameFilter.ToLowerInvariant())
+                && x.BirthDate.ToString().Contains(DateFilter)
+                && x.Phone.Contains(PhoneFilter)
+                && x.Address.ToLowerInvariant().Contains(AddressFilter.ToLowerInvariant()))
+                .ToList();
             }
             set
             {
@@ -37,6 +145,13 @@ namespace Pizza.UI.Operator.ViewModels
         public ClientListViewModel()
         {
             DisplayName = "Список клиентов";
+
+            NameFilter = "";
+            SurnameFilter = "";
+            MiddlenameFilter = "";
+            DateFilter = "";
+            AddressFilter = "";
+            PhoneFilter = "";
         }
 
         #region IU Commands

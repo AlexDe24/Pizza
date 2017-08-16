@@ -38,9 +38,9 @@ namespace Pizza.UI.Client.ViewModels
         {
             var password = _passwordClass.Base64Encode(passwordBox.Password);
 
-            using (var repository = new ClientSQLWork())
+            using (var clientSQLWork = new ClientSQLWork())
             {
-                var client = await repository.GetClient(Login, password).ConfigureAwait(false);
+                var client = await clientSQLWork.GetClient(Login, password).ConfigureAwait(false);
 
                 if (client == null)
                 {
@@ -56,8 +56,11 @@ namespace Pizza.UI.Client.ViewModels
 
                     Execute.OnUIThread(() =>
                     {
+                        MenuViewModel menuViewModel = new MenuViewModel();
+                        menuViewModel.DataLoad().Wait();
+
                         var wm = new WindowManager();
-                        wm.ShowWindow(new MenuViewModel());
+                        wm.ShowWindow(menuViewModel);
                     });
                 }
             }

@@ -17,6 +17,74 @@ namespace Pizza.UI.Client.ViewModels
     {
         #region Properties
 
+        public string _nameFilter;
+        public string NameFilter
+        {
+            get
+            {
+                return _nameFilter;
+            }
+            set
+            {
+                if (value != _nameFilter)
+                {
+                    _nameFilter = value;
+                    NotifyOfPropertyChange(() => Products);
+                }
+            }
+        }
+
+        public string _mainCategoryFilter;
+        public string MainCategoryFilter
+        {
+            get
+            {
+                return _mainCategoryFilter;
+            }
+            set
+            {
+                if (value != _mainCategoryFilter)
+                {
+                    _mainCategoryFilter = value;
+                    NotifyOfPropertyChange(() => Products);
+                }
+            }
+        }
+
+        public string _categoryFilter;
+        public string CategoryFilter
+        {
+            get
+            {
+                return _categoryFilter;
+            }
+            set
+            {
+                if (value != _categoryFilter)
+                {
+                    _categoryFilter = value;
+                    NotifyOfPropertyChange(() => Products);
+                }
+            }
+        }
+
+        public string _priceFilter;
+        public string PriceFilter
+        {
+            get
+            {
+                return _priceFilter;
+            }
+            set
+            {
+                if (value != _priceFilter)
+                {
+                    _priceFilter = value;
+                    NotifyOfPropertyChange(() => Products);
+                }
+            }
+        }
+
         public TreeView CatTreeView { get; set; }
 
         private BindableCollection<OrderElementViewModel> _orderItems;
@@ -40,14 +108,57 @@ namespace Pizza.UI.Client.ViewModels
 
         public List<Category> MainCategory { get; set; }
 
-        Order _order;//класс заказа
-        public List<Product> Products { get; set; }
+        private Order _order;//класс заказа
+
+        public List<Product> _products;
+        public List<Product> Products
+        {
+            get
+            {
+                return _products.Where(x => x.Name.ToLowerInvariant().Contains(NameFilter.ToLowerInvariant())
+                && x.Category.ParentCategory.Name.ToLowerInvariant().Contains(MainCategoryFilter.ToLowerInvariant())
+                && x.Category.Name.ToLowerInvariant().Contains(CategoryFilter.ToLowerInvariant())
+                && x.Price.ToString().ToLowerInvariant().Contains(PriceFilter.ToLowerInvariant()))
+                .ToList();
+            }
+            set
+            {
+                if (value != _products)
+                {
+                    _products = value;
+                }
+            }
+        }
+
+        public Product _selectedProduct;
+        public Product SelectedProduct
+        {
+            get
+            {
+                return _selectedProduct;
+            }
+            set
+            {
+                if (value != _selectedProduct)
+                {
+                    _selectedProduct = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
 
         #endregion
+
+        #region Initialization
 
         internal MenuViewModel()
         {
             DisplayName = "Меню";
+
+            NameFilter = "";
+            MainCategoryFilter = "";
+            CategoryFilter = "";
+            PriceFilter = "";
 
             MainCategory = new List<Category>();
             OrderItems = new BindableCollection<OrderElementViewModel>();
@@ -58,11 +169,9 @@ namespace Pizza.UI.Client.ViewModels
             {
                 OrderProducts = new List<OrderProducts>()
             };
-
-            DataLoad().Wait();
         }
 
-        private async Task DataLoad()
+        public async Task DataLoad()
         {
             List<Category> category;
 
@@ -81,9 +190,14 @@ namespace Pizza.UI.Client.ViewModels
                 if (category[i].ParentCategory == null)
                     MainCategory.Add(category[i]);
             }
+
         }
 
-        #region MenuClick
+        #endregion
+
+        #region UI Commands
+
+        #region Menu
 
         public void HandleProfileClick()
         {
@@ -108,6 +222,11 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Создание экзмепляра продукта
+        /// </summary>
+        /// <param name="chooseProduct">выбранный продукт</param>
+        /// <returns></returns>
         private OrderProducts CeateOrderProducts(Product chooseProduct)
         {
             OrderProducts orderProd = new OrderProducts
@@ -120,8 +239,9 @@ namespace Pizza.UI.Client.ViewModels
             return orderProd;
         }
 
-        #region UI Commands
-
+        /// <summary>
+        /// Отчистка заказа
+        /// </summary>
         public void HandleClearOrderList()
         {
             for (int i = 0; i < OrderItems.Count; i++)
@@ -146,8 +266,15 @@ namespace Pizza.UI.Client.ViewModels
             OrderItems.Add(orderItem);
 
             _order.OrderProducts.Add(CeateOrderProducts(chooseProduct));
+
+            NotifyOfPropertyChange(() => OrderItemsSum);
         }
 
+        /// <summary>
+        /// Функция обновления значения для OrderItem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OrderItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Quantity")
@@ -171,7 +298,7 @@ namespace Pizza.UI.Client.ViewModels
         /// Добавление продукта в заказ к имеющимся
         /// </summary>
         /// <param name="chooseProduct"></param>
-        void AddProduct(Product chooseProduct)
+        private void AddProduct(Product chooseProduct)
         {
             for (int i = 0; i < OrderItems.Count; i++)
             {
@@ -188,30 +315,27 @@ namespace Pizza.UI.Client.ViewModels
             }
         }
 
-        public void HandleAddProductClick(TreeView CategoryTreeView)
+        /// <summary>
+        /// Добавление продукта в заказ
+        /// </summary>
+        /// <param name="CategoryTreeView"></param>
+        public void HandleAddProductClick(TabControl ProductTabControl)
         {
-            /*if (Find.SelectedItem != null)
+            if (SelectedProduct != null)
             {
-                Product chooseProduct = _products.Where(x => x.Name == Convert.ToString(Find.SelectedItem as string)).FirstOrDefault();
-                if (chooseProduct != null)
-                    if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
-                        AddProduct(chooseProduct);
-                    else
-                        CreateProduct(chooseProduct);
-            }*/
-
-            if (CategoryTreeView.SelectedItem is Product chooseProduct)
-            {
-                if (_order.OrderProducts.Any(x => x.ProductID == chooseProduct.Id))
+                if (_order.OrderProducts.Any(x => x.ProductID == SelectedProduct.Id))
                 {
-                    AddProduct(chooseProduct);
+                    AddProduct(SelectedProduct);
                 }
                 else
-                    CreateProduct(chooseProduct);
+                    CreateProduct(SelectedProduct);
             }
         }
 
-        public void HandleCreateOrder()
+        /// <summary>
+        /// Завершнение заказа
+        /// </summary>
+        public void HandleCreateOrderClick()
         {
             Execute.OnUIThread(() =>
             {
@@ -220,6 +344,11 @@ namespace Pizza.UI.Client.ViewModels
             });
 
             HandleClearOrderList();
+        }
+
+        public void HandleTreeViewSelectedItemChanged(RoutedPropertyChangedEventArgs<object> args)
+        {
+            SelectedProduct = args.NewValue as Product;
         }
         #endregion
     }

@@ -13,6 +13,74 @@ namespace Pizza.UI.Operator.ViewModels
     {
         #region Properties
 
+        public string _addressFilter;
+        public string AddressFilter
+        {
+            get
+            {
+                return _addressFilter;
+            }
+            set
+            {
+                if (value != _addressFilter)
+                {
+                    _addressFilter = value;
+                    NotifyOfPropertyChange(() => Orders);
+                }
+            }
+        }
+
+        private string _phoneFilter;
+        public string PhoneFilter
+        {
+            get
+            {
+                return _phoneFilter;
+            }
+            set
+            {
+                if (value != _phoneFilter)
+                {
+                    _phoneFilter = value;
+                    NotifyOfPropertyChange(() => Orders);
+                }
+            }
+        }
+
+        private string _dateFilter;
+        public string DateFilter
+        {
+            get
+            {
+                return _dateFilter;
+            }
+            set
+            {
+                if (value != _dateFilter)
+                {
+                    _dateFilter = value;
+                    NotifyOfPropertyChange(() => Orders);
+                }
+            }
+        }
+
+        private string _statusFilter;
+        public string StatusFilter
+        {
+            get
+            {
+                return _statusFilter;
+            }
+            set
+            {
+                if (value != _statusFilter)
+                {
+                    _statusFilter = value;
+                    NotifyOfPropertyChange(() => Orders);
+                }
+            }
+        }
+
         private Order _selectedOrder;
         public Order SelectedOrder
         {
@@ -22,17 +90,38 @@ namespace Pizza.UI.Operator.ViewModels
             }
             set
             {
-                if (_selectedOrder != null)
-                    if (value != _selectedOrder)
+                if (value != _selectedOrder)
+                {
+                    _selectedOrder = value;
+                    NotifyOfPropertyChange();
+
+                    if (_selectedOrder != null)
                     {
-                        _selectedOrder = value;
-
-                        NotifyOfPropertyChange();
-
-                        SelectedStatus = _selectedOrder.Status;
-
+                        SelectedStatus = Statuses.Single(x => x.Id == _selectedOrder.Status.Id);
                         NotifyOfPropertyChange(() => SelectedStatus);
                     }
+                }
+            }
+        }
+
+        private List<Order> _orders;
+        public List<Order> Orders
+        {
+            get
+            {
+                return _orders.Where(x => x.Address.ToLowerInvariant().Contains(AddressFilter.ToLowerInvariant())
+                && x.Status.Name.ToLowerInvariant().Contains(StatusFilter.ToLowerInvariant())
+                && x.Phone.ToLowerInvariant().Contains(PhoneFilter.ToLowerInvariant())
+                && x.Date.ToString().Contains(DateFilter))
+                .ToList();
+            }
+            set
+            {
+                if (value != _orders)
+                {
+                    _orders = value;
+                    NotifyOfPropertyChange();
+                }
             }
         }
 
@@ -49,6 +138,12 @@ namespace Pizza.UI.Operator.ViewModels
                 {
                     _selectedStatus = value;
                     NotifyOfPropertyChange();
+
+                    if (_selectedStatus != null && SelectedOrder != null)
+                    {
+                        SelectedOrder.Status = _selectedStatus;
+                        NotifyOfPropertyChange(() => Orders);
+                    }
                 }
             }
         }
@@ -70,58 +165,27 @@ namespace Pizza.UI.Operator.ViewModels
             }
         }
 
-        private string _filter;
-        public string Filter
-
-        {
-            get
-            {
-                return _filter;
-            }
-            set
-            {
-                if (value != _filter)
-                {
-                    _filter = value;
-                    NotifyOfPropertyChange();
-                    NotifyOfPropertyChange(() => Orders);
-
-                }
-            }
-        }
-
-        private List<Order> _orders;
-        public List<Order> Orders
-        {
-            get
-            {
-                if (Filter == "")
-                    return _orders.Where(x => x.Status.Name == Filter).ToList();
-                else
-                    return _orders;
-            }
-            set
-            {
-                if (value != _orders)
-                {
-                    _orders = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
-
         #endregion
 
         public OperatorMenuViewModel()
         {
             DisplayName = "Список заказов";
 
-            LoadOrders().Wait();
+            AddressFilter = "";
+            PhoneFilter = "";
+            DateFilter = "";
+            StatusFilter = "";
+
+            Load().Wait();
         }
 
         #region IU Commands
 
-        public async Task LoadOrders()
+        /// <summary>
+        /// Загрузка заказов и статусов
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
         {
             using (var orderSQlWork = new OrderSQLWork())
             {
@@ -134,23 +198,41 @@ namespace Pizza.UI.Operator.ViewModels
             }
         }
 
-        public void OpenOrderInfo()
+        /// <summary>
+        /// Просмотр подробной информации о заказе
+        /// </summary>
+        public void HandleOpenOrderInfoClick()
         {
             if (SelectedOrder != null)
                 Execute.OnUIThread(() =>
                 {
-                OrderInfoViewModel OrderInfoViewModel = new OrderInfoViewModel();
+                    OrderInfoViewModel OrderInfoViewModel = new OrderInfoViewModel();
 
-                OrderInfoViewModel.Load(SelectedOrder);
+                    OrderInfoViewModel.Load(SelectedOrder);
 
-                var wm = new WindowManager();
-                wm.ShowWindow(OrderInfoViewModel);
+                    var wm = new WindowManager();
+                    wm.ShowWindow(OrderInfoViewModel);
 
                 });
-            
         }
 
-        public async Task OrderListUpdate()
+        /// <summary>
+        /// Изменение состояния заказа
+        /// </summary>
+        /// <returns></returns>
+        public async Task HandleStatusUpdateClick()
+        {
+            using (var orderSQLWork = new OrderSQLWork())
+            {
+                await orderSQLWork.EditOrderAsync(SelectedOrder).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Обновление списка заказов
+        /// </summary>
+        /// <returns></returns>
+        public async Task HandleOrderListUpdateClick()
         {
             using (var orderSQlWork = new OrderSQLWork())
             {
@@ -158,7 +240,26 @@ namespace Pizza.UI.Operator.ViewModels
             }
         }
 
-        public void OpenClientsList()
+        /// <summary>
+        /// Открытие окна меню
+        /// </summary>
+        public void HandleOpenMenuListClick()
+        {
+            Execute.OnUIThread(() =>
+            {
+                var CreateMenuViewModel = new CreateMenuViewModel();
+
+                CreateMenuViewModel.Load().Wait();
+
+                var wm = new WindowManager();
+                wm.ShowWindow(CreateMenuViewModel);
+            });
+        }
+
+        /// <summary>
+        /// Открытие списка клиентов
+        /// </summary>
+        public void HandleOpenClientsListClick()
         {
             Execute.OnUIThread(() =>
             {
@@ -169,19 +270,6 @@ namespace Pizza.UI.Operator.ViewModels
                 var wm = new WindowManager();
                 wm.ShowWindow(ClientListViewModel);
 
-            });
-        }
-
-        public void OpenMenuList()
-        {
-            Execute.OnUIThread(() =>
-            {
-                var CreateMenuViewModel = new CreateMenuViewModel();
-
-                CreateMenuViewModel.Load().Wait();
-
-                var wm = new WindowManager();
-                wm.ShowWindow(CreateMenuViewModel);
             });
         }
 

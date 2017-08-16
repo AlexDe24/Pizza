@@ -28,6 +28,8 @@ namespace Pizza.UI.Client.ViewModels
 
         internal RegistrationViewModel()
         {
+            BirthDate = DateTime.Now;
+
             DisplayName = "Регистрация";
         }
 

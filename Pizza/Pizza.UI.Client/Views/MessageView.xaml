@@ -6,15 +6,13 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Row="0" Text="{Binding ErrorMessage}"/>
-        <Button Grid.Row="2" Content="Закрыть." cal:Message.Attach="HandleCloseClick" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding ErrorMessage}"/>
+        <Button Grid.Row="2" Content="Закрыть." cal:Message.Attach="HandleCloseClick"/>
     </Grid>
 </UserControl>

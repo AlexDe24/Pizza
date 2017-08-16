@@ -6,10 +6,8 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -19,10 +17,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Удалить учётную запись?"/>
-        
-        <Button Grid.Row="2" Content="Да." cal:Message.Attach="HandleDelClientClick" HorizontalAlignment="Center"/>
-
-        <Button Grid.Row="2" Grid.Column = "1" Content="Нет." cal:Message.Attach="HandleCloseClick" HorizontalAlignment="Center"/>
+        <TextBlock Grid.ColumnSpan="2" Text="Удалить учётную запись?"/>
+        <Button Grid.Row="1" Content="Да." cal:Message.Attach="HandleDelClientClick"/>
+        <Button Grid.Row="1" Grid.Column = "1" Content="Нет." cal:Message.Attach="HandleCloseClick"/>
     </Grid>
 </UserControl>

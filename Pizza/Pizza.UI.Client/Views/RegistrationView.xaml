@@ -5,62 +5,66 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pizza.UI.Client.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Width="300" Height="300">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.6*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.85*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+             xmlns:cal="http://www.caliburnproject.org">
 
-        <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" ShowsPreview="False" Height="3"
-         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
-        <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Name="ImagePanel" Margin="55,45,55,0" VerticalAlignment="Center" >
-            <Button Content="Сохранить">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="HandleRegistrationOk">
-                            <cal:Parameter Value="{Binding ElementName=PasswordOrig}" />
-                            <cal:Parameter Value="{Binding ElementName=PasswordControl}" />
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </StackPanel>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
 
-        <StackPanel  Grid.Column="0" Grid.Row="0" Name="ProfilePanelLabel">
-            <Label Content="Логин:*" Height="25"/>
-            <Label Content="Фамилия:" Height="25"/>
-            <Label Content="Имя:" Height="25"/>
-            <Label Content="Отчество:" Height="25"/>
-            <Label Content="Адрес*:" Height="25"/>
-            <Label Content="Номер телефона*:" Height="25"/>
-            <Label Content="Дата рождения*:" Height="25"/>
-        </StackPanel>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
 
-        <StackPanel  Grid.Column="1" Grid.Row="0" Name="ProfilePanel">
-            <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Login"/>
-            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Surname"/>
-            <TextBox Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Name"/>
-            <TextBox Text="{Binding Middlename, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Middlename"/>
-            <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Address"/>
-            <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Height="25" Name="Phone"/>
-            <DatePicker SelectedDate="{Binding BirthDate}">
-            </DatePicker>
-        </StackPanel>
-        <StackPanel  Grid.Column="0" Grid.Row="1" Name="PasswordPanelLabel">
-            <Label Content="Введите пароль:" Height="25"/>
-            <Label Content="Введите пароль повторно:" Height="25"/>
-        </StackPanel>
-        <StackPanel  Grid.Column="1" Grid.Row="1" Name="PasswordPanel">
-            <PasswordBox Height="25" Name="PasswordOrig"/>
-            <PasswordBox Height="25" Name="PasswordControl"/>
-        </StackPanel>
-    </Grid>
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </UserControl.Resources>
+    
+    <StackPanel>
+        <UniformGrid Columns="2" Rows="9">
+            <TextBlock Text ="Логин:*"  />
+            <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Фамилия:*"  />
+            <TextBox Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Имя:*"  />
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Отчество:*"  />
+            <TextBox Text="{Binding Middlename, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Адрес*:"  />
+            <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Номер телефона*:"  />
+            <TextBox  Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"  />
+            
+            <TextBlock Text ="Дата рождения*:"/>
+            <DatePicker SelectedDate="{Binding BirthDate}"/>
+
+            <TextBlock Text="Введите пароль:"  />
+            <PasswordBox Name="PasswordOrig"/>
+            
+            <TextBlock Text="Введите пароль повторно:"  />
+            <PasswordBox Name="PasswordControl"/>
+        </UniformGrid>
+        
+        <Button Content="Сохранить" Grid.Row="1">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="HandleRegistrationOk">
+                        <cal:Parameter Value="{Binding ElementName=PasswordOrig}" />
+                        <cal:Parameter Value="{Binding ElementName=PasswordControl}" />
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+    </StackPanel>
 </UserControl>

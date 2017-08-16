@@ -32,6 +32,25 @@ namespace Pizza.Logic.Repositories
         }
 
         /// <summary>
+        /// Изменение состояние заказа
+        /// </summary>
+        /// <param name="order">заказ</param>
+        public async Task EditOrderAsync(Order order)
+        {
+            Order baseOrder;
+
+            baseOrder = await _BaseCt.Orders
+                .Include(x => x.Client)
+                .Include(x => x.Status)
+                .Include(x => x.OrderProducts)
+                .Where(x => x.Id == order.Id).FirstOrDefaultAsync();
+
+            baseOrder.StatusId = order.Status.Id;
+
+            _BaseCt.SaveChanges();
+        }
+
+        /// <summary>
         /// Создание заказа
         /// </summary>
         /// <param name="order">заказ</param>

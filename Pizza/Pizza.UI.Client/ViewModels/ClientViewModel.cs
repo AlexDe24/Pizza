@@ -24,35 +24,52 @@ namespace Pizza.UI.Client.ViewModels
         public string Phone { get; set; } //номер телефона
         public decimal Discount { get; set; } //скидка
 
-        private Visibility _passwordGridVisibility;
-        public Visibility PasswordGridVisibility
+        private Visibility _buttonsEditVisibility;
+        public Visibility ButtonsEditVisibility
         {
             get
             {
-                return _passwordGridVisibility;
+                return _buttonsEditVisibility;
             }
             set
             {
-                if (value != _passwordGridVisibility)
+                if (value != _buttonsEditVisibility)
                 {
-                    _passwordGridVisibility = value;
+                    _buttonsEditVisibility = value;
                     NotifyOfPropertyChange();
                 }
             }
         }
 
-        private Visibility _editGridVisibility;
-        public Visibility EditGridVisibility
+        private Visibility _passwordEditVisibility;
+        public Visibility PasswordEditVisibility
         {
             get
             {
-                return _editGridVisibility;
+                return _passwordEditVisibility;
             }
             set
             {
-                if (value != _editGridVisibility)
+                if (value != _passwordEditVisibility)
                 {
-                    _editGridVisibility = value;
+                    _passwordEditVisibility = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
+
+        private Visibility _textBoxesVisibility;
+        public Visibility TextBoxesVisibility
+        {
+            get
+            {
+                return _textBoxesVisibility;
+            }
+            set
+            {
+                if (value != _textBoxesVisibility)
+                {
+                    _textBoxesVisibility = value;
                     NotifyOfPropertyChange();
                 }
             }
@@ -82,8 +99,9 @@ namespace Pizza.UI.Client.ViewModels
             DisplayName = "Профиль";
             EditClientButtonText = "Редактировать";
 
-            PasswordGridVisibility = Visibility.Hidden;
-            EditGridVisibility = Visibility.Collapsed;
+            ButtonsEditVisibility = Visibility.Collapsed;
+            TextBoxesVisibility = Visibility.Hidden;
+            PasswordEditVisibility = Visibility.Hidden;
 
             Client = ClientIdentitySingleton.Instance.CurrentClient;
 
@@ -100,53 +118,50 @@ namespace Pizza.UI.Client.ViewModels
 
         #region UI Commands
 
-        public async Task HandleEditClick(PasswordBox PasswordOld, PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        public void HandleVisibilityChangeClick()
         {
-            if (Convert.ToString(EditClientButtonText) == "Редактировать")
-            {
-                EditGridVisibility = Visibility.Visible;
+            ButtonsEditVisibility = Visibility.Visible;
+            TextBoxesVisibility = Visibility.Visible;
+        }
 
-                EditClientButtonText = "Сохранить"; 
-            }
-            else
-            {
-                PasswordClass passwordClass = new PasswordClass();
+        public async Task HandleSaveClick(PasswordBox PasswordOld, PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        {
+            PasswordClass passwordClass = new PasswordClass();
 
-                if (passwordClass.Base64Encode(PasswordOld.Password) == Password)
+            if (passwordClass.Base64Encode(PasswordOld.Password) == Password)
+            {
+                if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
                 {
-                    if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
-                    {
-                        Client.Surname = Surname;
-                        Client.Name = Name;
-                        Client.Middlename = Middlename;
-                        Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
-                        Client.BirthDate = BirthDate;
-                        Client.Address = Address;
-                        Client.Phone = Phone;
+                    Client.Surname = Surname;
+                    Client.Name = Name;
+                    Client.Middlename = Middlename;
+                    Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
+                    Client.BirthDate = BirthDate;
+                    Client.Address = Address;
+                    Client.Phone = Phone;
 
-                        ClientSQLWork clientSQLWork = new ClientSQLWork();
-                        clientSQLWork.EditClient(Client);
+                    ClientSQLWork clientSQLWork = new ClientSQLWork();
+                    clientSQLWork.EditClient(Client);
 
-                        TryClose();
-                    }
-                    else
-                    {
-                        var wm = new WindowManager();
-                        wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs});
-                    }
+                    TryClose();
                 }
                 else
                 {
                     var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongPassword});
-
+                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs });
                 }
+            }
+            else
+            {
+                var wm = new WindowManager();
+                wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongPassword });
+
             }
         }
 
         public void HandleEditPasswordClick()
         {
-            PasswordGridVisibility = Visibility.Visible;
+            PasswordEditVisibility = Visibility.Visible;
         }
 
         public void HandleSeeOrders()

@@ -6,7 +6,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="15">
+    <Grid Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center">
 
         <Grid.RowDefinitions>
             <RowDefinition/>

@@ -8,33 +8,22 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="35">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    
+    <UserControl.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFC3A0"/>
+            <GradientStop Color="#FFFFE16E" Offset="1"/>
+        </LinearGradientBrush>
+    </UserControl.Background>
+    
+    <StackPanel Margin="20">
+        <TextBlock  Text="Логин" />
+        <TextBox Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock  Text="Пароль" />
+        <PasswordBox Name="PasswordBox"/>
+        <CheckBox IsChecked="{Binding Path=IsSaveCLient}" Name="IsRemember" Content="Запомнить" Margin="0,10"/>
 
-        <Grid Name="LoginPanel"  Margin="25,0" >
-
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0"  Text="Логин" />
-            <TextBox Grid.Row="1"  Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Grid.Row="2"  Text="Пароль" />
-            <PasswordBox Grid.Row="3"  Name="PasswordBox"/>
-            <CheckBox Grid.Row="4"  IsChecked="{Binding Path=IsSaveCLient}" Name="IsRemember" Content="Запомнить" Margin="0,10"/>
-        
-        </Grid>
-
-        <Button Grid.Row="1" Content="Вход">
+        <Button Template="{DynamicResource ButtonMove}" Content="Вход">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="HandleLoginClick">
@@ -43,9 +32,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-
-        <Button Grid.Row="2" cal:Message.Attach="HandleRegistrationClick" Name="Regist" Content="Регистрация"/>
-
-        <Button Grid.Row="3" cal:Message.Attach="HandleExitClick" Content="Выход"/>
-    </Grid>
+        <Button Template="{DynamicResource ButtonMove}" cal:Message.Attach="HandleRegistrationClick" Content="Регистрация"/>
+        <Button Template="{DynamicResource ButtonMove}" cal:Message.Attach="HandleExitClick" Content="Выход"/>
+    </StackPanel>
 </UserControl>

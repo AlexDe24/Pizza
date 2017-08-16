@@ -5,16 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" xmlns:cal="http://www.caliburnproject.org"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              d:DesignHeight="350" d:DesignWidth="630">
     <Grid>
-        <Menu>
-            <Menu.Background>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="#FFFFC3A0"/>
-                    <GradientStop Color="#FFFFE16E" Offset="1"/>
-                </LinearGradientBrush>
-            </Menu.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFFFC3A0"/>
+                <GradientStop Color="#FFFFE16E" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
+        <!-- Меню -->
+        <Menu Grid.Row="0" Background="{x:Null}">
             <MenuItem Header="Общее">
                 <MenuItem cal:Message.Attach="HandleExitClick"  Header="Выход">
                     <MenuItem.Icon>
@@ -64,60 +73,76 @@
             </MenuItem>
         </Menu>
 
-        <Grid Margin="0,17,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.4*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <!-- Панель с кнопками добавления и очистки заказа -->
+        <UniformGrid Grid.Row="1" Columns="2">
+            <Button Margin="5" Content="Добавить в заказ" HorizontalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="HandleAddProductClick">
+                            <cal:Parameter Value="{Binding ElementName=ProductTabControl}" />
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="5*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Button cal:Message.Attach="HandleClearOrderList" Margin="5" Content="Отчистить заказ" HorizontalAlignment="Center"/>
+        </UniformGrid>
 
-                <StackPanel Orientation="Horizontal" DataContext ="{Binding Products}">
-                    <Image Height="20"  Width="20" Source="/Pizza.UI.Client;component/Resources/Find.png" />
-                    <ComboBox ItemsSource="{Binding Path = Products.Name}" Height="20" Width="200" HorizontalAlignment="Left" IsEditable="True" />
-                    <Button Margin="5" Content="Добавить в заказ">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="HandleAddProductClick">
-                                    <cal:Parameter Value="{Binding ElementName=CategoryTreeView}" />
-                                </cal:ActionMessage>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                </StackPanel>
+        <!-- Меню и заказ -->
+        <UniformGrid Grid.Row="2" Columns="2">
 
-                <TreeView Name="CategoryTreeView" Grid.Row="1" ItemTemplate="{StaticResource CategoryTemplate}" ItemsSource="{Binding MainCategory}"/>
-            </Grid>
+            <TabControl Name="ProductTabControl">
+                    <TabItem Header="Дерево">
+                        <TreeView cal:Message.Attach="[Event SelectedItemChanged] = [Action HandleTreeViewSelectedItemChanged($eventArgs)]" 
+                                  ItemTemplate="{StaticResource CategoryTemplate}"
+                                  ItemsSource="{Binding MainCategory}"/>
+                    </TabItem>
+                    <TabItem Header="Список">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-            <Grid Grid.Column="1" >
+                        <GroupBox Header="Поиск">
+                            <UniformGrid Rows="2" Columns="4" VerticalAlignment="Center">
+                                <TextBlock Text="Название"/>
+                                <TextBlock Text="Тип"/>
+                                <TextBlock Text="Категория"/>
+                                <TextBlock  Text="Цена"/>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="5*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                                <TextBox  Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Text="{Binding MainCategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox  Text="{Binding CategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Text="{Binding PriceFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </UniformGrid>
+                        </GroupBox>
 
-                <Button cal:Message.Attach="HandleClearOrderList" Margin="5" Content="Отчистить заказ" HorizontalAlignment="Center"/>
+                        <DataGrid Grid.Row="1" SelectedItem="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" ItemsSource="{Binding Products}"  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Path=Category.ParentCategory.Name}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Категория" Binding="{Binding Path=Category.Name}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price, StringFormat={}{0:n2} р.}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                </TabControl>
 
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderItems}" Background="White">
+            <ItemsControl ItemsSource="{Binding OrderItems}" Background="White">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <ContentControl cal:View.Model="{Binding}" cal:View.Context="ListItem" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+        </UniformGrid>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="{Binding OrderItemsSum, StringFormat='Сумма заказа: {0}'}"/>
-                    <Button cal:Message.Attach="HandleCreateOrder" Margin="5" Content="Продолжить заказ"/>
-                </StackPanel>
-
-            </Grid>
-        </Grid>
+        <!-- Панель завершения заказа -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding OrderItemsSum, StringFormat='Сумма заказа: {0}'}" VerticalAlignment="Center"/>
+            <Button cal:Message.Attach="HandleCreateOrderClick" Margin="5" Content="Продолжить заказ"/>
+        </StackPanel>
     </Grid>
 </UserControl>

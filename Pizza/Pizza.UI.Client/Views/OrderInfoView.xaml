@@ -20,12 +20,18 @@
                 <DataGridTextColumn Header="Сумма" Binding="{c:Binding Path=CountProducts * Products.Price}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <StackPanel Grid.Row="1" Margin="10">
+
+        <Grid Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
             <TextBlock Text="{Binding OrderSum, StringFormat='Сумма заказа: {0}'}"/>
-            <TextBlock Text="{Binding Path=Order.Discount, StringFormat='Оплата балами: {0}'}"/>
-            <TextBlock Text="{c:Binding Path=OrderSum - Order.Discount, StringFormat='Конечная сумма: {0}'}"/>
-        </StackPanel>
-        
+            <TextBlock Grid.Row="1" Text="{Binding Path=Order.Discount, StringFormat='Оплата балами: {0}'}"/>
+            <TextBlock Grid.Row="2" Text="{c:Binding Path=OrderSum - Order.Discount, StringFormat='Конечная сумма: {0}'}"/>
+        </Grid>
+
     </Grid>
 </UserControl>

@@ -16,41 +16,65 @@
         <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.3*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Background="LightGray">
-                <Image Height="20"  Width="20" Source="pack://siteoforigin:,,,/Resources/Find.png" />
-                <TextBox Name="Find" Height="20" Width="400" HorizontalAlignment="Left"/>
-            </StackPanel>
+            <GroupBox Header="Поиск">
+                <Grid VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Фамилия"/>
+                    <TextBlock Grid.Column="1" Text="Имя"/>
+                    <TextBlock Grid.Column="2" Text="Отчество"/>
+                    <TextBlock Grid.Column="3" Text="Дата рождения"/>
+                    <TextBlock Grid.Column="4" Text="Адрес"/>
+                    <TextBlock Grid.Column="5" Text="Номер телефона"/>
+
+                    <TextBox Grid.Row="1" Text="{Binding SurnameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding MiddlenameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding DateFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding AddressFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding PhoneFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
+            
             <DataGrid SelectedItem="{Binding SelectedClient}" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding Path=Clients}"  AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Address}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Phone}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            
         </Grid>
 
-        <Grid Grid.Column="1" Margin="5">
+        <Grid Grid.Column="1" Margin="5" VerticalAlignment="Center">
 
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button cal:Message.Attach="HandleClientListUpdateClick" Grid.Row="1" Margin="5" Content="Обновить список"/>
-            <Button cal:Message.Attach="HandleClientEditClick" Grid.Row="2" Margin="5" Content="Редактировать пользователя"/>
-            <Button cal:Message.Attach="HandleClientRegistrationClick" Grid.Row="3" Margin="5" Content="Зарегистрировать пользователя"/>
+            <Button cal:Message.Attach="HandleClientListUpdateClick" Grid.Row="0" Margin="5" Content="Обновить список"/>
+            <Button cal:Message.Attach="HandleClientEditClick" Grid.Row="1" Margin="5" Content="Редактировать пользователя"/>
+            <Button cal:Message.Attach="HandleClientRegistrationClick" Grid.Row="2" Margin="5" Content="Зарегистрировать пользователя"/>
         </Grid>
 
     </Grid>

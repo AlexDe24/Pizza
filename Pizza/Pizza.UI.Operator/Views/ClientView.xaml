@@ -37,7 +37,7 @@
             <TextBlock Grid.Row="6" Text ="{Binding Discount, StringFormat='Скидочные баллы: {0}'}" Height="25" ToolTip="Вам будет начисляться 3% с каждого заказа."/>
         </Grid>
 
-        <Grid Visibility= "{Binding EditGridVisibility}" Grid.Column="2">
+        <Grid Visibility= "{Binding EditGridVisibility}" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
