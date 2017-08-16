@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Pizza.UI.Operator.ViewModels
@@ -26,10 +27,14 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
+        #region Constructor
+
         internal RegistrationViewModel()
         {
             DisplayName = "Регистрация";
         }
+
+        #endregion
 
         #region UI Commands
 
@@ -64,23 +69,13 @@ namespace Pizza.UI.Operator.ViewModels
                     }
                     catch (Exception)
                     {
-
-                        Execute.OnUIThread(() =>
-                        {
-                            var wm = new WindowManager();
-                            wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.RequiredParameters });
-                        });
-
+                        MessageBox.Show(Properties.Resources.RequiredParameters, "Внимание!");
                     }
                 }
             }
             else
             {
-                Execute.OnUIThread(() =>
-                {
-                    var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.LoginBusy });
-                });
+                MessageBox.Show(Properties.Resources.LoginBusy, "Внимание!");
             }
         }
 

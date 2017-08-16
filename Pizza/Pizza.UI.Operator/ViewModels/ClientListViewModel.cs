@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pizza.UI.Operator.ViewModels
 {
-    class ClientListViewModel : Screen
+    internal class ClientListViewModel : Screen
     {
         #region Properties
 
@@ -142,7 +142,9 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
-        public ClientListViewModel()
+        #region Constructor
+
+        internal ClientListViewModel()
         {
             DisplayName = "Список клиентов";
 
@@ -154,17 +156,15 @@ namespace Pizza.UI.Operator.ViewModels
             PhoneFilter = "";
         }
 
-        #region IU Commands
+        #endregion
 
+        #region Commands
+
+        /// <summary>
+        /// Загрузка клиентов из базы
+        /// </summary>
+        /// <returns></returns>
         public async Task Load()
-        {
-            using(var ClientSQLWork = new ClientSQLWork())
-            {
-                Clients = await ClientSQLWork.ReadClientsAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task HandleClientListUpdateClick()
         {
             using (var ClientSQLWork = new ClientSQLWork())
             {
@@ -172,6 +172,22 @@ namespace Pizza.UI.Operator.ViewModels
             }
         }
 
+        #endregion
+
+        #region UI Commands
+
+        /// <summary>
+        /// Функция обновления списка клиентов
+        /// </summary>
+        /// <returns></returns>
+        public async Task HandleClientListUpdateClick()
+        {
+            await Load().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Функция вызова окна регистрации
+        /// </summary>
         public void HandleClientRegistrationClick()
         {
             Execute.OnUIThread(() =>
@@ -181,6 +197,9 @@ namespace Pizza.UI.Operator.ViewModels
             });
         }
 
+        /// <summary>
+        /// Функция редактирвания клиента
+        /// </summary>
         public void HandleClientEditClick()
         {
             if (SelectedClient != null)

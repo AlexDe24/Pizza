@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pizza.UI.Client.ViewModels
 {
-    public class OrderInfoViewModel : Screen
+    internal class OrderInfoViewModel : Screen
     {
         #region Properties
 
@@ -46,16 +46,31 @@ namespace Pizza.UI.Client.ViewModels
                 }
             }
         }
+
         #endregion
 
+        #region Constructor
+
+        internal OrderInfoViewModel()
+        {
+            DisplayName = "Заказ";
+        }
+
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Загрузка данных о заказе
+        /// </summary>
+        /// <param name="ThisOrder"></param>
         public void LoadOrderInfo(Order ThisOrder)
         {
             Order = ThisOrder;
 
-            for (int i = 0; i < Order.OrderProducts.Count; i++)
-            {
-                OrderSum += Order.OrderProducts[i].Products.Price * Order.OrderProducts[i].CountProducts;
-            }
+            Order.OrderProducts.ForEach(op => OrderSum += op.Products.Price * op.CountProducts);
         }
+
+        #endregion
     }
 }

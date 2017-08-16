@@ -82,7 +82,7 @@ namespace Pizza.Logic.Repositories
 
         public async Task<bool> IsLoginFree(string login)
         {
-            return await _BaseCt.Clients.AnyAsync(x => x.Login == login).ConfigureAwait(false);
+            return !(await _BaseCt.Clients.AnyAsync(x => x.Login == login).ConfigureAwait(false));
         }
 
         /// <summary>

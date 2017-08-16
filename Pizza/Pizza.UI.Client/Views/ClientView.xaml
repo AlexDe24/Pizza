@@ -29,6 +29,7 @@
     </UserControl.Resources>
 
     <StackPanel>
+        <!-- Панель основных данных -->
         <UniformGrid Rows="7" Columns="2">
             <TextBlock Text ="{Binding Surname, StringFormat='Фамилия: {0}'}"/>
             <TextBox Text ="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -50,7 +51,8 @@
 
             <TextBlock Text ="{Binding Discount, StringFormat='Скидочные баллы: {0}'}" ToolTip="Вам будет начисляться 3% с каждого заказа."/>
         </UniformGrid>
-
+        
+        <!-- Панель паролей -->
         <UniformGrid Rows="3" Columns="2" Visibility="{Binding PasswordEditVisibility}">
             <TextBlock Text="Введите старый пароль:"/>
             <PasswordBox Name="PasswordOld"/>
@@ -61,11 +63,12 @@
             <TextBlock Text="Введите пароль повторно:"/>
             <PasswordBox Name="PasswordControl"/>
         </UniformGrid>
-
+       
+        <!-- Панель кнопок -->
         <UniformGrid Columns="4">
             <Button cal:Message.Attach="HandleSeeOrders" Grid.Column="0" Content="Мои заказы"/>
-            <Button cal:Message.Attach="HandleVisibilityChangeClick" Content="Редактировать" Visibility="{c:Binding !ButtonsEditVisibility}"/>
-            <Button Content="Сохранить" Visibility="{Binding ButtonsEditVisibility}">
+            <Button cal:Message.Attach="HandleVisibilityChangeClick" Content="Редактировать" Visibility="{c:Binding ButtonEditVisibility}"/>
+            <Button Content="Сохранить" Visibility="{Binding ButtonsVisibility}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <cal:ActionMessage MethodName="HandleSaveClick">
@@ -76,8 +79,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button cal:Message.Attach="HandleEditPasswordClick" Content="Сменить пароль" Visibility="{Binding ButtonsEditVisibility}"/>
-            <Button cal:Message.Attach="HandleDelClient" Content="Удалить профиль" Visibility="{Binding ButtonsEditVisibility}"/>
+            <Button cal:Message.Attach="HandleEditPasswordClick" Content="Сменить пароль" Visibility="{Binding ButtonsVisibility}"/>
+            <Button cal:Message.Attach="HandleDelClient" Content="Удалить профиль" Visibility="{Binding ButtonsVisibility}"/>
         </UniformGrid>
     </StackPanel>
 </UserControl>

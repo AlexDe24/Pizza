@@ -6,6 +6,7 @@
              mc:Ignorable="d" xmlns:cal="http://www.caliburnproject.org"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             cal:Message.Attach="[Event Unloaded] = [Action ApplicationClose]" 
              d:DesignHeight="350" d:DesignWidth="630">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,13 +16,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="#FFFFC3A0"/>
-                <GradientStop Color="#FFFFE16E" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-
         <!-- Меню -->
         <Menu Grid.Row="0" Background="{x:Null}">
             <MenuItem Header="Общее">
@@ -75,16 +69,7 @@
 
         <!-- Панель с кнопками добавления и очистки заказа -->
         <UniformGrid Grid.Row="1" Columns="2">
-            <Button Margin="5" Content="Добавить в заказ" HorizontalAlignment="Center">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="HandleAddProductClick">
-                            <cal:Parameter Value="{Binding ElementName=ProductTabControl}" />
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-
+            <Button cal:Message.Attach="HandleAddProductClick" Margin="5" Content="Добавить в заказ" HorizontalAlignment="Center"/>
             <Button cal:Message.Attach="HandleClearOrderList" Margin="5" Content="Отчистить заказ" HorizontalAlignment="Center"/>
         </UniformGrid>
 
@@ -92,12 +77,13 @@
         <UniformGrid Grid.Row="2" Columns="2">
 
             <TabControl Name="ProductTabControl">
-                    <TabItem Header="Дерево">
-                        <TreeView cal:Message.Attach="[Event SelectedItemChanged] = [Action HandleTreeViewSelectedItemChanged($eventArgs)]" 
+                <TabItem Header="Дерево">
+                    <TreeView cal:Message.Attach="[Event SelectedItemChanged] = [Action HandleTreeViewSelectedItemChanged($eventArgs)]; 
+                              [Event MouseDoubleClick] = [Action HandleAddProductClick]" 
                                   ItemTemplate="{StaticResource CategoryTemplate}"
                                   ItemsSource="{Binding MainCategory}"/>
-                    </TabItem>
-                    <TabItem Header="Список">
+                </TabItem>
+                <TabItem Header="Список">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -118,7 +104,7 @@
                             </UniformGrid>
                         </GroupBox>
 
-                        <DataGrid Grid.Row="1" SelectedItem="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" ItemsSource="{Binding Products}"  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
+                        <DataGrid cal:Message.Attach="[Event MouseDoubleClick] = [Action HandleAddProductClick]"  Grid.Row="1" SelectedItem="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" ItemsSource="{Binding Products}"  AutoGenerateColumns="False" HorizontalContentAlignment="Stretch">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Category.ParentCategory.Name}"></DataGridTextColumn>
@@ -128,15 +114,15 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                </TabControl>
+            </TabControl>
 
             <ItemsControl ItemsSource="{Binding OrderItems}" Background="White">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl cal:View.Model="{Binding}" cal:View.Context="ListItem" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl cal:View.Model="{Binding}" cal:View.Context="ListItem" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </UniformGrid>
 
         <!-- Панель завершения заказа -->

@@ -9,12 +9,16 @@ using System.Windows;
 
 namespace Pizza.UI.Client.ViewModels
 {
-    class DialogViewModel : Screen
+    internal class DialogViewModel : Screen
     {
-        public DialogViewModel()
+        #region Constructor
+
+        internal DialogViewModel()
         {
             DisplayName = "Внимание!";
         }
+
+        #endregion
 
         #region UI Commands
 
@@ -29,10 +33,8 @@ namespace Pizza.UI.Client.ViewModels
                 clientSQLWork.DeleteClient(ClientIdentitySingleton.Instance.CurrentClient);
             
             Application.Current.Shutdown();
-
         }
 
         #endregion
-
     }
 }

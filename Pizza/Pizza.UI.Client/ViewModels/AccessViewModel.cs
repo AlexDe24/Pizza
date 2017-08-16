@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using Pizza.Logic.DTO;
-using Pizza.Form.Total;
 using Pizza.Logic;
 using Pizza.Logic.Repositories;
 using System;
@@ -9,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace Pizza.UI.Client.ViewModels
 {
     internal class AccessViewModel : Screen
     {
-
         #region Properties
 
         public string Login { get; set; }
@@ -24,16 +23,24 @@ namespace Pizza.UI.Client.ViewModels
         #endregion
 
         #region Constructor
-        public AccessViewModel()
+
+        internal AccessViewModel()
         {
+            IsSaveCLient = true;
+            Login = Properties.Settings.Default.Login;
+
             DisplayName = "Вход";
 
             _passwordClass = new PasswordClass();
         }
+
         #endregion
 
         #region UI Commands
 
+        /// <summary>
+        /// Функций для конпкий "Вход"
+        /// </summary>
         public async Task HandleLoginClick(PasswordBox passwordBox)
         {
             var password = _passwordClass.Base64Encode(passwordBox.Password);
@@ -44,28 +51,31 @@ namespace Pizza.UI.Client.ViewModels
 
                 if (client == null)
                 {
-                    Execute.OnUIThread(() =>
-                    {
-                        var wm = new WindowManager();
-                        wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongLoginOrPassword });
-                    });
+                    MessageBox.Show(Properties.Resources.WrongLoginOrPassword, "Внимание!");
                 }
                 else
                 {
                     ClientIdentitySingleton.Instance.CurrentClient = client;
 
-                    Execute.OnUIThread(() =>
+                    if (IsSaveCLient)
                     {
-                        MenuViewModel menuViewModel = new MenuViewModel();
-                        menuViewModel.DataLoad().Wait();
+                        Properties.Settings.Default.Login = client.Login;
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.Login = "";
+                        Properties.Settings.Default.Save();
+                    }
 
-                        var wm = new WindowManager();
-                        wm.ShowWindow(menuViewModel);
-                    });
+                    TryClose();
                 }
             }
         }
 
+        /// <summary>
+        /// Функций для кнопкий "Регистрация"
+        /// </summary>
         public void HandleRegistrationClick()
         {
             Execute.OnUIThread(() =>
@@ -75,10 +85,14 @@ namespace Pizza.UI.Client.ViewModels
             });
         }
 
+        /// <summary>
+        /// Функций для конпкий "Выйти"
+        /// </summary>
         public void HandleExitClick()
         {
             TryClose();
         }
+
         #endregion
     }
 }

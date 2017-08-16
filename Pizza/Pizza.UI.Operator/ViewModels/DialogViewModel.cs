@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace Pizza.UI.Operator.ViewModels
 {
-    class DialogViewModel : Screen
+    internal class DialogViewModel : Screen
     {
         #region Properties
 
@@ -18,11 +18,14 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
+        #region Constructor
 
-        public DialogViewModel()
+        internal DialogViewModel()
         {
             DisplayName = "Внимание!";
         }
+
+        #endregion
 
         #region UI Commands
 
@@ -42,6 +45,5 @@ namespace Pizza.UI.Operator.ViewModels
         }
 
         #endregion
-
     }
 }

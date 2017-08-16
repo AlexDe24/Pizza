@@ -7,52 +7,36 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <GroupBox Header="Поиск">
-                <Grid VerticalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
+                <UniformGrid Rows="2" Columns="6" VerticalAlignment="Center">
                     <TextBlock Text="Фамилия"/>
-                    <TextBlock Grid.Column="1" Text="Имя"/>
-                    <TextBlock Grid.Column="2" Text="Отчество"/>
-                    <TextBlock Grid.Column="3" Text="Дата рождения"/>
-                    <TextBlock Grid.Column="4" Text="Адрес"/>
-                    <TextBlock Grid.Column="5" Text="Номер телефона"/>
+                    <TextBlock Text="Имя"/>
+                    <TextBlock Text="Отчество"/>
+                    <TextBlock Text="Дата рождения"/>
+                    <TextBlock Text="Адрес"/>
+                    <TextBlock Text="Номер телефона"/>
 
-                    <TextBox Grid.Row="1" Text="{Binding SurnameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding MiddlenameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding DateFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding AddressFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding PhoneFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
+                    <TextBox Text="{Binding SurnameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding MiddlenameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding DateFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding AddressFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding PhoneFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </UniformGrid>
             </GroupBox>
-            
-            <DataGrid SelectedItem="{Binding SelectedClient}" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding Path=Clients}"  AutoGenerateColumns="False">
+
+            <DataGrid cal:Message.Attach="[Event MouseDoubleClick] = [Action HandleClientEditClick]" SelectedItem="{Binding SelectedClient}" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding Path=Clients}"  AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}"></DataGridTextColumn>
@@ -64,18 +48,12 @@
             </DataGrid>
         </Grid>
 
-        <Grid Grid.Column="1" Margin="5" VerticalAlignment="Center">
+        <GridSplitter Grid.ColumnSpan="1" Width="5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right"/>
 
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Button cal:Message.Attach="HandleClientListUpdateClick" Grid.Row="0" Margin="5" Content="Обновить список"/>
-            <Button cal:Message.Attach="HandleClientEditClick" Grid.Row="1" Margin="5" Content="Редактировать пользователя"/>
-            <Button cal:Message.Attach="HandleClientRegistrationClick" Grid.Row="2" Margin="5" Content="Зарегистрировать пользователя"/>
-        </Grid>
-
+        <UniformGrid Rows="3" Grid.Column="1" Margin="5" VerticalAlignment="Center">
+            <Button cal:Message.Attach="HandleClientListUpdateClick" Content="Обновить список"/>
+            <Button cal:Message.Attach="HandleClientEditClick" Content="Редактировать пользователя"/>
+            <Button cal:Message.Attach="HandleClientRegistrationClick" Content="Зарегистрировать пользователя"/>
+        </UniformGrid>
     </Grid>
 </UserControl>

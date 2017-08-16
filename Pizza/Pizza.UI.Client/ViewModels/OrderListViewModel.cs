@@ -9,25 +9,9 @@ using System.Threading.Tasks;
 
 namespace Pizza.UI.Client.ViewModels
 {
-    public class OrderListViewModel : Screen
+    internal class OrderListViewModel : Screen
     {
-        private int _selectedOrderIndex;
-        public int SelectedOrderIndex
-
-        {
-            get
-            {
-                return _selectedOrderIndex;
-            }
-            set
-            {
-                if (value != _selectedOrderIndex)
-                {
-                    _selectedOrderIndex = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
+        #region Properties
 
         public Order SelectedOrder { get; set; }
 
@@ -50,15 +34,36 @@ namespace Pizza.UI.Client.ViewModels
 
         public Logic.DTO.Client Client { get; set; }
 
+        #endregion
+
+        #region Construcor
+        
+        internal OrderListViewModel()
+        {
+            DisplayName = "Списак заказов";
+        }
+
+        #endregion
+
+        #region  Commands
+
+        /// <summary>
+        /// Загрузка списка заказов(вызывается извне)
+        /// </summary>
+        /// <returns></returns>
         public async Task ReadOrders()
         {
-            SelectedOrderIndex = -1;
-
             using (var orderSQLWork = new OrderSQLWork())
                 Orders = await orderSQLWork.GetClientOrdersAsync(Client).ConfigureAwait(false);
         }
 
+        #endregion
 
+        #region UI Commands
+
+        /// <summary>
+        /// Переход в форму подробной информации о заказе
+        /// </summary>
         public void OpenOrderInfo()
         {
             Execute.OnUIThread(() =>
@@ -69,11 +74,9 @@ namespace Pizza.UI.Client.ViewModels
 
                 var wm = new WindowManager();
                 wm.ShowWindow(OrderInfoViewModel);
-
             });
-
-            SelectedOrderIndex = -1;
-
         }
+
+        #endregion
     }
 }

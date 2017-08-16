@@ -167,6 +167,8 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
+        #region Constructor
+
         public OperatorMenuViewModel()
         {
             DisplayName = "Список заказов";
@@ -179,7 +181,9 @@ namespace Pizza.UI.Operator.ViewModels
             Load().Wait();
         }
 
-        #region IU Commands
+        #endregion
+
+        #region Commands
 
         /// <summary>
         /// Загрузка заказов и статусов
@@ -197,6 +201,10 @@ namespace Pizza.UI.Operator.ViewModels
                 Statuses = await statusSQLWork.GetStatusesAsync().ConfigureAwait(false);
             }
         }
+
+        #endregion
+
+        #region UI Commands
 
         /// <summary>
         /// Просмотр подробной информации о заказе

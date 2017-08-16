@@ -85,8 +85,6 @@ namespace Pizza.UI.Client.ViewModels
             }
         }
 
-        public TreeView CatTreeView { get; set; }
-
         private BindableCollection<OrderElementViewModel> _orderItems;
         public BindableCollection<OrderElementViewModel> OrderItems
         {
@@ -149,9 +147,9 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
-        #region Initialization
+        #region Constructor
 
-        internal MenuViewModel()
+        public MenuViewModel()
         {
             DisplayName = "Меню";
 
@@ -163,14 +161,28 @@ namespace Pizza.UI.Client.ViewModels
             MainCategory = new List<Category>();
             OrderItems = new BindableCollection<OrderElementViewModel>();
 
-            CatTreeView = new TreeView();
-
             _order = new Order()
             {
                 OrderProducts = new List<OrderProducts>()
             };
+
+            DataLoad().ConfigureAwait(false);
+
+            var wm = new WindowManager();
+            wm.ShowDialog(new AccessViewModel());
+
+            if (ClientIdentitySingleton.Instance.CurrentClient == null)
+                Application.Current.Shutdown();
         }
 
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Функция предварительной загрузки данных
+        /// </summary>
+        /// <returns></returns>
         public async Task DataLoad()
         {
             List<Category> category;
@@ -193,71 +205,11 @@ namespace Pizza.UI.Client.ViewModels
 
         }
 
-        #endregion
-
-        #region UI Commands
-
-        #region Menu
-
-        public void HandleProfileClick()
-        {
-            Execute.OnUIThread(() =>
-            {
-                var wm = new WindowManager();
-                wm.ShowDialog(new ClientViewModel());
-            });
-        }
-
-        public void HandleLogOutClick()
-        {
-            ClientIdentitySingleton.Instance.CurrentClient = null;
-            TryClose();
-        }
-
-        public void HandleExitClick()
-        {
-            Application.Current.Shutdown();
-            //Application.Shutdown();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Создание экзмепляра продукта
-        /// </summary>
-        /// <param name="chooseProduct">выбранный продукт</param>
-        /// <returns></returns>
-        private OrderProducts CeateOrderProducts(Product chooseProduct)
-        {
-            OrderProducts orderProd = new OrderProducts
-            {
-                OrderID = _order.Id,
-                ProductID = chooseProduct.Id,
-                CountProducts = 1
-            };
-
-            return orderProd;
-        }
-
-        /// <summary>
-        /// Отчистка заказа
-        /// </summary>
-        public void HandleClearOrderList()
-        {
-            for (int i = 0; i < OrderItems.Count; i++)
-            {
-                OrderItems[i].PropertyChanged -= OrderItem_PropertyChanged;
-            }
-
-            _order.OrderProducts.Clear();
-            OrderItems.Clear();
-        }
-
         /// <summary>
         /// Добавление продукта в заказ 
         /// </summary>
         /// <param name="chooseProduct"></param>
-        void CreateProduct(Product chooseProduct)
+        private void CreateProduct(Product chooseProduct)
         {
             OrderElementViewModel orderItem = new OrderElementViewModel { ProductName = chooseProduct.Name, ProductPrice = chooseProduct.Price };
             orderItem.PropertyChanged += OrderItem_PropertyChanged;
@@ -316,10 +268,81 @@ namespace Pizza.UI.Client.ViewModels
         }
 
         /// <summary>
+        /// Создание экзмепляра продукта
+        /// </summary>
+        /// <param name="chooseProduct">выбранный продукт</param>
+        private OrderProducts CeateOrderProducts(Product chooseProduct)
+        {
+            OrderProducts orderProd = new OrderProducts
+            {
+                OrderID = _order.Id,
+                ProductID = chooseProduct.Id,
+                CountProducts = 1
+            };
+
+            return orderProd;
+        }
+
+        #endregion  
+
+        #region UI Commands
+
+        #region Menu
+
+        public void HandleProfileClick()
+        {
+            Execute.OnUIThread(() =>
+            {
+                var wm = new WindowManager();
+                wm.ShowDialog(new ClientViewModel());
+            });
+        }
+
+        public void HandleLogOutClick()
+        {
+            ClientIdentitySingleton.Instance.CurrentClient = null;
+
+            Execute.OnUIThread(() =>
+            {
+                var wm = new WindowManager();
+                wm.ShowDialog(new AccessViewModel());
+
+                if (ClientIdentitySingleton.Instance.CurrentClient == null)
+                    Application.Current.Shutdown();
+            });
+        }
+
+        public void HandleExitClick()
+        {
+            Application.Current.Shutdown();
+        }
+
+        #endregion
+
+        public void ApplicationClose()
+        {
+            Application.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Отчистка заказа
+        /// </summary>
+        public void HandleClearOrderList()
+        {
+            for (int i = 0; i < OrderItems.Count; i++)
+            {
+                OrderItems[i].PropertyChanged -= OrderItem_PropertyChanged;
+            }
+
+            _order.OrderProducts.Clear();
+            OrderItems.Clear();
+        }
+
+        /// <summary>
         /// Добавление продукта в заказ
         /// </summary>
         /// <param name="CategoryTreeView"></param>
-        public void HandleAddProductClick(TabControl ProductTabControl)
+        public void HandleAddProductClick()
         {
             if (SelectedProduct != null)
             {
@@ -346,10 +369,15 @@ namespace Pizza.UI.Client.ViewModels
             HandleClearOrderList();
         }
 
+        /// <summary>
+        /// Функция для смены выбранного продукта при смене фокуса в TreeView
+        /// </summary>
+        /// <param name="args"></param>
         public void HandleTreeViewSelectedItemChanged(RoutedPropertyChangedEventArgs<object> args)
         {
             SelectedProduct = args.NewValue as Product;
         }
+
         #endregion
     }
 }

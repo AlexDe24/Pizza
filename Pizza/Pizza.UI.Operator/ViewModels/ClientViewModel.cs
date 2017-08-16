@@ -24,35 +24,69 @@ namespace Pizza.UI.Operator.ViewModels
         public string Phone { get; set; } //номер телефона
         public decimal Discount { get; set; } //скидка
 
-        private Visibility _passwordGridVisibility;
-        public Visibility PasswordGridVisibility
+        private Visibility _buttonsVisibility;
+        public Visibility ButtonsVisibility
         {
             get
             {
-                return _passwordGridVisibility;
+                return _buttonsVisibility;
             }
             set
             {
-                if (value != _passwordGridVisibility)
+                if (value != _buttonsVisibility)
                 {
-                    _passwordGridVisibility = value;
+                    _buttonsVisibility = value;
                     NotifyOfPropertyChange();
                 }
             }
         }
 
-        private Visibility _editGridVisibility;
-        public Visibility EditGridVisibility
+        private Visibility _buttonEditVisibility;
+        public Visibility ButtonEditVisibility
         {
             get
             {
-                return _editGridVisibility;
+                return _buttonEditVisibility;
             }
             set
             {
-                if (value != _editGridVisibility)
+                if (value != _buttonEditVisibility)
                 {
-                    _editGridVisibility = value;
+                    _buttonEditVisibility = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
+
+        private Visibility _passwordEditVisibility;
+        public Visibility PasswordEditVisibility
+        {
+            get
+            {
+                return _passwordEditVisibility;
+            }
+            set
+            {
+                if (value != _passwordEditVisibility)
+                {
+                    _passwordEditVisibility = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
+
+        private Visibility _textBoxesVisibility;
+        public Visibility TextBoxesVisibility
+        {
+            get
+            {
+                return _textBoxesVisibility;
+            }
+            set
+            {
+                if (value != _textBoxesVisibility)
+                {
+                    _textBoxesVisibility = value;
                     NotifyOfPropertyChange();
                 }
             }
@@ -77,15 +111,26 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
+        #region Constructor
+
         internal ClientViewModel()
         {
             DisplayName = "Профиль";
             EditClientButtonText = "Редактировать";
 
-            PasswordGridVisibility = Visibility.Hidden;
-            EditGridVisibility = Visibility.Collapsed;
+            ButtonsVisibility = Visibility.Collapsed;
+            ButtonEditVisibility = Visibility.Visible;
+            TextBoxesVisibility = Visibility.Hidden;
+            PasswordEditVisibility = Visibility.Hidden;
         }
 
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Загрузка данных о клиенте
+        /// </summary>
         public void Load()
         {
             Surname = Client.Surname;
@@ -99,48 +144,59 @@ namespace Pizza.UI.Operator.ViewModels
             Discount = Client.Discount;
         }
 
+        #endregion
+
         #region UI Commands
 
-        public async Task HandleEditClick(PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        /// <summary>
+        /// Функция для конпки "Редактировать"
+        /// </summary>
+        public void HandleVisibilityChangeClick()
         {
-            if (Convert.ToString(EditClientButtonText) == "Редактировать")
-            {
-                EditGridVisibility = Visibility.Visible;
+            ButtonsVisibility = Visibility.Visible;
+            ButtonEditVisibility = Visibility.Collapsed;
+            TextBoxesVisibility = Visibility.Visible;
+        }
 
-                EditClientButtonText = "Сохранить";
+        /// <summary>
+        /// Функция для конпки "Сохранить"
+        /// </summary>
+        public void HandleSaveClick(PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        {
+            PasswordClass passwordClass = new PasswordClass();
+
+            if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
+            {
+                Client.Surname = Surname;
+                Client.Name = Name;
+                Client.Middlename = Middlename;
+                Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
+                Client.BirthDate = BirthDate;
+                Client.Address = Address;
+                Client.Phone = Phone;
+
+                ClientSQLWork clientSQLWork = new ClientSQLWork();
+                clientSQLWork.EditClient(Client);
+
+                TryClose();
             }
             else
             {
-                PasswordClass passwordClass = new PasswordClass();
-
-                if (passwordClass.Base64Encode(PasswordOrig.Password) == passwordClass.Base64Encode(PasswordControl.Password))
-                {
-                    Client.Surname = Surname;
-                    Client.Name = Name;
-                    Client.Middlename = Middlename;
-                    Client.Password = passwordClass.Base64Encode(PasswordOrig.Password);
-                    Client.BirthDate = BirthDate;
-                    Client.Address = Address;
-                    Client.Phone = Phone;
-
-                    ClientSQLWork clientSQLWork = new ClientSQLWork();
-                    clientSQLWork.EditClient(Client);
-
-                    TryClose();
-                }
-                else
-                {
-                    var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs });
-                }
+                MessageBox.Show(Properties.Resources.NoEqualPassowrs, "Внимание!");
             }
         }
 
+        /// <summary>
+        /// Функция для конпки "Сменить пароль"
+        /// </summary>
         public void HandleEditPasswordClick()
         {
-            PasswordGridVisibility = Visibility.Visible;
+            PasswordEditVisibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Функция для конпки "Удалить профиль"
+        /// </summary>
         public void HandleDelClient()
         {
             Execute.OnUIThread(() =>

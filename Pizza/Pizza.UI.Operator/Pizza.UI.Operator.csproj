@@ -55,6 +55,9 @@
     <Reference Include="DynamicExpresso.Core, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicExpresso.Core.1.3.3.5\lib\net40\DynamicExpresso.Core.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -87,7 +90,6 @@
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CreateMenuViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
-    <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\OperatorMenuViewModel.cs" />
     <Compile Include="ViewModels\OrderInfoViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
@@ -102,9 +104,6 @@
     </Compile>
     <Compile Include="Views\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MessageView.xaml.cs">
-      <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperatorMenuView.xaml.cs">
       <DependentUpon>OperatorMenuView.xaml</DependentUpon>
@@ -135,6 +134,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -161,10 +166,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

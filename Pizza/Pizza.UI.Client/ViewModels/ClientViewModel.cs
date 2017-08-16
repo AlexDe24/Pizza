@@ -24,18 +24,35 @@ namespace Pizza.UI.Client.ViewModels
         public string Phone { get; set; } //номер телефона
         public decimal Discount { get; set; } //скидка
 
-        private Visibility _buttonsEditVisibility;
-        public Visibility ButtonsEditVisibility
+        private Visibility _buttonsVisibility;
+        public Visibility ButtonsVisibility
         {
             get
             {
-                return _buttonsEditVisibility;
+                return _buttonsVisibility;
             }
             set
             {
-                if (value != _buttonsEditVisibility)
+                if (value != _buttonsVisibility)
                 {
-                    _buttonsEditVisibility = value;
+                    _buttonsVisibility = value;
+                    NotifyOfPropertyChange();
+                }
+            }
+        }
+
+        private Visibility _buttonEditVisibility;
+        public Visibility ButtonEditVisibility
+        {
+            get
+            {
+                return _buttonEditVisibility;
+            }
+            set
+            {
+                if (value != _buttonEditVisibility)
+                {
+                    _buttonEditVisibility = value;
                     NotifyOfPropertyChange();
                 }
             }
@@ -94,12 +111,15 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
+        #region Constructor
+
         internal ClientViewModel()
         {
             DisplayName = "Профиль";
             EditClientButtonText = "Редактировать";
 
-            ButtonsEditVisibility = Visibility.Collapsed;
+            ButtonsVisibility = Visibility.Collapsed;
+            ButtonEditVisibility = Visibility.Visible;
             TextBoxesVisibility = Visibility.Hidden;
             PasswordEditVisibility = Visibility.Hidden;
 
@@ -116,15 +136,24 @@ namespace Pizza.UI.Client.ViewModels
             Discount = Client.Discount;
         }
 
+        #endregion
+
         #region UI Commands
 
+        /// <summary>
+        /// Функция для конпки "Редактировать"
+        /// </summary>
         public void HandleVisibilityChangeClick()
         {
-            ButtonsEditVisibility = Visibility.Visible;
+            ButtonsVisibility = Visibility.Visible;
+            ButtonEditVisibility = Visibility.Collapsed;
             TextBoxesVisibility = Visibility.Visible;
         }
 
-        public async Task HandleSaveClick(PasswordBox PasswordOld, PasswordBox PasswordOrig, PasswordBox PasswordControl)
+        /// <summary>
+        /// Функция для конпки "Сохранить"
+        /// </summary>
+        public void HandleSaveClick(PasswordBox PasswordOld, PasswordBox PasswordOrig, PasswordBox PasswordControl)
         {
             PasswordClass passwordClass = new PasswordClass();
 
@@ -147,23 +176,26 @@ namespace Pizza.UI.Client.ViewModels
                 }
                 else
                 {
-                    var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.NoEqualPassowrs });
+                    MessageBox.Show(Properties.Resources.NoEqualPassowrs, "Внимание!");
                 }
             }
             else
             {
-                var wm = new WindowManager();
-                wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.WrongPassword });
-
+                MessageBox.Show(Properties.Resources.WrongPassword, "Внимание!");
             }
         }
 
+        /// <summary>
+        /// Функция для конпки "Сменить пароль"
+        /// </summary>
         public void HandleEditPasswordClick()
         {
             PasswordEditVisibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Функция для конпки "Мои заказы"
+        /// </summary>
         public void HandleSeeOrders()
         {
             Execute.OnUIThread(() =>
@@ -177,6 +209,9 @@ namespace Pizza.UI.Client.ViewModels
             });
         }
 
+        /// <summary>
+        /// Функция для конпки "Удалить профиль"
+        /// </summary>
         public void HandleDelClient()
         {
             Execute.OnUIThread(() =>

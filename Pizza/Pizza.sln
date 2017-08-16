@@ -5,12 +5,6 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.Logic", "Pizza.Logic\Pizza.Logic.csproj", "{B3B0ABE6-7FE5-447C-9009-EEAC8C256892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.Form.Total", "Pizza.Form.Total\Pizza.Form.Total.csproj", "{73D35DB8-A466-45CE-910D-9C3E6DB65009}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.Form.ClientPart", "Pizza.Form.ClientPart\Pizza.Form.ClientPart.csproj", "{EA557BA2-DC16-421D-9A5A-A28CBCB1909D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.Form.OperatorPart", "Pizza.Form.OperatorPart\Pizza.Form.OperatorPart.csproj", "{7EDE02B6-347B-4FA9-9926-4778E3F08577}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.UI.Client", "Pizza.UI.Client\Pizza.UI.Client.csproj", "{9D85487D-CCDE-483E-A460-D336293B3686}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizza.UI.Operator", "Pizza.UI.Operator\Pizza.UI.Operator.csproj", "{5307800F-F49E-4695-B745-49D180581185}"
@@ -25,18 +19,6 @@ Global
 		{B3B0ABE6-7FE5-447C-9009-EEAC8C256892}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3B0ABE6-7FE5-447C-9009-EEAC8C256892}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3B0ABE6-7FE5-447C-9009-EEAC8C256892}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73D35DB8-A466-45CE-910D-9C3E6DB65009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73D35DB8-A466-45CE-910D-9C3E6DB65009}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73D35DB8-A466-45CE-910D-9C3E6DB65009}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73D35DB8-A466-45CE-910D-9C3E6DB65009}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA557BA2-DC16-421D-9A5A-A28CBCB1909D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA557BA2-DC16-421D-9A5A-A28CBCB1909D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA557BA2-DC16-421D-9A5A-A28CBCB1909D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA557BA2-DC16-421D-9A5A-A28CBCB1909D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EDE02B6-347B-4FA9-9926-4778E3F08577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EDE02B6-347B-4FA9-9926-4778E3F08577}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EDE02B6-347B-4FA9-9926-4778E3F08577}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EDE02B6-347B-4FA9-9926-4778E3F08577}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D85487D-CCDE-483E-A460-D336293B3686}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -5,21 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pizza.UI.Client.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    
-    <UserControl.Background>
-        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="#FFFFC3A0"/>
-            <GradientStop Color="#FFFFE16E" Offset="1"/>
-        </LinearGradientBrush>
-    </UserControl.Background>
-    
-    <StackPanel Margin="20">
-        <TextBlock  Text="Логин" />
-        <TextBox Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock  Text="Пароль" />
+             xmlns:cal="http://www.caliburnproject.org">
+    <StackPanel FocusManager.IsFocusScope="True" FocusManager.FocusedElement="{Binding ElementName=TextBox}" Margin="20" >
+        <TextBlock Text="Логин" />
+        <TextBox Name="TextBox" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Text="Пароль" />
         <PasswordBox Name="PasswordBox"/>
         <CheckBox IsChecked="{Binding Path=IsSaveCLient}" Name="IsRemember" Content="Запомнить" Margin="0,10"/>
 

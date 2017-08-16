@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Pizza.UI.Client.ViewModels
@@ -26,6 +27,8 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
+        #region Constructor
+
         internal RegistrationViewModel()
         {
             BirthDate = DateTime.Now;
@@ -33,58 +36,46 @@ namespace Pizza.UI.Client.ViewModels
             DisplayName = "Регистрация";
         }
 
+        #endregion
+
         #region UI Commands
 
         public async Task HandleRegistrationOk(PasswordBox passwordOrig, PasswordBox passwordControl)
         {
-            bool isLoginBusy;
-
             using (var repository = new ClientSQLWork())
             {
-                isLoginBusy = await repository.IsLoginFree(Login).ConfigureAwait(false);
+                var isLoginFree = await repository.IsLoginFree(Login).ConfigureAwait(false);
+                if(!isLoginFree)
+                {
+                    MessageBox.Show(Properties.Resources.LoginBusy, "Внимание!");
+                    return;
+                }
             }
 
             PasswordClass passwordClass = new PasswordClass();
 
-            if (isLoginBusy != true)
+            if (passwordClass.Base64Encode(passwordOrig.Password) == passwordClass.Base64Encode(passwordControl.Password))
             {
-                if (passwordClass.Base64Encode(passwordOrig.Password) == passwordClass.Base64Encode(passwordControl.Password))
+                try
                 {
-                    try
-                    {
-                        Password = passwordClass.Base64Encode(passwordOrig.Password);
+                    Password = passwordClass.Base64Encode(passwordOrig.Password);
 
-                        Logic.DTO.Client client = new Logic.DTO.Client();
+                    var client = new Logic.DTO.Client();
 
-                        var config = new MapperConfiguration(cfg => cfg.CreateMap<RegistrationViewModel, Logic.DTO.Client>());
-                        var mapper = config.CreateMapper();
-                        client = mapper.Map<Logic.DTO.Client>(this);
+                    var config = new MapperConfiguration(cfg => cfg.CreateMap<RegistrationViewModel, Logic.DTO.Client>());
+                    var mapper = config.CreateMapper();
+                    client = mapper.Map<Logic.DTO.Client>(this);
 
-                        ClientSQLWork clientSQLWork = new ClientSQLWork();
-                        clientSQLWork.AddClient(client);
+                    ClientSQLWork clientSQLWork = new ClientSQLWork();
+                    clientSQLWork.AddClient(client);
 
-                        TryClose();
-                    }
-                    catch (Exception)
-                    {
-
-                        Execute.OnUIThread(() =>
-                        {
-                            var wm = new WindowManager();
-                            wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.RequiredParameters });
-                        });
-
-                    }
-
+                    TryClose();
                 }
-            }
-            else
-            {
-                Execute.OnUIThread(() =>
+                catch (Exception)
                 {
-                    var wm = new WindowManager();
-                    wm.ShowDialog(new MessageViewModel() { ErrorMessage = Properties.Resources.LoginBusy });
-                });
+                    MessageBox.Show(Properties.Resources.RequiredParameters, "Внимание!");
+                }
+
             }
         }
 

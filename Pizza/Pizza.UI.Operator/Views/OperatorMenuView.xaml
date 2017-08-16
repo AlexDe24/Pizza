@@ -9,13 +9,13 @@
              d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.2*"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -55,25 +55,18 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        
+        <GridSplitter Grid.ColumnSpan="1" Width="5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right"/>
 
-        <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
+        <UniformGrid Rows="6" Grid.Column="1" Margin="15" VerticalAlignment="Center">
             <ComboBox DisplayMemberPath="Name"
                   SelectedItem="{Binding SelectedStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   ItemsSource="{Binding Statuses}" Margin="5"/>
-            <Button cal:Message.Attach="HandleOpenOrderInfoClick" Grid.Row="1" Content="Просмотреть заказ"/>
-            <Button cal:Message.Attach="HandleStatusUpdateClick" Grid.Row="2" Content="Подтвердить состояние заказа"/>
-            <Button cal:Message.Attach="HandleOrderListUpdateClick" Grid.Row="3" Content="Обновить заказы"/>
-            <Button cal:Message.Attach="HandleOpenMenuListClick" Grid.Row="4" Content="Составить меню"/>
-            <Button cal:Message.Attach="HandleOpenClientsListClick" Grid.Row="5" Content="Список клиентов"/>
-        </Grid>
+            <Button cal:Message.Attach="HandleOpenOrderInfoClick" Content="Просмотреть заказ"/>
+            <Button cal:Message.Attach="HandleStatusUpdateClick" Content="Подтвердить состояние заказа"/>
+            <Button cal:Message.Attach="HandleOrderListUpdateClick" Content="Обновить заказы"/>
+            <Button cal:Message.Attach="HandleOpenMenuListClick" Content="Составить меню"/>
+            <Button cal:Message.Attach="HandleOpenClientsListClick" Content="Список клиентов"/>
+        </UniformGrid>
     </Grid>
 </UserControl>

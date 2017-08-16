@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Pizza.UI.Client.ViewModels
 {
-    public class OrderElementViewModel : Screen
+    internal class OrderElementViewModel : Screen
     {
         #region Properties
 
@@ -51,10 +51,14 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
-        public OrderElementViewModel()
+        #region Constructor
+
+        internal OrderElementViewModel()
         {
             Quantity = 1;
         }
+
+        #endregion
 
         #region UI Commands
 
@@ -74,6 +78,5 @@ namespace Pizza.UI.Client.ViewModels
         }
 
         #endregion
-
     }
 }

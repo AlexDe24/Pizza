@@ -20,7 +20,7 @@ namespace Pizza.UI.Client
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            DisplayRootViewFor<AccessViewModel>();
+            DisplayRootViewFor<MenuViewModel>();
         }
 
     }

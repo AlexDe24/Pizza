@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <DataGrid SelectedItem="{Binding SelectedOrder}" IsReadOnly="True" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" cal:Message.Attach="OpenOrderInfo">
+        <DataGrid SelectedItem="{Binding SelectedOrder}" IsReadOnly="True" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" cal:Message.Attach="[Event MouseDoubleClick] = [Action OpenOrderInfo]">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Address}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Phone}"></DataGridTextColumn>

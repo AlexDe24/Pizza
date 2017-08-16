@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -21,16 +21,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
+        <UniformGrid Rows="3" Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
             <TextBlock Text="{Binding OrderSum, StringFormat='Сумма заказа: {0}'}"/>
-            <TextBlock Grid.Row="1" Text="{Binding Path=Order.Discount, StringFormat='Оплата балами: {0}'}"/>
-            <TextBlock Grid.Row="2" Text="{c:Binding Path=OrderSum - Order.Discount, StringFormat='Конечная сумма: {0}'}"/>
-        </Grid>
+            <TextBlock Text="{Binding Path=Order.Discount, StringFormat='Оплата балами: {0}'}"/>
+            <TextBlock Text="{c:Binding Path=OrderSum - Order.Discount, StringFormat='Конечная сумма: {0}'}"/>
+        </UniformGrid>
     </Grid>
 </UserControl>

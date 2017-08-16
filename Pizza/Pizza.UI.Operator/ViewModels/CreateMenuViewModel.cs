@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using NLog;
 using Pizza.Logic.DTO;
 using Pizza.Logic.Repositories;
 using System;
@@ -7,11 +8,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Pizza.UI.Operator.ViewModels
 {
-    class CreateMenuViewModel : Screen
+    internal class CreateMenuViewModel : Screen
     {
+
+        private readonly ILogger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region Properties
 
         public string Name { get; set; }
@@ -109,9 +114,9 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
-        #region Initialization
+        #region Constructor
 
-        public CreateMenuViewModel()
+        internal CreateMenuViewModel()
         {
             DisplayName = "Составление меню";
 
@@ -120,6 +125,12 @@ namespace Pizza.UI.Operator.ViewModels
 
         #endregion
 
+        #region Commands
+
+        /// <summary>
+        /// Загрузка данных из базы
+        /// </summary>
+        /// <returns></returns>
         public async Task Load()
         {
             using (var ProductSQLWork = new ProductSQLWork())
@@ -134,7 +145,9 @@ namespace Pizza.UI.Operator.ViewModels
             }
         }
 
-        #region IU Commands
+        #endregion
+
+        #region UI Commands
 
         /// <summary>
         /// Создание продукта
@@ -158,10 +171,10 @@ namespace Pizza.UI.Operator.ViewModels
                     Products.Add(productSQLWork.GetOneProducts(product.Id));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var wm = new WindowManager();
-                wm.ShowDialog(new MessageViewModel {ErrorMessage = Properties.Resources.RequiredParameters});
+                MessageBox.Show(Properties.Resources.RequiredParameters, "Внимание!");
+                _logger.Error(ex, "gagasasg");
             }
         }
 

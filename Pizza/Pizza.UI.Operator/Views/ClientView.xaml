@@ -6,113 +6,76 @@
              mc:Ignorable="d" xmlns:cal="http://www.caliburnproject.org"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="350" d:DesignWidth="600" >
-    <Grid>
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.3*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.4*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Visibility" Value= "{Binding TextBoxesVisibility}"/>
+        </Style>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
 
-            <TextBlock Grid.Row="0" Text ="{Binding Surname, StringFormat='Фамилия: {0}'}" Height="25"/>
-            <TextBlock Grid.Row="1" Text ="{Binding Name, StringFormat='Имя: {0}'}" Height="25"/>
-            <TextBlock Grid.Row="2" Text ="{Binding Middlename, StringFormat='Отчество: {0}'}" Height="25"/>
-            <TextBlock Grid.Row="3" Text ="{Binding Address, StringFormat='Адрес: {0}'}" Height="25"/>
-            <TextBlock Grid.Row="4" Text ="{Binding Phone, StringFormat='Номер телефона: {0}'}" Height="25"/>
-            <TextBlock Grid.Row="5" Text ="{Binding BirthDate, StringFormat='Дата рождения: dd.MM.yyyy'}" Height="25"/>
-            <TextBlock Grid.Row="6" Text ="{Binding Discount, StringFormat='Скидочные баллы: {0}'}" Height="25" ToolTip="Вам будет начисляться 3% с каждого заказа."/>
-        </Grid>
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Visibility" Value= "{Binding TextBoxesVisibility}"/>
+        </Style>
+    </UserControl.Resources>
 
-        <Grid Visibility= "{Binding EditGridVisibility}" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <StackPanel>
+        <!-- Панель основных данных -->
+        <UniformGrid Rows="7" Columns="2">
+            <TextBlock Text ="{Binding Surname, StringFormat='Фамилия: {0}'}"/>
+            <TextBox Text ="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBox Grid.Row="0" Text ="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="1" Text ="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="2" Text ="{Binding Middlename, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="3" Text ="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="4" Text ="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <DatePicker Grid.Row="5" SelectedDate="{Binding BirthDate}" Height="25"/>
-        </Grid>
+            <TextBlock Text ="{Binding Name, StringFormat='Имя: {0}'}"/>
+            <TextBox Text ="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <GridSplitter Grid.ColumnSpan="2" ShowsPreview="False" Height="3"
-         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsEnabled="False"/>
+            <TextBlock Text ="{Binding Middlename, StringFormat='Отчество: {0}'}"/>
+            <TextBox Text ="{Binding Middlename, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBlock Text ="{Binding Address, StringFormat='Адрес: {0}'}"/>
+            <TextBox Text ="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.4*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+            <TextBlock Text ="{Binding Phone, StringFormat='Номер телефона: {0}'}"/>
+            <TextBox Text ="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Grid Grid.Column="0" Grid.Row="0" Visibility= "{Binding PasswordGridVisibility}">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <TextBlock Text ="{Binding BirthDate, StringFormat='Дата рождения: dd.MM.yyyy'}"/>
+            <DatePicker SelectedDate="{Binding BirthDate}"/>
 
-                <TextBlock Grid.Row="0" Text="Введите новый пароль:" Height="25"/>
-                <TextBlock Grid.Row="1" Text="Введите пароль повторно:" Height="25"/>
-            </Grid>
+            <TextBlock Text ="{Binding Discount, StringFormat='Скидочные баллы: {0}'}" ToolTip="Вам будет начисляться 3% с каждого заказа."/>
+        </UniformGrid>
 
-            <Grid Grid.Column="1" Grid.Row="0" Visibility= "{Binding PasswordGridVisibility}">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <!-- Панель паролей -->
+        <UniformGrid Rows="3" Columns="2" Visibility="{Binding PasswordEditVisibility}">
+            <TextBlock Text="Введите новый пароль:"/>
+            <PasswordBox Name="PasswordOrig"/>
 
-                <PasswordBox Grid.Row="0" Height="25" Name="PasswordOrig"/>
-                <PasswordBox Grid.Row="1" Height="25" Name="PasswordControl"/>
-            </Grid>
+            <TextBlock Text="Введите пароль повторно:"/>
+            <PasswordBox Name="PasswordControl"/>
+        </UniformGrid>
 
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" Margin="5,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="1" Content="{Binding EditClientButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="HandleEditClick">
-                                <cal:Parameter Value="{Binding ElementName=PasswordOrig}" />
-                                <cal:Parameter Value="{Binding ElementName=PasswordControl}" />
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button Grid.Column="2" Content="Сменить пароль" Visibility= "{Binding EditGridVisibility}" cal:Message.Attach="HandleEditPasswordClick"/>
-                <Button cal:Message.Attach="HandleDelClient" Grid.Column="3" Content="Удалить профиль" Visibility= "{Binding EditGridVisibility}"/>
-            </Grid>
-
-        </Grid>
-
-    </Grid>
+        <!-- Панель кнопок -->
+        <UniformGrid Columns="3">
+            <Button cal:Message.Attach="HandleVisibilityChangeClick" Content="Редактировать" Visibility="{Binding ButtonEditVisibility}"/>
+            <Button Content="Сохранить" Visibility="{Binding ButtonsVisibility}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="HandleSaveClick">
+                            <cal:Parameter Value="{Binding ElementName=PasswordOld}" />
+                            <cal:Parameter Value="{Binding ElementName=PasswordOrig}" />
+                            <cal:Parameter Value="{Binding ElementName=PasswordControl}" />
+                        </cal:ActionMessage>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button cal:Message.Attach="HandleEditPasswordClick" Content="Сменить пароль" Visibility="{Binding ButtonsVisibility}"/>
+            <Button cal:Message.Attach="HandleDelClient" Content="Удалить профиль" Visibility="{Binding ButtonsVisibility}"/>
+        </UniformGrid>
+    </StackPanel>
 </UserControl>

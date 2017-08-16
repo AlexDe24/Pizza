@@ -21,6 +21,5 @@
 
         <Button Grid.Row="2" Content="Да." cal:Message.Attach="HandleDelClientClick" HorizontalAlignment="Center"/>
         <Button Grid.Row="2" Grid.Column ="1" Content="Нет." cal:Message.Attach="HandleCloseClick" HorizontalAlignment="Center"/>
-
     </Grid>
 </UserControl>

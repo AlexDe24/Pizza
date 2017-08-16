@@ -49,6 +49,8 @@ namespace Pizza.UI.Client.ViewModels
 
         #endregion
 
+        #region Constructor
+
         public OrderFinishingViewModel()
         {
             DisplayName = "Подтвердите свой заказ";
@@ -61,7 +63,9 @@ namespace Pizza.UI.Client.ViewModels
             ClientDiscount = Client.Discount;
         }
 
-        #region IU Commands
+        #endregion
+
+        #region UI Commands
 
         public void HandleCreateOrder()
         {
